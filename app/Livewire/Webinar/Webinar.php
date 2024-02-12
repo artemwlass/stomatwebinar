@@ -14,6 +14,10 @@ class Webinar extends Component
     {
         $this->webinar = \App\Models\Webinar::where('slug', $slug)->first();
 
+        if (!$this->webinar) {
+            abort(404);
+        }
+
         SEOMeta::setTitle($this->webinar->seo['title']);
         SEOMeta::setDescription($this->webinar->seo['meta_description']);
         SEOMeta::addKeyword($this->webinar->seo['keywords']);

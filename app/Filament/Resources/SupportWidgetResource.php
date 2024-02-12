@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Mohamedsabil83\FilamentFormsTinyeditor\Components\TinyEditor;
 
 class SupportWidgetResource extends Resource
 {
@@ -34,7 +35,7 @@ class SupportWidgetResource extends Resource
 
                 Forms\Components\Section::make('Текст')
                     ->schema([
-                        Forms\Components\RichEditor::make('text')->label('Текст')->required(),
+                        TinyEditor::make('text')->label('Текст')->required(),
                     ]),
 
                 Forms\Components\Section::make('Изображение')

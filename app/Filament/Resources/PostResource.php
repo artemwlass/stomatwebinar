@@ -48,18 +48,9 @@ class PostResource extends Resource
                     Forms\Components\TextInput::make('title')
                         ->label('Название')
                         ->maxLength('255')
-                        ->required()
-                        ->reactive()
-                        ->afterStateUpdated(
-                            fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set(
-                                'slug',
-                                Str::slug($state)
-                            ) : null
-                        ),
+                        ->required(),
                     Forms\Components\TextInput::make('slug')
                         ->label('URL')
-                        ->disabled()
-                        ->dehydrated()
                         ->required()
                         ->unique(Post::class, 'slug', ignoreRecord: true),
                 ])->columns(2),

@@ -1,4 +1,5 @@
 <div>
+    @if($home == true)
     <section class="services" id="services">
 
         <div class="container services__container">
@@ -72,4 +73,5 @@
         </div>
 
     </section>
+        @endif
 </div>

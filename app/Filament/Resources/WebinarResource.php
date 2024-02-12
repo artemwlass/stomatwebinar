@@ -86,18 +86,9 @@ class WebinarResource extends Resource
                                         Forms\Components\TextInput::make('title')
                                             ->label('Название')
                                             ->maxLength('255')
-                                            ->required()
-                                            ->reactive()
-                                            ->afterStateUpdated(
-                                                fn(string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set(
-                                                    'slug',
-                                                    Str::slug($state)
-                                                ) : null
-                                            ),
+                                            ->required(),
                                         Forms\Components\TextInput::make('slug')
                                             ->label('URL')
-                                            ->disabled()
-                                            ->dehydrated()
                                             ->required()
                                             ->unique(Webinar::class, 'slug', ignoreRecord: true),
                                     ])->columns(2),
@@ -225,9 +216,9 @@ class WebinarResource extends Resource
                             ]),
                         Tabs\Tab::make('Страница вебинара')
                             ->schema([
-                                Forms\Components\TextInput::make('title_view_page')->required(),
-                                Forms\Components\RichEditor::make('description_view_page')->required(),
-                                Forms\Components\FileUpload::make('video_view_page')->required(),
+                                Forms\Components\TextInput::make('title_view_page'),
+                                Forms\Components\RichEditor::make('description_view_page'),
+                                Forms\Components\FileUpload::make('video_view_page'),
                             ]),
                     ])->columnSpanFull(),
 

@@ -7,6 +7,7 @@ use Livewire\Component;
 
 class ServicesBlock extends Component
 {
+    public $home;
     public function render()
     {
         $webinars = Webinar::orderByDesc('order')->select('id', 'title', 'order', 'image', 'slug')->where('is_active', true)->get();

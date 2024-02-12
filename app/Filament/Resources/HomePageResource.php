@@ -131,8 +131,15 @@ class HomePageResource extends Resource
                             ->schema([
                                 Forms\Components\Toggle::make('second_banner.is_active')->default(true)->label('Активность')->columnSpanFull(),
                                 Forms\Components\TextInput::make('second_banner.price')->required()->label('Прайс'),
-                                Forms\Components\RichEditor::make('second_banner.title')->label('Заголовок')->required(),
-                                Forms\Components\RichEditor::make('second_banner.description')->label('Описание')->required(),
+                                Forms\Components\TextInput::make('second_banner.link')->required()->label('Ссылка'),
+                                TinyEditor::make('second_banner.title')->label('Заголовок')->required(),
+                                TinyEditor::make('second_banner.description')->label('Описание')->required(),
+                                Forms\Components\FileUpload::make('second_banner.image')->label('Изображение')->required()
+                            ]),
+
+                        Tabs\Tab::make('Вебинары в записи')
+                            ->schema([
+                                Forms\Components\Toggle::make('is_active_service')->default(true)->label('Активность')->columnSpanFull(),
                             ])
                     ])->columnSpanFull()
 

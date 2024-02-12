@@ -14,6 +14,10 @@ class Post extends Component
     {
         $this->post = \App\Models\Post::where('slug', $slug)->first();
 
+        if (!$this->post) {
+            abort(404);
+        }
+
         SEOMeta::setTitle($this->post->seo['title']);
         SEOMeta::setDescription($this->post->seo['meta_description']);
         SEOMeta::addKeyword($this->post->seo['keywords']);
