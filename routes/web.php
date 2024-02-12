@@ -30,3 +30,4 @@ Route::get('/account', \App\Livewire\Account\Index::class)->name('account');
 
 Route::get('/politika-konfidentsiynosti', \App\Livewire\Politic::class)->name('politic');
 Route::get('/dogovir-publichnoyi-ofereti', \App\Livewire\DogovorOferty::class)->name('dogovor');
+Route::get('/payments', \App\Livewire\Payments::class)->name('payment');
