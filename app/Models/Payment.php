@@ -9,4 +9,7 @@ class Payment extends Model
 {
     use HasFactory;
     protected $guarded = false;
+    protected $casts = [
+        'seo' => 'array'
+    ];
 }
