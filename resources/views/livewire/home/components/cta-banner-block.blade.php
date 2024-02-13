@@ -8,7 +8,7 @@
 
                 <div class="cta-banner__info">
                     <h1>
-                        {!! $home['title'] !!}
+                        {{ $home['title'] }}
                     </h1>
 
                     {!! $home['description'] !!}

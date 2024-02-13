@@ -35,7 +35,9 @@ class SupportWidgetResource extends Resource
 
                 Forms\Components\Section::make('Текст')
                     ->schema([
-                        TinyEditor::make('text')->label('Текст')->required(),
+                        Forms\Components\RichEditor::make('text')->label('Текст')->required(),
+                        Forms\Components\TextInput::make('phone')->label('Телефон')->required(),
+                        Forms\Components\TextInput::make('email')->label('email')->required(),
                     ]),
 
                 Forms\Components\Section::make('Изображение')

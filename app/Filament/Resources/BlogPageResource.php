@@ -51,9 +51,7 @@ class BlogPageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\IconColumn::make('seo')->label('SEO')->boolean(),
                 Tables\Columns\TextColumn::make('title')->label('Title'),
-                Tables\Columns\TextColumn::make('description')->label('Description')->words(10)
             ])
             ->filters([
                 //

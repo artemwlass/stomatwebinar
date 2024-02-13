@@ -98,7 +98,7 @@ class HomePageResource extends Resource
                         Tabs\Tab::make('О нас')
                         ->schema([
                             Forms\Components\Toggle::make('block_about.is_active')->default(true)->label('Активность')->columnSpanFull(),
-                            TinyEditor::make('block_about.text')->label('')->required()->columnSpanFull(),
+                            Forms\Components\RichEditor::make('block_about.text')->label('')->required()->columnSpanFull(),
                             Forms\Components\FileUpload::make('block_about.image_left')->label('Большое изображение')->required(),
                             Forms\Components\FileUpload::make('block_about.image_small')->label('Маленькое изображение')->required(),
                         ])->columns(2),
@@ -132,8 +132,8 @@ class HomePageResource extends Resource
                                 Forms\Components\Toggle::make('second_banner.is_active')->default(true)->label('Активность')->columnSpanFull(),
                                 Forms\Components\TextInput::make('second_banner.price')->required()->label('Прайс'),
                                 Forms\Components\TextInput::make('second_banner.link')->required()->label('Ссылка'),
-                                TinyEditor::make('second_banner.title')->label('Заголовок')->required(),
-                                TinyEditor::make('second_banner.description')->label('Описание')->required(),
+                                Forms\Components\TextInput::make('second_banner.title')->label('Заголовок')->required(),
+                                Forms\Components\RichEditor::make('second_banner.description')->label('Описание')->required(),
                                 Forms\Components\FileUpload::make('second_banner.image')->label('Изображение')->required()
                             ]),
 

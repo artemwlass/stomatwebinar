@@ -57,7 +57,7 @@ class PostResource extends Resource
 
                 Forms\Components\Section::make('Текст')
                 ->schema([
-                    TinyEditor::make('text')->fileAttachmentsDirectory('blog')->maxHeight(500),
+                    Forms\Components\RichEditor::make('text')->fileAttachmentsDirectory('blog')->extraInputAttributes(['style' => 'max-height: 500px;']),
                 ])
             ]);
     }

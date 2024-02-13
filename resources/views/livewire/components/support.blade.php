@@ -8,6 +8,16 @@
                     {!! $support->text !!}
                 </div>
 
+                <div class="contacts">
+                    <a href="tel:{{$support->phone}}">
+                        {{$support->phone}}
+                    </a>
+
+                    <a href="mailto:{{$support->email}}">
+                        {{$support->email}}
+                    </a>
+                </div>
+
                     <div class="socials">
                         <a href="{{$support->viber}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="66" height="65" viewBox="0 0 66 65" fill="none">
@@ -47,6 +57,16 @@
                         <div class="info__block desktop">
                             <div class="title">
                                 {!! $support->text !!}
+                            </div>
+
+                            <div class="contacts">
+                                <a href="tel:{{$support->phone}}">
+                                    {{$support->phone}}
+                                </a>
+
+                                <a href="mailto:{{$support->email}}">
+                                    {{$support->email}}
+                                </a>
                             </div>
 
                                 <div class="socials">

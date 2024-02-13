@@ -42,7 +42,7 @@ class PaymentResource extends Resource
                 Forms\Components\Section::make('Политика')
                     ->schema([
                         Forms\Components\TextInput::make('title')->label('Заголовок')->required(),
-                        TinyEditor::make('text')->label('Текст')->required()
+                        Forms\Components\RichEditor::make('text')->label('Текст')->required()
                     ])
             ]);
     }

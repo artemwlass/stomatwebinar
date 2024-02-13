@@ -135,7 +135,7 @@ class WebinarResource extends Resource
 
                                                 Forms\Components\Section::make('О вебинаре (Картинка слева)')->schema([
                                                     Forms\Components\FileUpload::make('image')->label('Изображение')->directory('webinar')->required(),
-                                                    TinyEditor::make('description')->label('Описание')->required(),
+                                                    Forms\Components\RichEditor::make('description')->label('Описание')->required(),
                                                 ])->columns(2)->visible(fn(Forms\Get $get) => ($get('type') == '2')),
 
                                                 Forms\Components\Section::make('Вторичный баннер')->schema([
@@ -153,8 +153,8 @@ class WebinarResource extends Resource
 
                                                 Forms\Components\Section::make('О вебинаре (Картинка справа + текст снизу)')->schema([
                                                     Forms\Components\FileUpload::make('image')->label('Изображение')->directory('webinar')->columnSpanFull()->required(),
-                                                    TinyEditor::make('description')->label('Описание слева')->required(),
-                                                    TinyEditor::make('description2')->label('Описание снизу')->required(),
+                                                    Forms\Components\RichEditor::make('description')->label('Описание слева')->required(),
+                                                    Forms\Components\RichEditor::make('description2')->label('Описание снизу')->required(),
                                                 ])->columns(2)->visible(fn(Forms\Get $get) => ($get('type') == '5')),
 
                                                 Forms\Components\Section::make('Слайдер')->schema([
@@ -163,13 +163,13 @@ class WebinarResource extends Resource
 
                                                 Forms\Components\Section::make('О вебинаре (Картинка слева + текст снизу)')->schema([
                                                     Forms\Components\FileUpload::make('image')->label('Изображение')->directory('webinar')->columnSpanFull()->required(),
-                                                    TinyEditor::make('description')->label('Описание справа')->required(),
-                                                    TinyEditor::make('description2')->label('Описание снизу')->required(),
+                                                    Forms\Components\RichEditor::make('description')->label('Описание справа')->required(),
+                                                    Forms\Components\RichEditor::make('description2')->label('Описание снизу')->required(),
                                                 ])->columns(2)->visible(fn(Forms\Get $get) => ($get('type') == '7')),
 
                                                 Forms\Components\Section::make('О вебинаре (Картинка слева)')->schema([
                                                     Forms\Components\FileUpload::make('image')->label('Изображение')->directory('webinar')->required(),
-                                                    TinyEditor::make('description')->label('Описание')->required(),
+                                                    Forms\Components\RichEditor::make('description')->label('Описание')->required(),
                                                 ])->columns(2)->visible(fn(Forms\Get $get) => ($get('type') == '8')),
 
                                                 Forms\Components\Section::make('Вебинары')->schema([
