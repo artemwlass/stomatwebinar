@@ -22,6 +22,6 @@ class Payments extends Component
         OpenGraph::addImage(asset('storage/' . $payment->seo['og_image']));
         OpenGraph::setType($payment->seo['og_type']);
         OpenGraph::setUrl($payment->seo['og_url']);
-        return view('livewire.payments');
+        return view('livewire.payments', compact('payment'));
     }
 }
