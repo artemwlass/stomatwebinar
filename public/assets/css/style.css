@@ -6391,6 +6391,16 @@ section.visible, section.animated {
   max-width: 650px;
   margin-bottom: 20px;
 }
+.webinar-about__info h3 {
+  color: #161616;
+  font-family: Geologica;
+  font-size: 42px;
+  font-style: normal;
+  font-weight: 200;
+  line-height: 115.5%;
+  max-width: 650px;
+  margin-bottom: 20px;
+}
 @media (max-width: 1640px) {
   .webinar-about__info h4 {
     font-size: 36px;
