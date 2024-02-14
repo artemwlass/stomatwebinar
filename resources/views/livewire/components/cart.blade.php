@@ -45,7 +45,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form for order -->
-                    <form class="order-form">
+                    <form class="order-form" action="https://www.liqpay.ua/api/3/checkout">
                         <div class="mb-4">
                             <!-- Input for customer name -->
                             <input placeholder="Ваше імя" type="text" class="form-control" id="name" name="name" required>
@@ -63,7 +63,8 @@
                             <input placeholder="Ваш телефон" type="tel" class="form-control" id="phone" name="phone" required>
                         </div>
                         <!-- Add more product details if needed -->
-                        <button type="submit" class="btn btn-success">Замовити</button>
+{{--                        <button type="submit" class="btn btn-success">Замовити</button>--}}
+                        {!! $payForm !!}
                         <div class="form-check mt-2">
                             <input type="checkbox" class="form-check-input" id="termsCheckbox" required>
                             <label class="form-check-label" for="termsCheckbox">Підтверджую, що Я уважно ознайомився(лася) з даною інструкцією з накладеними на ній правилами вебінару - *обов'язкове поле

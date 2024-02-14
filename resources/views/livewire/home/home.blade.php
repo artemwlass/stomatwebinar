@@ -1,6 +1,5 @@
 <div>
     <main>
-
         <livewire:home.components.hero-block :home="$home->block_hero"/>
         <livewire:home.components.highlight-block :home="$home->block_highlight"/>
         <livewire:home.components.services-block :home="$home->is_active_service"/>

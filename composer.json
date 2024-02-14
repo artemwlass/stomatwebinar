@@ -17,7 +17,8 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "mohamedsabil83/filament-forms-tinyeditor": "^2.2",
-        "victorybiz/laravel-tel-input": "^1.5"
+        "victorybiz/laravel-tel-input": "^1.5",
+        "ext-curl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

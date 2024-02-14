@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
+use GuzzleHttp\Exception\InvalidArgumentException;
 use Livewire\Component;
 
 class Payments extends Component
@@ -22,6 +23,7 @@ class Payments extends Component
         OpenGraph::addImage(asset('storage/' . $payment->seo['og_image']));
         OpenGraph::setType($payment->seo['og_type']);
         OpenGraph::setUrl($payment->seo['og_url']);
+
         return view('livewire.payments', compact('payment'));
     }
 }
