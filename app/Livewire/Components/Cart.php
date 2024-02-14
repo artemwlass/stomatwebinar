@@ -60,7 +60,7 @@ class Cart extends Component
             'amount'         => \Gloudemans\Shoppingcart\Facades\Cart::subtotal(),
             'currency'       => 'UAH',
             'description'    => $webinarsString,
-            'order_id'       => 'order_id_1',
+            'order_id'       => 'order_id_15',
             'version'        => '3',
             'result_url'     => 'https://stomatwebinar.com/',
             'server_url'     => 'https://stomatwebinar.com/api/test'
