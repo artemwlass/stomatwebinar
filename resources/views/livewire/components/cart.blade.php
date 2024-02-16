@@ -45,7 +45,8 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form for order -->
-                    <form class="order-form" action="https://www.liqpay.ua/api/3/checkout">
+{{--                    <form class="order-form" action="https://www.liqpay.ua/api/3/checkout">--}}
+                    <form class="order-form" wire:submit="store">
                         <div class="mb-4">
                             <!-- Input for customer name -->
                             <input placeholder="Ваше імя" type="text" class="form-control" id="name" name="name" required>

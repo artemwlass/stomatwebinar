@@ -14,4 +14,9 @@ class Webinar extends Model
         'content' => 'array',
     ];
 
+    public function group()
+    {
+        return $this->hasOne(Group::class);
+    }
+
 }

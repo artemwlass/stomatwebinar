@@ -10,6 +10,10 @@ use Livewire\Component;
 class Cart extends Component
 {
     protected $listeners = ['cartUpdated' => '$refresh'];
+    public $name;
+    public $phone;
+    public $surname;
+    public $email;
 
     public function destroy($id)
     {
@@ -17,41 +21,22 @@ class Cart extends Component
         $this->dispatch('cartUpdated');
     }
 
-    public function mount()
-    {
-//        $liqpay = new LiqPay(env('LIQPAY_PUBLIC_KEY'), env('LIQPAY_PRIVATE_KEY'));
-//        $html = $liqpay->cnb_form(array(
-//            'action'         => 'pay',
-//            'amount'         => '1',
-//            'currency'       => 'USD',
-//            'description'    => 'description text',
-//            'order_id'       => 'order_id_1',
-//            'version'        => '3'
-//        ));
-    }
-
-    public function store()
-    {
-//        $liqpay = new LiqPay(env('LIQPAY_PUBLIC_KEY'), env('LIQPAY_PRIVATE_KEY'));
-//        $html = $liqpay->cnb_form(array(
-//            'action'         => 'pay',
-//            'amount'         => '1',
-//            'currency'       => 'USD',
-//            'description'    => 'description text',
-//            'order_id'       => 'order_id_1',
-//            'version'        => '3'
-//        ));
-//        $this->redirect('/payment-form');
-//        return view('liqpay.payment-form', ['form' => $html]);
-    }
-
     public function render()
     {
         $webinarNames = [];
+        $items = [];
 
         foreach (\Gloudemans\Shoppingcart\Facades\Cart::content() as $item) {
             $webinarNames[] = $item->name;
+
+            $items[] = [
+                'name'     => $item->name,
+                'price'    => $item->price,
+                'id' => $item->id,
+                // Добавьте здесь другие необходимые поля, если они есть
+            ];
         }
+
 
         $webinarsString = "Оплата вебинара - " . implode(', ', $webinarNames) . '.';
         $liqpay = new LiqPay(env('LIQPAY_PUBLIC_KEY'), env('LIQPAY_PRIVATE_KEY'));
@@ -60,10 +45,11 @@ class Cart extends Component
             'amount'         => \Gloudemans\Shoppingcart\Facades\Cart::subtotal(),
             'currency'       => 'UAH',
             'description'    => $webinarsString,
-            'order_id'       => 'order_id_15',
+            'order_id'       => 'order_' . date('YmdHis'),
             'version'        => '3',
             'result_url'     => 'https://stomatwebinar.com/',
-            'server_url'     => 'https://stomatwebinar.com/api/test'
+            'server_url'     => 'https://stomatwebinar.com/api/result-payment',
+            'rro_info'       => $items
         ));
         return view('livewire.components.cart', compact('payForm'));
     }
