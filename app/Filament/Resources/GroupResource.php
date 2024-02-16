@@ -7,19 +7,14 @@ use App\Filament\Resources\GroupResource\RelationManagers;
 use App\Models\Group;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Infolists\Infolist;
 
 class GroupResource extends Resource
 {
     protected static ?string $model = Group::class;
-
+    protected static ?string $navigationLabel = 'Группы';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -52,8 +47,7 @@ class GroupResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Просмотреть'),
             ]);
 //            ->bulkActions([
 //                Tables\Actions\BulkActionGroup::make([
@@ -76,7 +70,6 @@ class GroupResource extends Resource
         return [
             'index' => Pages\ListGroups::route('/'),
             'create' => Pages\CreateGroup::route('/create'),
-            'view' => Pages\ViewGroup::route('/{record}'),
             'edit' => Pages\EditGroup::route('/{record}/edit'),
         ];
     }

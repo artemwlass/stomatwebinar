@@ -3,8 +3,15 @@
 namespace App\Livewire\Components;
 
 use App\Livewire\LiqPay\PaymentForm;
+use App\Livewire\Payment\Payment;
+use App\Models\User;
 use App\Services\Liqpay;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Cart extends Component
@@ -21,36 +28,45 @@ class Cart extends Component
         $this->dispatch('cartUpdated');
     }
 
-    public function render()
+    public function store()
     {
-        $webinarNames = [];
-        $items = [];
+        // Предположим, что $this->email уже заполнен
+        $user = User::where('email', $this->email)->first();
 
-        foreach (\Gloudemans\Shoppingcart\Facades\Cart::content() as $item) {
-            $webinarNames[] = $item->name;
+        if (!$user) {
+            // Пользователь не найден, создаем нового
+            $user = User::create([
+                'name' => $this->name,
+                'surname' => $this->surname,
+                'phone' => $this->phone,
+                'email' => $this->email,
+                'password' => Hash::make('defaultPassword'), // Установите безопасный пароль
+            ]);
+        }else {
+            // Пользователь найден, проверяем наличие фамилии и телефона
+            $updateData = [];
+            if (empty($user->surname) && !empty($this->surname)) {
+                $updateData['surname'] = $this->surname;
+            }
+            if (empty($user->phone) && !empty($this->phone)) {
+                $updateData['phone'] = $this->phone;
+            }
 
-            $items[] = [
-                'name'     => $item->name,
-                'price'    => $item->price,
-                'id' => $item->id,
-                // Добавьте здесь другие необходимые поля, если они есть
-            ];
+            // Обновляем данные пользователя, если необходимо
+            if (!empty($updateData)) {
+                $user->update($updateData);
+            }
         }
 
+        // Авторизация пользователя
+        Auth::login($user);
+        $paymentToken = Str::random(32);
+        session(['payment_token' => $paymentToken]);
+        return redirect()->to('/payment-form/' . $paymentToken);
+    }
 
-        $webinarsString = "Оплата вебинара - " . implode(', ', $webinarNames) . '.';
-        $liqpay = new LiqPay(env('LIQPAY_PUBLIC_KEY'), env('LIQPAY_PRIVATE_KEY'));
-        $payForm = $liqpay->cnb_form(array(
-            'action'         => 'pay',
-            'amount'         => \Gloudemans\Shoppingcart\Facades\Cart::subtotal(),
-            'currency'       => 'UAH',
-            'description'    => $webinarsString,
-            'order_id'       => 'order_' . date('YmdHis'),
-            'version'        => '3',
-            'result_url'     => 'https://stomatwebinar.com/',
-            'server_url'     => 'https://stomatwebinar.com/api/result-payment',
-            'rro_info'       => $items
-        ));
-        return view('livewire.components.cart', compact('payForm'));
+    public function render()
+    {
+        return view('livewire.components.cart');
     }
 }

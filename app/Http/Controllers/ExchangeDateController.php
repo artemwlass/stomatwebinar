@@ -14,7 +14,7 @@ class ExchangeDateController extends Controller
             ->where('user_id', $record['pivot_user_id'])
             ->first();
 
-        if ($groupUserRecord && $groupUserRecord->closed_webinar_date) {
+        if ($groupUserRecord && $groupUserRecord->closed_webinar_date !== 'Бессрочно') {
             // Увеличиваем дату на указанное количество дней
             $newDate = Carbon::parse($groupUserRecord->closed_webinar_date)->addDays($days);
 
@@ -24,12 +24,22 @@ class ExchangeDateController extends Controller
         }
     }
 
+    public function freeLector($record)
+    {
+        $groupUserRecord = GroupUser::where('group_id', $record['pivot_group_id'])
+            ->where('user_id', $record['pivot_user_id'])
+            ->first();
+
+        $groupUserRecord->closed_webinar_date = 'Бессрочно';
+        $groupUserRecord->save();
+    }
+
     public function updateClosedWebinarDateAllGroup($record, $days): void
     {
         $groupUsersRecord = GroupUser::where('group_id', $record)->get();
 
         foreach ($groupUsersRecord as $value) {
-            if ($value && $value->closed_webinar_date) {
+            if ($value && $value->closed_webinar_date !== 'Бессрочно') {
                 // Увеличиваем дату на указанное количество дней
                 $newDate = Carbon::parse($value->closed_webinar_date)->addDays($days);
 

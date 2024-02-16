@@ -49,23 +49,23 @@
                     <form class="order-form" wire:submit="store">
                         <div class="mb-4">
                             <!-- Input for customer name -->
-                            <input placeholder="Ваше імя" type="text" class="form-control" id="name" name="name" required>
+                            <input placeholder="Ваше імя" wire:model="name" type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-4">
                             <!-- Input for customer name -->
-                            <input placeholder="Ваше прiзвище" type="text" class="form-control" id="name" name="name" required>
+                            <input placeholder="Ваше прiзвище" wire:model="phone" type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-4">
                             <!-- Input for customer email -->
-                            <input placeholder="Ваша пошта" type="email" class="form-control" id="email" name="email" required>
+                            <input placeholder="Ваша пошта" wire:model="email" type="email" class="form-control" id="email" name="email" required>
                         </div>
                         <div class="mb-4">
                             <!-- Input for customer phone -->
-                            <input placeholder="Ваш телефон" type="tel" class="form-control" id="phone" name="phone" required>
+                            <input placeholder="Ваш телефон" wire:model="phone" type="tel" class="form-control" id="phone" name="phone" required>
                         </div>
                         <!-- Add more product details if needed -->
-{{--                        <button type="submit" class="btn btn-success">Замовити</button>--}}
-                        {!! $payForm !!}
+                        <button type="submit" class="btn btn-success">Замовити</button>
+
                         <div class="form-check mt-2">
                             <input type="checkbox" class="form-check-input" id="termsCheckbox" required>
                             <label class="form-check-label" for="termsCheckbox">Підтверджую, що Я уважно ознайомився(лася) з даною інструкцією з накладеними на ній правилами вебінару - *обов'язкове поле

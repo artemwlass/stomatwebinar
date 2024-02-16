@@ -37,6 +37,8 @@ class UsersRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('Имя')->searchable(),
                 Tables\Columns\TextColumn::make('closed_webinar_date')->label('Дата закрытия вебинара'),
+                Tables\Columns\TextColumn::make('phone')->label('Телефон'),
+                Tables\Columns\TextColumn::make('city')->label('Город'),
                 Tables\Columns\TextColumn::make('email')->searchable()->icon('heroicon-m-envelope')->copyable(),
             ])
             ->filters([
@@ -54,7 +56,6 @@ class UsersRelationManager extends RelationManager
                                 'three_day' => '3 дня',
                                 'one_week' => '1 неделя',
                                 'one_month' => '1 месяц',
-                                'free' => 'Бессрочно',
                             ]),
                     ])
                     ->action(function ($data, $livewire): void {
@@ -78,10 +79,6 @@ class UsersRelationManager extends RelationManager
                                 $exchange->updateClosedWebinarDateAllGroup($record, 30);
                                 break;
 
-                            case 'free':
-                                $exchange->updateClosedWebinarDateAllGroup($record, 'Бессрочно');
-                                break;
-
                             // Можно добавить default case, если это необходимо
                         }
                     }),
@@ -90,7 +87,7 @@ class UsersRelationManager extends RelationManager
                     ->preloadRecordSelect()
                     ->form(fn(AttachAction $action): array => [
                         $action->getRecordSelect(),
-                        Forms\Components\DatePicker::make('closed_webinar_date'),
+                        Forms\Components\DatePicker::make('closed_webinar_date')->label('Срок до')->required(),
                     ])
             ])
             ->actions([
@@ -128,7 +125,7 @@ class UsersRelationManager extends RelationManager
                                 break;
 
                             case 'free':
-                                $exchange->updateClosedWebinarDate($record, 'Бессрочно');
+                                $exchange->freeLector($record);
                                 break;
 
                             // Можно добавить default case, если это необходимо

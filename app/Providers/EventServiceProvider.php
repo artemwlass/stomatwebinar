@@ -3,8 +3,12 @@
 namespace App\Providers;
 
 use App\Events\SendEmail;
+use App\Events\SendOrderEmail;
 use App\Events\SendTelegram;
 use App\Listeners\SendEmailListener;
+use App\Listeners\SendOrderEmailListener;
+use App\Models\Webinar;
+use App\Observers\WebinarObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SendEmail::class => [
             SendEmailListener::class
+        ],
+        SendOrderEmail::class => [
+            SendOrderEmailListener::class
         ]
     ];
 
@@ -31,7 +38,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Webinar::observe(WebinarObserver::class);
     }
 
     /**

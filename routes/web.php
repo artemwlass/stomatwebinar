@@ -30,5 +30,6 @@ Route::get('/politika-konfidentsiynosti', \App\Livewire\Politic::class)->name('p
 Route::get('/dogovir-publichnoyi-ofereti', \App\Livewire\DogovorOferty::class)->name('dogovor');
 Route::get('/payments', \App\Livewire\Payments::class)->name('payment');
 
+Route::get('payment-form/{token}', \App\Livewire\Payment\Payment::class)->name('payment.form');
 Route::get('/{slug}/show', \App\Livewire\Webinar\Show::class)->middleware('auth')->name('webinar.video.show');
 Route::get('/{slug}', \App\Livewire\Webinar\Webinar::class)->name('webinar.show');

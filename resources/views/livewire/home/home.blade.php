@@ -1,5 +1,4 @@
 <div>
-    @dd(\Gloudemans\Shoppingcart\Facades\Cart::content())
     <main>
         <livewire:home.components.hero-block :home="$home->block_hero"/>
         <livewire:home.components.highlight-block :home="$home->block_highlight"/>

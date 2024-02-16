@@ -62,7 +62,7 @@
                                 <div class="form-tip">
                                     <p>Вже зареєстровані?
                                         <span>
-                                        <a href="./authorization.html">
+                                        <a href="{{route('login')}}">
                                             Увійті тут
                                         </a>
                                     </span>
