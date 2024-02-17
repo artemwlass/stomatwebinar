@@ -4,6 +4,7 @@ namespace App\Livewire\Payment;
 
 use App\Events\SendEmail;
 use App\Events\SendOrderEmail;
+use App\Events\SendOrderTelegram;
 use App\Listeners\SendOrderEmailListener;
 use App\Livewire\Components\Cart;
 use App\Models\GroupUser;
@@ -12,6 +13,7 @@ use App\Services\Liqpay;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -27,13 +29,16 @@ class Payment extends Component
     #[On('payment')]
     public function createOrder($formData)
     {
+        $timestampMilliseconds = $formData['create_date'];
+        $timestampSeconds = $timestampMilliseconds / 1000;
+
         $order = new Order;
         $order->user_id = Auth::id();
         $order->payment_id = $formData['payment_id'] ?? null;
         $order->transaction_id = $formData['transaction_id'] ?? null;
         $order->status = $formData['status'] ?? null;
         $order->paytype = $formData['paytype'] ?? null;
-        $order->payment_created_at = $formData['create_date'] ?? null; // Текущее время как время создания платежа
+        $order->payment_created_at = Carbon::createFromTimestamp($timestampSeconds); // Текущее время как время создания платежа
         $order->description = $formData['description'] ?? null;
         $order->save();
 
@@ -51,13 +56,16 @@ class Payment extends Component
                 GroupUser::create([
                     'group_id' => $groupId,
                     'user_id' => $userId,
-                    'closed_webinar_date' => Carbon::now()->addDays(30)->format('Y-m-d')
+                    'closed_webinar_date' => Carbon::now()->addDays(31)->format('Y-m-d')
                 ]);
             }
         }
         \Gloudemans\Shoppingcart\Facades\Cart::destroy();
 
         event(new SendOrderEmail($order));
+        event(new SendOrderTelegram($order));
+
+        Session::forget('payment_token');
 
         return redirect()->to('/account');
     }

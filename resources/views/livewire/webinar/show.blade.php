@@ -128,38 +128,39 @@
 
     </main>
     <script>
-        let closedWebinarDate = new Date('{{ $closedWebinarDate }}').getTime(); // Замените на фактическое значение из сервера
-        let currentTime = Date.now();
-        let remainingTime = Math.floor((closedWebinarDate - currentTime) / 1000);
+        let closedWebinarDateValue = '{{ $closedWebinarDate }}';
+        let timerElement = document.getElementById('timer');
 
-        function startTimer(seconds) {
-            let timerElement = document.getElementById('timer');
-            let intervalId = setInterval(function() {
-                let days = Math.floor(seconds / 86400);
-                let hours = Math.floor((seconds % 86400) / 3600);
-                let minutes = Math.floor((seconds % 3600) / 60);
-                let secondsLeft = seconds % 60;
+        if (closedWebinarDateValue === 'Бессрочно') {
+            timerElement.textContent = 'Бессрочно';
+        } else {
+            let closedWebinarDate = new Date(closedWebinarDateValue).getTime();
+            let currentTime = Date.now();
+            let remainingTime = Math.floor((closedWebinarDate - currentTime) / 1000);
 
-                let formattedTime;
-                if (days > 0) {
-                    // Показываем только дни, если осталось более одного дня
-                    formattedTime = days + (days === 1 ? ' день' : ' дні');
-                } else {
-                    // Показываем часы, минуты и секунды, если осталось менее одного дня
-                    formattedTime = `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(secondsLeft).padStart(2, '0')}`;
-                }
+            function startTimer(seconds) {
+                let intervalId = setInterval(function() {
+                    let days = Math.floor(seconds / 86400);
+                    let hours = Math.floor((seconds % 86400) / 3600);
+                    let minutes = Math.floor((seconds % 3600) / 60);
+                    let secondsLeft = seconds % 60;
 
-                timerElement.textContent = formattedTime;
-                seconds--;
+                    let formattedTime = days > 0
+                        ? days + (days === 1 ? ' день' : ' дні')
+                        : `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(secondsLeft).padStart(2, '0')}`;
 
-                if (seconds < 0) {
-                    clearInterval(intervalId);
-                    timerElement.textContent = 'ВЕБИНАР В ЭФИРЕ';
-                }
-            }, 1000);
+                    timerElement.textContent = formattedTime;
+                    seconds--;
+
+                    if (seconds < 0) {
+                        clearInterval(intervalId);
+                        timerElement.textContent = 'ВЕБИНАР В ЭФИРЕ';
+                    }
+                }, 1000);
+            }
+
+            startTimer(remainingTime);
         }
-
-        startTimer(remainingTime);
     </script>
 
 </div>

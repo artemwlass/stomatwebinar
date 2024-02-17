@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Events\SendEmail;
 use App\Events\SendOrderEmail;
+use App\Events\SendOrderTelegram;
 use App\Events\SendTelegram;
 use App\Listeners\SendEmailListener;
 use App\Listeners\SendOrderEmailListener;
+use App\Listeners\SendOrderTelegramListener;
 use App\Models\Webinar;
 use App\Observers\WebinarObserver;
 use Illuminate\Auth\Events\Registered;
@@ -30,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SendOrderEmail::class => [
             SendOrderEmailListener::class
+        ],
+        SendOrderTelegram::class => [
+            SendOrderTelegramListener::class
         ]
     ];
 

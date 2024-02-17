@@ -27,7 +27,7 @@ class GroupResource extends Resource
                             ->label('Название')
                             ->content(fn (Group $record): ?string => $record->name),
 
-                        Forms\Components\Placeholder::make('сщгте')
+                        Forms\Components\Placeholder::make('count')
                             ->label('Количество обучающихся')
                             ->content(fn (Group $record): ?string => $record->users->count()),
 
@@ -43,6 +43,7 @@ class GroupResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

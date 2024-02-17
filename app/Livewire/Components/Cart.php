@@ -28,8 +28,22 @@ class Cart extends Component
         $this->dispatch('cartUpdated');
     }
 
-    public function store()
+    #[On('formOrder')]
+    public function store($formData)
     {
+        $this->name = $formData['name'];
+        $this->phone = $formData['phone'];
+        $this->email = $formData['email'];
+        $this->surname = $formData['surname'];
+
+
+        // Валидация входных данных
+        $this->validate([
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'email' => 'required|email',
+            'surname' => 'required|string',
+        ]);
         // Предположим, что $this->email уже заполнен
         $user = User::where('email', $this->email)->first();
 
@@ -40,22 +54,18 @@ class Cart extends Component
                 'surname' => $this->surname,
                 'phone' => $this->phone,
                 'email' => $this->email,
-                'password' => Hash::make('defaultPassword'), // Установите безопасный пароль
+                'password' => Hash::make('vYjDsM7kkZ'), // Установите безопасный пароль
             ]);
-        }else {
+        } else {
             // Пользователь найден, проверяем наличие фамилии и телефона
-            $updateData = [];
-            if (empty($user->surname) && !empty($this->surname)) {
-                $updateData['surname'] = $this->surname;
-            }
-            if (empty($user->phone) && !empty($this->phone)) {
-                $updateData['phone'] = $this->phone;
-            }
 
-            // Обновляем данные пользователя, если необходимо
-            if (!empty($updateData)) {
-                $user->update($updateData);
+            if (!$user->surname) {
+                $user->surname = $this->surname;
             }
+            if (!$user->phone) {
+                $user->phone = $this->phone;
+            }
+            $user->save();
         }
 
         // Авторизация пользователя

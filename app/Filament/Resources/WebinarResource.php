@@ -236,6 +236,7 @@ class WebinarResource extends Resource
                 Tables\Columns\IconColumn::make('is_active')->boolean()->label('Активность')->sortable(),
                 Tables\Columns\TextColumn::make('order')->label('Порядок сортировки')->sortable(),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

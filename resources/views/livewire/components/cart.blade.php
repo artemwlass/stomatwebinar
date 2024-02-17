@@ -46,22 +46,22 @@
                 <div class="modal-body">
                     <!-- Form for order -->
 {{--                    <form class="order-form" action="https://www.liqpay.ua/api/3/checkout">--}}
-                    <form class="order-form" wire:submit="store">
+                    <form class="order-form">
                         <div class="mb-4">
                             <!-- Input for customer name -->
-                            <input placeholder="Ваше імя" wire:model="name" type="text" class="form-control" id="name" name="name" required>
+                            <input placeholder="Ваше імя" type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-4">
                             <!-- Input for customer name -->
-                            <input placeholder="Ваше прiзвище" wire:model="phone" type="text" class="form-control" id="name" name="name" required>
+                            <input placeholder="Ваше прiзвище" type="text" class="form-control" id="surname" name="name" required>
                         </div>
                         <div class="mb-4">
                             <!-- Input for customer email -->
-                            <input placeholder="Ваша пошта" wire:model="email" type="email" class="form-control" id="email" name="email" required>
+                            <input placeholder="Ваша пошта" type="email" class="form-control" id="email" name="email" required>
                         </div>
                         <div class="mb-4">
                             <!-- Input for customer phone -->
-                            <input placeholder="Ваш телефон" wire:model="phone" type="tel" class="form-control" id="phone" name="phone" required>
+                            <input placeholder="Ваш телефон" type="tel" class="form-control" id="phone" name="phone" required>
                         </div>
                         <!-- Add more product details if needed -->
                         <button type="submit" class="btn btn-success">Замовити</button>
@@ -96,3 +96,25 @@
         </div>
 
 </div>
+<script>
+    document.addEventListener('livewire:init', () => {
+        const form = document.querySelector('.order-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Сбор данных из формы
+            const formData = {
+                name: form.querySelector('#name').value,
+                surname: form.querySelector('#surname').value,
+                phone: form.querySelector('#phone').value,
+                email: form.querySelector('#email').value,
+            };
+
+            // Отправка данных через Livewire
+        @this.dispatch('formOrder', { formData: formData });
+
+            // Очистка формы
+            form.reset();
+        });
+    })
+</script>
