@@ -29,102 +29,101 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // скрипты масок (телефон)
-document.addEventListener('DOMContentLoaded', function () {
-  const phoneInputs = document.querySelectorAll("#phone");
-  const button = document.querySelector("button[type='submit']");
-  const errorMsg = document.querySelector("#error-msg");
-  const validMsg = document.querySelector("#valid-msg");
+window.initPhoneMasks = function initPhoneMasks() {
+    const phoneInputs = document.querySelectorAll("#phone");
+    const button = document.querySelector("button[type='submit']");
+    const errorMsg = document.querySelector("#error-msg");
+    const validMsg = document.querySelector("#valid-msg");
 
-  const errorMap = ["Неверный номер", "Неверный код страны", "Слишком короткий", "Слишком длинный", "Неверный номер"];
+    const errorMap = ["Неверный номер", "Неверный код страны", "Слишком короткий", "Слишком длинный", "Неверный номер"];
 
-  const reset = () => {
-    phoneInputs.forEach(input => {
-      input.classList.remove("error");
-    });
-    errorMsg.innerHTML = "";
-    errorMsg.classList.add("hide");
-    validMsg.classList.add("hide");
-  };
-
-  const initPhoneInput = (input) => {
-    const iti = window.intlTelInput(input, {
-      initialCountry: "ua",
-      geoIpLookup: function (callback) {
-        fetch("https://ipinfo.io", {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(response => response.json())
-        .then(data => {
-          var countryCode = data.country || "";
-          callback(countryCode);
-        })
-        .catch(error => {
-          console.error('Error fetching IP info:', error);
+    const reset = () => {
+        phoneInputs.forEach(input => {
+            input.classList.remove("error");
         });
-      },
-      utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/utils.js",
-      useFullscreenPopup: true,
+        errorMsg.innerHTML = "";
+        errorMsg.classList.add("hide");
+        validMsg.classList.add("hide");
+    };
+
+    const initPhoneInput = (input) => {
+        const iti = window.intlTelInput(input, {
+            initialCountry: "ua",
+            geoIpLookup: function (callback) {
+                fetch("https://ipinfo.io", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        var countryCode = data.country || "";
+                        callback(countryCode);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching IP info:', error);
+                    });
+            },
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@17.0.8/build/js/utils.js",
+            useFullscreenPopup: true,
+        });
+
+        // Устанавливаем значение и маску при загрузке страницы
+        if (iti.getSelectedCountryData().iso2 === "ua") {
+            $(input).inputmask({ mask: "+38(0##)##-##-##", showMaskOnHover: false });
+        } else {
+            input.value = '+' + iti.getSelectedCountryData().dialCode;
+            $(input).inputmask({ mask: "+999999999999", showMaskOnHover: false });
+        }
+
+        // Устанавливаем плейсхолдер
+        input.placeholder = '+' + iti.getSelectedCountryData().dialCode;
+
+        input.addEventListener('input', function () {
+            // Оставляем только цифры
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        input.addEventListener('countrychange', function () {
+            var selectedCountry = iti.getSelectedCountryData();
+            var dialCode = selectedCountry.dialCode;
+
+            // Устанавливаем значение и маску при изменении страны
+            if (selectedCountry.iso2 === "UA") {
+                $(input).inputmask({ mask: "38(999)999-99-99", showMaskOnHover: false });
+            } else {
+                input.value = '+' + dialCode;
+                $(input).inputmask('remove');
+                $(input).inputmask({ mask: "+999999999999", showMaskOnHover: false });
+            }
+
+            // Устанавливаем плейсхолдер
+            input.placeholder = '+' + dialCode;
+        });
+    };
+
+    button.addEventListener('click', function (e) {
+        reset();
+        phoneInputs.forEach(input => {
+            if (input.value.trim() && !window.intlTelInput(input).isValidNumber()) {
+                e.preventDefault();
+                input.classList.add("error");
+                const errorCode = window.intlTelInput(input).getValidationError();
+                errorMsg.innerHTML = errorMap[errorCode] || "Неверный номер";
+                errorMsg.classList.remove("hide");
+            }
+        });
     });
 
-    // Устанавливаем значение и маску при загрузке страницы
-    if (iti.getSelectedCountryData().iso2 === "ua") {
-      $(input).inputmask({ mask: "+38(0##)##-##-##", showMaskOnHover: false });
-    } else {
-      input.value = '+' + iti.getSelectedCountryData().dialCode;
-      $(input).inputmask({ mask: "+999999999999", showMaskOnHover: false });
-    }
-
-    // Устанавливаем плейсхолдер
-    input.placeholder = '+' + iti.getSelectedCountryData().dialCode;
-
-    input.addEventListener('input', function () {
-      // Оставляем только цифры
-      this.value = this.value.replace(/\D/g, '');
-    });
-
-    input.addEventListener('countrychange', function () {
-      var selectedCountry = iti.getSelectedCountryData();
-      var dialCode = selectedCountry.dialCode;
-
-      // Устанавливаем значение и маску при изменении страны
-      if (selectedCountry.iso2 === "UA") {
-        $(input).inputmask({ mask: "38(999)999-99-99", showMaskOnHover: false });
-      } else {
-        input.value = '+' + dialCode;
-        $(input).inputmask('remove');
-        $(input).inputmask({ mask: "+999999999999", showMaskOnHover: false });
-      }
-
-      // Устанавливаем плейсхолдер
-      input.placeholder = '+' + dialCode;
-    });
-  };
-
-  button.addEventListener('click', function (e) {
-    reset();
+    // Initialize each phone input
     phoneInputs.forEach(input => {
-      if (input.value.trim() && !window.intlTelInput(input).isValidNumber()) {
-        e.preventDefault();
-        input.classList.add("error");
-        const errorCode = window.intlTelInput(input).getValidationError();
-        errorMsg.innerHTML = errorMap[errorCode] || "Неверный номер";
-        errorMsg.classList.remove("hide");
-      }
+        initPhoneInput(input);
     });
-  });
-
-  // Initialize each phone input
-  phoneInputs.forEach(input => {
-    initPhoneInput(input);
-  });
+}
+document.addEventListener('DOMContentLoaded', function () {
+    window.initPhoneMasks();
 });
-
-
-
-
 
 
 document.addEventListener('DOMContentLoaded', function() {

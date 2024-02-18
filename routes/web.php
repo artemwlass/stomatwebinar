@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/sheet', [\App\Http\Controllers\GoogleSheetController::class, 'index']);
 Route::get('/', \App\Livewire\Home\Home::class)->name('home');
 
 
@@ -33,3 +33,6 @@ Route::get('/payments', \App\Livewire\Payments::class)->name('payment');
 Route::get('payment-form/{token}', \App\Livewire\Payment\Payment::class)->name('payment.form');
 Route::get('/{slug}/show', \App\Livewire\Webinar\Show::class)->middleware('auth')->name('webinar.video.show');
 Route::get('/{slug}', \App\Livewire\Webinar\Webinar::class)->name('webinar.show');
+
+
+

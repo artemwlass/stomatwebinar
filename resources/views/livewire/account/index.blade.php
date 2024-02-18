@@ -82,16 +82,17 @@
             <div class="container services__container">
 
                 <a href="" class="section__link">
-                    Закриті вебінари»
+                    Закриті вебінари
                 </a>
 
                 <div class="row services__row">
-                    @foreach($webinars as $webinar)
+
+                @foreach($webinars as $webinar)
                         <div class="col-md-4">
                             <a class="card__img" href="{{route('webinar.show', $webinar->slug)}}">
                                 <div class="services__card services__card-blocked">
                                     <img class="img-fluid" src="{{asset('storage/' . $webinar->image)}}" alt="">
-                                    <a href="#" class="card__info">
+                                    <a href="{{route('webinar.show', $webinar->slug)}}" class="card__info">
                                         <div class="card__title">
                                             <h5>
                                                 {{$webinar->title}}

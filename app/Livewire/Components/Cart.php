@@ -24,9 +24,17 @@ class Cart extends Component
 
     public function destroy($id)
     {
-        \Gloudemans\Shoppingcart\Facades\Cart::remove($id);
-        $this->dispatch('cartUpdated');
+        $cartItem = \Gloudemans\Shoppingcart\Facades\Cart::search(function ($cartItem, $rowId) use ($id) {
+            return $rowId === $id;
+        })->first();
+
+        if ($cartItem) {
+            \Gloudemans\Shoppingcart\Facades\Cart::remove($id);
+            $this->dispatch('cartUpdated');
+        }
     }
+
+
 
     #[On('formOrder')]
     public function store($formData)
@@ -41,7 +49,7 @@ class Cart extends Component
         $this->validate([
             'name' => 'required|string',
             'phone' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|string',
             'surname' => 'required|string',
         ]);
         // Предположим, что $this->email уже заполнен

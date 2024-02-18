@@ -11,3 +11,14 @@
         @endif
     </a>
 </div>
+@script
+<script>
+    Livewire.on('openCart', () => {
+        Livewire.hook('element.init', ({ component, el }) => {
+            window.initPhoneMasks();
+            new bootstrap.Modal(document.getElementById('orderModal')).show();
+        })
+    });
+</script>
+@endscript
+

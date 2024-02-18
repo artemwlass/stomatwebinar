@@ -60,6 +60,7 @@ class Payment extends Component
                 ]);
             }
         }
+
         \Gloudemans\Shoppingcart\Facades\Cart::destroy();
 
         event(new SendOrderEmail($order));
@@ -93,6 +94,6 @@ class Payment extends Component
         $dataEncoded = base64_encode(json_encode($data));
         $signature = base64_encode(sha1(env('LIQPAY_PRIVATE_KEY') . $dataEncoded . env('LIQPAY_PRIVATE_KEY'), true));
 
-        return view('livewire.payment.paymant', compact('dataEncoded', 'signature'));
+        return view('livewire.payment.paymant', compact('dataEncoded', 'signature'))->layout('components.layouts.payment');
     }
 }

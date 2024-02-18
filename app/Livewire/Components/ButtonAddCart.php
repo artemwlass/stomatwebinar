@@ -27,9 +27,10 @@ class ButtonAddCart extends Component
                 $webinar->price,
                 ['date' => $webinar->date, 'time' => $webinar->time]
             )->associate('\App\Models\Webinar');
-
             $this->dispatch('cartUpdated');
+            $this->dispatch('openCart');
         }
+
     }
 
 

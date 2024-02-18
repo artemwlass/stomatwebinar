@@ -24,7 +24,10 @@
                                     </p>
                                 </div>
                                 <div class="dismis-item">
-                                    <a wire:click.prevent="destroy('{{$item->rowId}}')"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <a wire:click.prevent="destroy('{{ $item->rowId }}')"
+                                       wire:loading.attr="disabled"
+                                       wire:target="destroy('{{ $item->rowId }}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M6.83805 6.42391L0.937637 0.305664L0.217833 0.999841L6.11825 7.11808L0 13.0185L0.694178 13.7383L6.81243 7.83789L12.713 13.9563L13.4328 13.2621L7.53223 7.14371L13.6507 1.24312L12.9565 0.523319L6.83805 6.42391Z" fill="black" fill-opacity="0.5"/>
                                         </svg></a>
 
@@ -98,6 +101,9 @@
 </div>
 <script>
     document.addEventListener('livewire:init', () => {
+        Livewire.on('cartUpdated', (event) => {
+            window.initPhoneMasks();
+        });
         const form = document.querySelector('.order-form');
         form.addEventListener('submit', function (event) {
             event.preventDefault();

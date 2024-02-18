@@ -4,6 +4,7 @@ namespace App\Filament\Resources\GroupResource\RelationManagers;
 
 use App\Http\Controllers\ExchangeDateController;
 use App\Models\User;
+use Carbon\Carbon;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -32,6 +33,13 @@ class UsersRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
+        $options = [
+            Carbon::now()->addDay()->format('Y-m-d') => '1 день',
+            Carbon::now()->addDays(3)->format('Y-m-d') => '3 дня',
+            Carbon::now()->addWeek()->format('Y-m-d') => '1 неделя',
+            Carbon::now()->addMonth()->format('Y-m-d') => '1 месяц',
+            'free' => 'Бессрочно',
+        ];
         return $table
             ->recordTitleAttribute('name')
             ->columns([
@@ -87,7 +95,10 @@ class UsersRelationManager extends RelationManager
                     ->preloadRecordSelect()
                     ->form(fn(AttachAction $action): array => [
                         $action->getRecordSelect(),
-                        Forms\Components\DatePicker::make('closed_webinar_date')->label('Срок до')->required(),
+                        Forms\Components\Select::make('closed_webinar_date')
+                            ->label('Период')
+                            ->required()
+                            ->options($options),
                     ])
             ])
             ->actions([
