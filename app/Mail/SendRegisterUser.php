@@ -2,8 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\OrderWebinars;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,23 +9,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendOrderEmailAdmin extends Mailable
+class SendRegisterUser extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $event;
-    public $user;
-    public $webinars;
     /**
      * Create a new message instance.
      */
     public function __construct($event)
     {
         $this->event = $event;
-        $this->user = User::find($this->event->order->user_id);
-        $this->webinars = OrderWebinars::with('webinar')
-            ->where('order_id', $this->event->order->id)
-            ->get();
     }
 
     /**
@@ -36,7 +28,7 @@ class SendOrderEmailAdmin extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Новый заказ',
+            subject: 'Реєстрація на stomatwebinar',
         );
     }
 
@@ -46,7 +38,7 @@ class SendOrderEmailAdmin extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.send-order-email-admin',
+            view: 'mail.send-register-email-user',
         );
     }
 

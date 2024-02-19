@@ -5,6 +5,7 @@ namespace App\Livewire\Webinar;
 use App\Models\GroupUser;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -52,6 +53,19 @@ class Show extends Component
             ->where('group_id', $this->webinar->group->id)
             ->first()
             ->closed_webinar_date;
-        return view('livewire.webinar.show', compact('inaccessibleWebinars', 'closedWebinarDate'));
+
+        
+        if ($closedWebinarDate == 'Бессрочно') {
+            $daysRemaining = 'Бессрочно';
+
+        } else {
+            $closedWebinarDate = Carbon::createFromFormat('Y-m-d', $closedWebinarDate)->startOfDay();
+            $currentDate = Carbon::now()->startOfDay();
+
+            $daysRemaining = $currentDate->diffInDays($closedWebinarDate, false);
+        }
+
+
+        return view('livewire.webinar.show', compact('inaccessibleWebinars', 'daysRemaining'));
     }
 }

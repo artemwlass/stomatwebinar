@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Components;
 
+use App\Events\SendRegisterEmailUser;
 use App\Livewire\LiqPay\PaymentForm;
 use App\Livewire\Payment\Payment;
 use App\Models\User;
@@ -64,6 +65,7 @@ class Cart extends Component
                 'email' => $this->email,
                 'password' => Hash::make('vYjDsM7kkZ'), // Установите безопасный пароль
             ]);
+            event(new SendRegisterEmailUser($user, 'vYjDsM7kkZ'));
         } else {
             // Пользователь найден, проверяем наличие фамилии и телефона
 

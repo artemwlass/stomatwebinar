@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Events\SendRegisterEmailUser;
 use App\Livewire\Account\Index;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,8 @@ class Register extends Component
         ]);
 
         Auth::login($user);
+
+        event(new SendRegisterEmailUser($user, $this->password));
 
         $this->redirect('/account');
     }

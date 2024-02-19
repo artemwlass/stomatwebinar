@@ -9,6 +9,8 @@ use App\Listeners\SendOrderEmailListener;
 use App\Livewire\Components\Cart;
 use App\Models\GroupUser;
 use App\Models\Order;
+use App\Models\OrderWebinars;
+use App\Models\User;
 use App\Services\Liqpay;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Revolution\Google\Sheets\Facades\Sheets;
 
 class Payment extends Component
 {
@@ -35,6 +38,7 @@ class Payment extends Component
         $order = new Order;
         $order->user_id = Auth::id();
         $order->payment_id = $formData['payment_id'] ?? null;
+        $order->amount = $formData['amount'] ?? null;
         $order->transaction_id = $formData['transaction_id'] ?? null;
         $order->status = $formData['status'] ?? null;
         $order->paytype = $formData['paytype'] ?? null;
@@ -59,16 +63,52 @@ class Payment extends Component
                     'closed_webinar_date' => Carbon::now()->addDays(31)->format('Y-m-d')
                 ]);
             }
+
+            $webinars = OrderWebinars::create([
+                'order_id' => $order->id,
+                'user_id' => $userId,
+                'webinar_id' => $item->id,
+                'price' => $item->price,
+            ]);
         }
 
         \Gloudemans\Shoppingcart\Facades\Cart::destroy();
 
         event(new SendOrderEmail($order));
+
         event(new SendOrderTelegram($order));
 
         Session::forget('payment_token');
 
+        $this->addToSheet($order->description, $order->amount, $order->created_at);
+
         return redirect()->to('/account');
+    }
+
+    public function addToSheet($order_description, $order_amount, $order_created_at)
+    {
+        $user = User::find(Auth::id());
+        $data = [
+            "Имя" => $user->name,
+            "Фамилия" => $user->surname,
+            "Почта" => $user->email,
+            "Телефон" => $user->phone,
+            "Заказ" => $order_description,
+            "Стоимость" => $order_amount,
+            "Дата и время" => Carbon::parse($order_created_at)->format('Y-m-d H:i:s'),
+        ];
+
+        // ID вашей Google таблицы
+        $spreadsheetId = '1-eU30QRhoPt-Y_A_5Gy5xaCkzkL5tU6Yxvr4VL9rLpw';
+
+        // Название листа в таблице
+        $sheetName = '2024';
+
+        // Получение доступа к таблице
+        $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetName);
+
+        // Добавление данных в таблицу
+        $sheet->append([$data]);
     }
     public function render()
     {

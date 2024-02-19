@@ -1,5 +1,12 @@
-Пользователь: {{$user->name}}
+Имя: {{$user->name}}
+Фамилия: {{$user->surname}}
 Телефон: {{$user->phone}}
 Почта: {{$user->email}}
-Город: {{$user->city}}
-Купленные вебинары: {{$event->order->description}}
+
+Купленные вебинары:
+@foreach($webinars as $value)
+{{$value->webinar->title}} - {{$value->price}}
+@endforeach
+
+Сумма покупки: {{$event->order->amount}}
+

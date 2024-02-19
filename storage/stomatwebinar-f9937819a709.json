@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "stomatwebinar",
+  "private_key_id": "f9937819a709e24cd7de305bf9b9a97a79df3133",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCSpbjZp9WXjz34\npZxpCI7eNz93r+LMuU/Em96xz38y2smZdBnZmpWyoXiO6UGig7lCZMJQKU55p2Sy\nJPHcvkXNWQ1qE6zIN08H5vHkwiWldj68XlPARvcKGdCk2YaVUbI0qRWtnl2Jb8VC\nI+CAskkOUYluGmf61SLNhPWsnKOS4QRmL5KAKYICic+ENgv/yJWOfUmG5hhG+rrP\n58Pe1lPZQif/VsfQFkFobhHoa3ndY/8m/OoOijfbe94i1GMgZx5bMpsykzGO59V+\nZvka++z43AHMRimZLKp5yjKzGarMt6a9lcGTWGNfchzpKbDG2Pc3mfvcikqaTZv9\nKlJNVX1lAgMBAAECggEACNFju9zCdG5V0t98d/leg+CtFZCTMe27rO4Vdjosox1y\nTWKkkkfgFAFvGyLOAkxq5aHi6EiPkjOdU7PygixDzLz72ELOGyzuOOKrbW66Lkid\nrZx7az6pKKeUOvFkjRKARXfcWJgC9lps8VTwcTSnPW/sNF1snrHVuady0VoK4PBF\nChXNBfFnveiHoudAX04tn/q9Y/OQV9okkY1rQrKIFp0ZKLuLz7LBoIFKKVVBBDx+\nurw0q7xIVC/nJ4V/WTHXF+vaGUxvBz0KhWTxXQmNDWqyxdUw7Bip/iQG2IhlCgaR\nINu0xZs31rUaKQ0bRqVjhRzK2zLGBm+NpYFOFVQy2QKBgQDMolTKEOZPThTCHKB9\nYUMJhMEo/q/a78CIhBKrguh1PZxwNt7rnRAO+pxo7/oi7oJO5yBIhjk3AsMgGi9F\n8OWwywczF0HuLaXdJpA6MSAMxM+B6amxptvJHYeNITR/OebQp8ky3b1PlnVQ0cTU\nJNT1mUziXTMrcxVp4WXTniQ82QKBgQC3dTIZ9m/2F0u/7NyPJsbWr4b/FJDXwu+H\nCwRiMod8ml5SqgD588/A9JauA2kdiiQAPEsKWleoYt10z1rKFhv8qHPnOmIuTgIU\nP6SLsSssMevX/Pz8Ysrfps2iZi0ceZZYEDDJJ7ZuEjx8LYdeN1ZBBX1aM09Py9x6\n3MYILzsdbQKBgGFKoNN9m3KDJh1wLOHPt2a0Jn5OMN//82M0oAfJcqojQ9iaTfxp\nrXPhtTGzPxMSoQPQoam5n0RHXOxLZsRzF1GqBd9FpIQQUfbGWfZA2wMXI62ZoaOk\nOITzNDpmWiZPKi10SJWVlWdcmqR1R4axiErIuyQ4uZZj3f98OcSWQJZpAoGALrZB\nhojQIzn1SK4Xzr9R27Ifzm0/ICD7ekgc2qABDYIEyEmPLBWfbYMZpr8pkaLt3b18\nYet07GQX/Tka5d/RSnjd4h9khmPIdb1quULoOj2PzpQVGnJRM7c2Hsajb9+pn0yo\nD1/0PHyaOAgjsqKmbLHoJAJyjF/dCM+UANt90tUCgYEAvZPjmEzwrRUkzqdFuOQ6\nPBs62DKHvjP8+jQEF5KF+dgg5gBLXvt9UccZ+dMXjFiamEcOhLOHVvQwVkCoS0dk\n1EY+HLNUUrou1d5QfUu6wzZOg/NhbWrxUo85YCeZXBsFTmz7zvaenOiPuul5F0Cf\nY53P1YBOGqrqKREY7AJLGp0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-sheet-api@stomatwebinar.iam.gserviceaccount.com",
+  "client_id": "108288206852235848240",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-sheet-api%40stomatwebinar.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

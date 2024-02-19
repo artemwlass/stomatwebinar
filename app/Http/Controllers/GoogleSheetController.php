@@ -2,41 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use Google\Service\Drive;
-use Google_Service_Sheets;
-use Google_Service_Sheets_Spreadsheet;
+
 use Illuminate\Http\Request;
-use Google\Client;
-use Google\Service\Sheets;
+use Revolution\Google\Sheets\Facades\Sheets;
+
 
 class GoogleSheetController extends Controller
 {
-    public function index()
+    public function addToSheet()
     {
-        /* Load pre-authorized user credentials from the environment.
-                  TODO(developer) - See https://developers.google.com/identity for
-                   guides on implementing OAuth2 for your application. */
-        $client = new Client();
-        $client->useApplicationDefaultCredentials();
-        $client->addScope(Drive::DRIVE);
-        $service = new Google_Service_Sheets($client);
-        try{
+        $data = [
+            "Имя" => "Новое имя",
+            "Фамилия" => "Новая фамилия",
+            "Почта" => "example@example.com",
+            "Телефон" => "1234567890",
+            "Заказ" => "Новый заказ",
+            "Стоимость" => "100",
+            "Дата и время" => now()->format('Y-m-d H:i:s'),
+        ];
 
-            $spreadsheet = new Google_Service_Sheets_Spreadsheet([
-                'properties' => [
-                    'title' => 'jhgkjh'
-                ]
-            ]);
-            $spreadsheet = $service->spreadsheets->create($spreadsheet, [
-                'fields' => 'spreadsheetId'
-            ]);
-            printf("Spreadsheet ID: %s\n", $spreadsheet->spreadsheetId);
-            return $spreadsheet->spreadsheetId;
-        }
-        catch(Exception $e) {
-            // TODO(developer) - handle error appropriately
-            echo 'Message: ' .$e->getMessage();
-        }
+        // ID вашей Google таблицы
+        $spreadsheetId = '1-eU30QRhoPt-Y_A_5Gy5xaCkzkL5tU6Yxvr4VL9rLpw';
+
+        // Название листа в таблице
+        $sheetName = '2024';
+
+        // Получение доступа к таблице
+        $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetName);
+
+        // Добавление данных в таблицу
+        $sheet->append([$data]);
     }
 }

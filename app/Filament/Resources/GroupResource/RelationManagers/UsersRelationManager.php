@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\GroupResource\RelationManagers;
 
+use App\Events\SendEmailOpenWebinarFromAdmin;
 use App\Http\Controllers\ExchangeDateController;
 use App\Models\User;
 use Carbon\Carbon;
@@ -100,6 +101,9 @@ class UsersRelationManager extends RelationManager
                             ->required()
                             ->options($options),
                     ])
+                    ->after(function ($record,$data) {
+                        event(new SendEmailOpenWebinarFromAdmin($record));
+                    })
             ])
             ->actions([
                 Tables\Actions\Action::make('period')

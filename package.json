@@ -9,5 +9,10 @@
         "axios": "^1.6.4",
         "laravel-vite-plugin": "^1.0.0",
         "vite": "^5.0.0"
+    },
+    "dependencies": {
+        "videojs-awesome-watermark": "^0.0.12",
+        "videojs-dynamic-watermark": "^1.1.0",
+        "videojs-watermark": "^2.0.0"
     }
 }

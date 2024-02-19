@@ -33,9 +33,16 @@
                     </div>
 
                     <div class="webinar__stream">
+                        <video style="width: 100%;"  oncontextmenu="return false;"
+                                id="my-video"
+                                class="video-js"
+                                controls
+                                preload="auto"
+                                height="700"
+                                data-setup="{}"
+                        >
+                            <source src="{{asset('storage/' . $webinar->video_view_page)}}" type="video/mp4" />
 
-                        <video oncontextmenu="return false;" class="img-fluid" controls>
-                            <source src="{{asset('storage/' . $webinar->video_view_page)}}">
                         </video>
 
                     </div>
@@ -65,7 +72,7 @@
             <div class="container services__container">
 
                 <a href="#" class="section__link">
-                    Закриті вебінари»
+                    Закриті вебінари
                 </a>
 
                 <div class="row services__row">
@@ -128,38 +135,50 @@
 
     </main>
     <script>
-        let closedWebinarDateValue = '{{ $closedWebinarDate }}';
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        {{--document.addEventListener('DOMContentLoaded', function() {--}}
+
+        {{--    var player = videojs('my-video');--}}
+        {{--    console.log(player)--}}
+
+        {{--    player.watermark({--}}
+        {{--        text: "{{ Auth::user()->email }}",--}}
+        {{--        className: 'custom-watermark'--}}
+        {{--    });--}}
+        {{--});--}}
+        let daysRemaining = '{{ $daysRemaining }}';
         let timerElement = document.getElementById('timer');
 
-        if (closedWebinarDateValue === 'Бессрочно') {
+        if (daysRemaining === 'Бессрочно') {
             timerElement.textContent = 'Бессрочно';
+        } else if (daysRemaining >= 1) {
+            daysRemaining = isNaN(parseInt(daysRemaining)) ? daysRemaining : parseInt(daysRemaining);
+            timerElement.textContent = daysRemaining + (daysRemaining === 1 ? ' день' : ' дні');
         } else {
-            let closedWebinarDate = new Date(closedWebinarDateValue).getTime();
-            let currentTime = Date.now();
-            let remainingTime = Math.floor((closedWebinarDate - currentTime) / 1000);
+            function updateTimer() {
+                let now = new Date();
+                let webinarDate = new Date(); // текущая дата
+                webinarDate.setDate(webinarDate.getDate() + 1); // установка на следующий день
+                webinarDate.setHours(0, 0, 0, 0); // установка на начало дня
 
-            function startTimer(seconds) {
-                let intervalId = setInterval(function() {
-                    let days = Math.floor(seconds / 86400);
-                    let hours = Math.floor((seconds % 86400) / 3600);
-                    let minutes = Math.floor((seconds % 3600) / 60);
-                    let secondsLeft = seconds % 60;
+                let remainingTime = Math.floor((webinarDate - now) / 1000);
+                let hours = Math.floor(remainingTime / 3600);
+                let minutes = Math.floor((remainingTime % 3600) / 60);
+                let seconds = remainingTime % 60;
 
-                    let formattedTime = days > 0
-                        ? days + (days === 1 ? ' день' : ' дні')
-                        : `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(secondsLeft).padStart(2, '0')}`;
+                let formattedTime = `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
 
-                    timerElement.textContent = formattedTime;
-                    seconds--;
+                timerElement.textContent = formattedTime;
 
-                    if (seconds < 0) {
-                        clearInterval(intervalId);
-                        timerElement.textContent = 'ВЕБИНАР В ЭФИРЕ';
-                    }
-                }, 1000);
+                if (remainingTime <= 0) {
+                    clearInterval(intervalId);
+                    timerElement.textContent = 'ВЕБИНАР В ЭФИРЕ';
+                }
             }
 
-            startTimer(remainingTime);
+            let intervalId = setInterval(updateTimer, 1000);
         }
     </script>
 
