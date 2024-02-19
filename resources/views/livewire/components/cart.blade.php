@@ -94,6 +94,36 @@
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">
+                        <!-- Form for order -->
+                        {{--                    <form class="order-form" action="https://www.liqpay.ua/api/3/checkout">--}}
+                        <form class="order-form">
+                            <div class="mb-4">
+                                <!-- Input for customer name -->
+                                <input placeholder="Ваше імя" type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-4">
+                                <!-- Input for customer name -->
+                                <input placeholder="Ваше прiзвище" type="text" class="form-control" id="surname" name="name" required>
+                            </div>
+                            <div class="mb-4">
+                                <!-- Input for customer email -->
+                                <input placeholder="Ваша пошта" type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-4">
+                                <!-- Input for customer phone -->
+                                <input placeholder="Ваш телефон" type="tel" class="form-control" id="phone" name="phone" required>
+                            </div>
+                            <!-- Add more product details if needed -->
+                            <button type="submit" class="btn btn-success" disabled>Замовити</button>
+
+                            <div class="form-check mt-2">
+                                <input type="checkbox" class="form-check-input" id="termsCheckbox" required>
+                                <label class="form-check-label" for="termsCheckbox">Підтверджую, що Я уважно ознайомився(лася) з даною інструкцією з накладеними на ній правилами вебінару - *обов'язкове поле
+                                </label>
+                            </div>
+                        </form>
+                    </div>
                 @endif
             </div>
         </div>
