@@ -453,20 +453,7 @@
 <!-- Подключение скрипта плагина водяного знака -->
 <script src="https://cdn.jsdelivr.net/npm/videojs-awesome-watermark@0.0.12/dist/videojs-awesome-watermark.min.js"></script>
 
-<script>
-    var player = videojs('my-video');
 
-    player.awesomeWatermark({
-        type: 'text',
-        text: '{{\Illuminate\Support\Facades\Auth::user()->email}}', // Текст водяного знака
-        fontColor: 'white', // Цвет шрифта
-        fontFamily: 'Arial', // Шрифт
-        fontSize: '30', // Размер шрифта
-        fontSizeUnit: 'pixels', // Единица измерения размера шрифта
-        position: 'bottom-right', // Позиция водяного знака
-
-    });
-</script>
 
 </body>
 </html>

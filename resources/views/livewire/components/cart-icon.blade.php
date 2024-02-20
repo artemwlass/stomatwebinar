@@ -1,5 +1,5 @@
 <div>
-    <a class="header__cart" href="" data-bs-toggle="modal" data-bs-target="#orderModal">
+    <a class="header__cart" href="#" data-bs-toggle="modal" data-bs-target="#orderModal">
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="30" viewBox="0 0 28 30" fill="none">
             <path d="M25.759 25.78C25.7906 26.0606 25.7622 26.3446 25.676 26.6136C25.5898 26.8824 25.4478 27.13 25.259 27.34C25.0698 27.5496 24.8382 27.717 24.5798 27.8306C24.3212 27.9444 24.0414 28.0022 23.759 28H4.23905C3.95659 28.0022 3.67689 27.9444 3.41835 27.8306C3.15981 27.717 2.92829 27.5496 2.73905 27.34C2.55031 27.13 2.40819 26.8824 2.32201 26.6136C2.23583 26.3446 2.20755 26.0606 2.23905 25.78L3.99905 10H23.999L25.759 25.78Z"
                   stroke="#F7F8F9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>

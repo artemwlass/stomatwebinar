@@ -6433,6 +6433,37 @@ section.visible, section.animated {
     font-size: 24px;
   }
 }
+@media (max-width: 1640px) {
+  .webinar-about__info h3 {
+    font-size: 36px;
+  }
+}
+@media (max-width: 1380px) {
+  .webinar-about__info h3 {
+    font-size: 32px;
+  }
+}
+@media (max-width: 1199px) {
+  .webinar-about__info h3 {
+    font-size: 28px;
+  }
+}
+@media (max-width: 767px) {
+  .webinar-about__info h3 br {
+    display: none;
+  }
+}
+@media (max-width: 567px) {
+  .webinar-about__info h3 {
+    font-size: 26px;
+    font-weight: 300;
+  }
+}
+@media (max-width: 467px) {
+  .webinar-about__info h3 {
+    font-size: 24px;
+  }
+}
 .webinar-about__info p {
   display: flex;
   flex: 1;

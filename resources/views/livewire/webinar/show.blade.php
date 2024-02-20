@@ -135,19 +135,24 @@
 
     </main>
     <script>
+
+    </script>
+    <script>
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
-        {{--document.addEventListener('DOMContentLoaded', function() {--}}
+        var player = videojs('my-video');
 
-        {{--    var player = videojs('my-video');--}}
-        {{--    console.log(player)--}}
+        player.awesomeWatermark({
+            type: 'text',
+            text: '{{\Illuminate\Support\Facades\Auth::user()->email}}', // Текст водяного знака
+            fontColor: 'white', // Цвет шрифта
+            fontFamily: 'Arial', // Шрифт
+            fontSize: '30', // Размер шрифта
+            fontSizeUnit: 'pixels', // Единица измерения размера шрифта
+            position: 'bottom-right', // Позиция водяного знака
 
-        {{--    player.watermark({--}}
-        {{--        text: "{{ Auth::user()->email }}",--}}
-        {{--        className: 'custom-watermark'--}}
-        {{--    });--}}
-        {{--});--}}
+        });
         let daysRemaining = '{{ $daysRemaining }}';
         let timerElement = document.getElementById('timer');
 
