@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/sheet', [\App\Http\Controllers\GoogleSheetController::class, 'index']);
+
 Route::get('/', \App\Livewire\Home\Home::class)->name('home');
 
 
 Route::get('/register', \App\Livewire\Auth\Register::class)->name('register');
 Route::get('/login', \App\Livewire\Auth\Login::class)->name('login');
+Route::get('/forgot-password', \App\Livewire\Auth\Forgot::class)->name('forgot');
+Route::get('/reset/{token}', \App\Livewire\Auth\Reset::class)->name('reset');
 
 Route::get('/blog', \App\Livewire\Blog\Index::class)->name('blog');
 Route::get('/blog/{slug}', \App\Livewire\Blog\Post::class)->name('post');
@@ -31,6 +33,7 @@ Route::get('/dogovir-publichnoyi-ofereti', \App\Livewire\DogovorOferty::class)->
 Route::get('/payments', \App\Livewire\Payments::class)->name('payment');
 
 Route::get('payment-form/{token}', \App\Livewire\Payment\Payment::class)->name('payment.form');
+
 Route::get('/{slug}/show', \App\Livewire\Webinar\Show::class)->middleware('auth')->name('webinar.video.show');
 Route::get('/{slug}', \App\Livewire\Webinar\Webinar::class)->name('webinar.show');
 

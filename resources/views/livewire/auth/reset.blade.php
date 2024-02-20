@@ -5,38 +5,22 @@
 
             <div class="container authorization__container">
 
-                <form class="register__form authorization__form" wire:submit="login">
+                <form class="register__form authorization__form" wire:submit="updatePassword">
 
 
 
                     <div class="modal-content">
 
                         <div class="modal-header">
-                            <h2 class="modal-title">Авторизація</h2>
+                            <h2 class="modal-title">Новий пароль</h2>
 
                             <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                         </div>
                         <div class="modal-body">
                             <!-- Форма обратного звонка -->
                             <form class="callback-form">
-
-                                @if (session()->has('error'))
-                                    <div class="alert alert-danger">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
-                                    @if (session()->has('success'))
-                                        <div class="alert alert-success">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
-                                <div class="mb-4">
-                                    <!-- <label for="email" class="form-label">Ваша пошта</label> -->
-                                    <input wire:model="email" placeholder="Ваша пошта" type="email" class="form-control" id="email" name="email">
-                                </div>
-
                                 <div class="mb-4 password">
-                                    <input wire:model="password" placeholder="Пароль" type="password" class="form-control" id="password" name="password">
+                                    <input wire:model="password" placeholder="Введіть новий пароль" type="password" class="form-control" id="password" name="password">
                                     <button type="button" id="togglePassword">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="19" viewBox="0 0 25 19" fill="none">
                                             <g clip-path="url(#clip0_0_2998)">
@@ -51,19 +35,7 @@
                                     </button>
                                 </div>
 
-
-
-                                <button type="submit" class="btn btn-success">Увiйти</button>
-{{--                                <div class="form-check mt-2">--}}
-{{--                                    <input type="checkbox" class="form-check-input" id="termsCheckbox" required="">--}}
-{{--                                    <label class="form-check-label" for="termsCheckbox">Згоден(а) з політикою конфіденційності</label>--}}
-{{--                                </div>--}}
-
-                                <div class="form-tip">
-                                    <a href="{{route('register')}}">Реєстрація </a>
-                                    <a href="{{route('forgot')}}">Відновити пароль</a>
-
-                                </div>
+                                <button type="submit" class="btn btn-success">Підтвердити</button>
 
                             </form>
                         </div>
@@ -73,9 +45,9 @@
 
             </div>
 
-</div>
+        </div>
 
-</section>
+        </section>
 
-</main>
+    </main>
 </div>
