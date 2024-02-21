@@ -4,6 +4,7 @@ namespace App\Livewire\Components;
 
 use App\Events\SendEmail;
 use App\Events\SendTelegram;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -32,7 +33,12 @@ class SupportCall extends Component
         ]);
 
         event(new SendTelegram($support));
-        event(new SendEmail($support));
+
+        try {
+            event(new SendEmail($support));
+        } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+            Log::error("Ошибка отправки почты: " . $e->getMessage());
+        }
 
         $this->reset('name', 'phone', 'email');
     }

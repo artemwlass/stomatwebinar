@@ -74,8 +74,11 @@ class Payment extends Component
 
         \Gloudemans\Shoppingcart\Facades\Cart::destroy();
 
-
-        event(new SendOrderEmail($order));
+        try {
+            event(new SendOrderEmail($order));
+        } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+            Log::error("Ошибка отправки почты: " . $e->getMessage());
+        }
 
         event(new SendOrderTelegram($order));
 

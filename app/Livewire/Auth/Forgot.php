@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Auth;
 
+use App\Events\SendRegisterEmailUser;
 use App\Mail\ForgotPassword;
 use App\Models\User;
 use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -20,7 +22,11 @@ class Forgot extends Component
         if ($user) {
             $user->remember_token = Str::random(40);
             $user->save();
-            Mail::to($user->email)->send(new ForgotPassword($user));
+            try {
+                Mail::to($user->email)->send(new ForgotPassword($user));
+            } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                Log::error("Ошибка отправки почты: " . $e->getMessage());
+            }
             Session::flash('success', 'Ми вислали вам інструкцію для відновлення пароля на пошту');
             $this->email = '';
         } else {
