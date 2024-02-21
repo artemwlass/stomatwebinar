@@ -28,6 +28,7 @@ class HeaderAndFooterResource extends Resource
                         Forms\Components\Repeater::make('menu')->label('Меню')->schema([
                             Forms\Components\TextInput::make('text')->label('Текст'),
                             Forms\Components\TextInput::make('link')->label('Ссылка'),
+                            Forms\Components\Toggle::make('blanc')->label('Открывать в новой вкладке')->default(false)
                         ])->columns(2)->columnSpanFull()
                     ])->columns(2),
 
@@ -50,10 +51,12 @@ class HeaderAndFooterResource extends Resource
                         Forms\Components\Repeater::make('footer_menu1')->label('Меню footer 1')->schema([
                             Forms\Components\TextInput::make('text')->label('Текст'),
                             Forms\Components\TextInput::make('link')->label('Ссылка'),
+                            Forms\Components\Toggle::make('blanc')->label('Открывать в новой вкладке')->default(false)
                         ]),
                         Forms\Components\Repeater::make('footer_menu2')->label('Меню footer 2')->schema([
                             Forms\Components\TextInput::make('text')->label('Текст'),
                             Forms\Components\TextInput::make('link')->label('Ссылка'),
+                            Forms\Components\Toggle::make('blanc')->label('Открывать в новой вкладке')->default(false)
                         ])
                     ])->columns(2),
             ]);
