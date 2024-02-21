@@ -8,6 +8,7 @@ use App\Models\User;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Register extends Component
@@ -46,7 +47,11 @@ class Register extends Component
 
         Auth::login($user);
 
-        event(new SendRegisterEmailUser($user, $this->password));
+        try {
+            event(new SendRegisterEmailUser($user, $this->password));
+        } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+            Log::error("Ошибка отправки почты: " . $e->getMessage());
+        }
 
         $this->redirect('/account');
     }

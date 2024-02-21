@@ -65,7 +65,12 @@ class Cart extends Component
                 'email' => $this->email,
                 'password' => Hash::make('vYjDsM7kkZ'), // Установите безопасный пароль
             ]);
-            event(new SendRegisterEmailUser($user, 'vYjDsM7kkZ'));
+            try {
+                event(new SendRegisterEmailUser($user, 'vYjDsM7kkZ'));
+            } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                Log::error("Ошибка отправки почты: " . $e->getMessage());
+            }
+
         } else {
             // Пользователь найден, проверяем наличие фамилии и телефона
 

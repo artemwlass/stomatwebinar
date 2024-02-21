@@ -74,6 +74,7 @@ class Payment extends Component
 
         \Gloudemans\Shoppingcart\Facades\Cart::destroy();
 
+
         event(new SendOrderEmail($order));
 
         event(new SendOrderTelegram($order));
