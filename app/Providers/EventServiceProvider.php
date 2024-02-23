@@ -13,8 +13,10 @@ use App\Listeners\SendEmailOpenWebinarFromAdminListener;
 use App\Listeners\SendOrderEmailListener;
 use App\Listeners\SendOrderTelegramListener;
 use App\Listeners\SendregisterEmailUserListener;
+use App\Listeners\UpdateOnlineListener;
 use App\Models\Webinar;
 use App\Observers\WebinarObserver;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -45,6 +47,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SendEmailOpenWebinarFromAdmin::class => [
             SendEmailOpenWebinarFromAdminListener::class
+        ],
+        Login::class => [
+            UpdateOnlineListener::class
         ]
     ];
 

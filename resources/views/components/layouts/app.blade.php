@@ -129,7 +129,7 @@
                 <ul>
                     @foreach($site['menu'] as $item)
                         <li>
-                            <a href="{{$item['link']}}" @if($item['link']) target="_blank" @endif>{{$item['text']}}</a>
+                            <a href="{{$item['link']}}" @if($item['blanc']) target="_blank" @endif>{{$item['text']}}</a>
                         </li>
                     @endforeach
 
@@ -203,7 +203,7 @@
         <ul>
             @foreach($site['menu'] as $item)
                 <li>
-                    <a href="{{$item['link']}}" @if($item['link']) target="_blank" @endif>{{$item['text']}}</a>
+                    <a href="{{$item['link']}}" @if($item['blanc']) target="_blank" @endif>{{$item['text']}}</a>
                 </li>
             @endforeach
             @auth()
@@ -378,14 +378,14 @@
                 <ul>
                     @foreach($site['footer_menu1'] as $item)
                         <li>
-                            <a href="{{$item['link']}}" @if($item['link']) target="_blank" @endif>{{$item['text']}}</a>
+                            <a href="{{$item['link']}}" @if($item['blanc']) target="_blank" @endif>{{$item['text']}}</a>
                         </li>
                     @endforeach
                 </ul>
                 <ul>
                     @foreach($site['footer_menu2'] as $item)
                         <li>
-                            <a href="{{$item['link']}}" @if($item['link']) target="_blank" @endif>{{$item['text']}}</a>
+                            <a href="{{$item['link']}}" @if($item['blanc']) target="_blank" @endif>{{$item['text']}}</a>
                         </li>
                     @endforeach
                 </ul>

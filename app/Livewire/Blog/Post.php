@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Blog;
 
+use App\Models\Webinar;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Component;
@@ -30,6 +31,8 @@ class Post extends Component
     }
     public function render()
     {
-        return view('livewire.blog.post');
+        $webinars = Webinar::where('is_active', true)->inRandomOrder()->limit(3)->get();
+
+        return view('livewire.blog.post', compact('webinars'));
     }
 }

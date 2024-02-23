@@ -50,7 +50,8 @@ class WebinarResource extends Resource
                                 Forms\Components\FileUpload::make('seo.og_image')->label('Og:Image')->required(
                                 )->columnSpanFull()->directory('seo')
                             ])->columns(2),
-                    ])->columnSpan(['lg' => 2]),
+                    ])
+                    ->columnSpan(['lg' => 2]),
 
                 Forms\Components\Group::make()
                     ->schema([

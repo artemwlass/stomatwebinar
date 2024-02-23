@@ -56,7 +56,7 @@ return [
          * Path to service account json file. You can also pass the credentials as an array
          * instead of a file path.
          */
-        'file' => storage_path('stomatwebinar-f9937819a709.json'),
+        'file' => storage_path('stomatwebinar-287a648f2396.json'),
     ],
 
     /*
