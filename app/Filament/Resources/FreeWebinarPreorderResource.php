@@ -18,7 +18,10 @@ class FreeWebinarPreorderResource extends Resource
 {
     protected static ?string $model = FreeWebinarPreorder::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Страницы вебинаров';
+    protected static ?string $navigationGroup = 'Предзапись на вебинар';
+    protected static ?string $breadcrumb = 'Предзапись на вебинар';
+    protected static ?string $navigationIcon = 'heroicon-m-academic-cap';
 
     public static function form(Form $form): Form
     {

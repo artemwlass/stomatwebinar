@@ -10,6 +10,8 @@ class ListFreeWebinarPreorders extends ListRecords
 {
     protected static string $resource = FreeWebinarPreorderResource::class;
 
+    public static ?string $title = 'Страницы предзаписи на вебинар';
+
     protected function getHeaderActions(): array
     {
         return [
