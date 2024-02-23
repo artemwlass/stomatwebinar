@@ -9,5 +9,9 @@ class FreeWebinarPreorder extends Model
 {
     use HasFactory;
     protected $guarded = false;
+    protected $casts = [
+        'seo' => 'array',
+        'content' => 'array',
+    ];
 
 }

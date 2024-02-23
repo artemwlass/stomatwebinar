@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('free_webinar_preorders', function (Blueprint $table) {
             $table->id();
+            $table->json('seo');
+            $table->string('title');
+            $table->string('slug');
+            $table->boolean('is_active')->default(true);
+            $table->json('content');
             $table->timestamps();
         });
     }

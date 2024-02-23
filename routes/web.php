@@ -24,8 +24,6 @@ Route::get('/reset/{token}', \App\Livewire\Auth\Reset::class)->name('reset');
 Route::get('/blog', \App\Livewire\Blog\Index::class)->name('blog');
 Route::get('/blog/{slug}', \App\Livewire\Blog\Post::class)->name('post');
 
-Route::get('/free-webinars', \App\Livewire\FreeWebinar\Index::class)->name('free-webinar');
-
 Route::get('/account', \App\Livewire\Account\Index::class)->middleware('auth')->name('account');
 
 Route::get('/politika-konfidentsiynosti', \App\Livewire\Politic::class)->name('politic');
@@ -34,6 +32,8 @@ Route::get('/payments', \App\Livewire\Payments::class)->name('payment');
 
 Route::get('payment-form/{token}', \App\Livewire\Payment\Payment::class)->name('payment.form');
 
+Route::get('/webinar/{slug}', App\Livewire\FreeWebinarPreorder\Index::class)->name('webinar.preorder');
+Route::get('/free-webinars', \App\Livewire\FreeWebinar\Index::class)->name('free-webinar');
 Route::get('/{slug}/show', \App\Livewire\Webinar\Show::class)->middleware('auth')->name('webinar.video.show');
 Route::get('/{slug}', \App\Livewire\Webinar\Webinar::class)->name('webinar.show');
 

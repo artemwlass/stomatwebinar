@@ -23,7 +23,7 @@
 
                                 <div class="mb-4">
                                     <div class="form-label text-center" style="color: #BD3333">@error('name') {{ $message }} @enderror</div>
-                                    <input wire:model="name" placeholder="Ваше ім'я" type="text" class="form-control" id="name" name="name">
+                                    <input wire:model="name" placeholder="Ваше імя" type="text" class="form-control" id="name" name="name">
                                 </div>
 
                                 <div class="mb-4">

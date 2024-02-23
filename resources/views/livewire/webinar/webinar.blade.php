@@ -12,7 +12,7 @@
                             /
                         </span>
                     <li class="breadcrumbs__item">
-                        <a class="breadcrumbs__link breadcrumbs__prev" href="./account.html">Всі вебінари</a>
+                        <a class="breadcrumbs__link breadcrumbs__prev" href="#">Всі вебінари</a>
                     </li>
                     <span class="breadcrumbs__divider">
                             /
