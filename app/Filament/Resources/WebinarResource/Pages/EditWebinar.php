@@ -95,6 +95,7 @@ class EditWebinar extends EditRecord
             }
 
             if ($value['type'] == 9) {
+//                dd($value);
                 $filteredItem['type'] = $value['type'];
                 $filteredItem['webinar1'] = $value['webinar1'];
                 $filteredItem['webinar2'] = $value['webinar2'];

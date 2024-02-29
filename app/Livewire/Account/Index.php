@@ -17,9 +17,12 @@ class Index extends Component
 
         $webinars = Webinar::orderByDesc('order')->select('id', 'title', 'order', 'image', 'slug', 'date')->where('is_active', true)->get();
 
-        $webinarsPay = Auth::user()->groups->map(function ($group) {
-            return $group->webinar;
-        });
+        $webinarsPay = Auth::user()->groups()->whereHas('webinar', function ($query) {
+            $query->where('is_preorder', false);
+        })->with(['webinar' => function ($query) {
+            $query->where('is_preorder', false);
+        }])->get()->pluck('webinar');
+
 
         $accessibleWebinarIds = Auth::user()->groups->map(function ($group) {
             return optional($group->webinar)->id;

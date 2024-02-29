@@ -37,12 +37,12 @@ class WebinarResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('seo.title')->label('Title')->required(),
                                 Forms\Components\TextInput::make('seo.og_title')->label('Og:Title')->required(),
-                                Forms\Components\RichEditor::make('seo.meta_description')->label(
+                                Forms\Components\Textarea::make('seo.meta_description')->label(
                                     'Description'
-                                )->required(),
-                                Forms\Components\RichEditor::make('seo.og_description')->label(
+                                )->rows(5)->required(),
+                                Forms\Components\Textarea::make('seo.og_description')->label(
                                     'Og:Description'
-                                )->required(),
+                                )->rows(5)->required(),
                                 Forms\Components\TextInput::make('seo.keywords')->label('Keywords')->required(),
                                 Forms\Components\TextInput::make('seo.og_type')->label('Og:Type')->required(),
                                 Forms\Components\TextInput::make('seo.og_url')->label('Og:Url')->required(
@@ -70,6 +70,17 @@ class WebinarResource extends Resource
                                 Forms\Components\TextInput::make('price')->label('Цена в корзине')->required(),
                                 Forms\Components\TextInput::make('date')->label('Дата в корзине')->required(),
                                 Forms\Components\TextInput::make('time')->label('Время в корзине')->required(),
+
+                            ]),
+
+                        Forms\Components\Section::make('Предзапись')
+                            ->schema([
+                                Forms\Components\Toggle::make('is_preorder')
+                                    ->label('Предзапись')
+                                    ->helperText('Выберите, если это предзапись на вебинар')
+                                    ->default(false),
+                                Forms\Components\DatePicker::make('date_preorder')->label('Дата проведения'),
+                                Forms\Components\TimePicker::make('time_preorder')->label('Время'),
 
                             ]),
                     ])

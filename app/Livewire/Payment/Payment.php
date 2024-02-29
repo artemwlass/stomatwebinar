@@ -3,6 +3,7 @@
 namespace App\Livewire\Payment;
 
 use App\Events\SendEmail;
+use App\Events\SendEmailPreorder;
 use App\Events\SendOrderEmail;
 use App\Events\SendOrderTelegram;
 use App\Listeners\SendOrderEmailListener;
@@ -64,29 +65,38 @@ class Payment extends Component
                 ]);
             }
 
-            $webinars = OrderWebinars::create([
+            $webinar = OrderWebinars::create([
                 'order_id' => $order->id,
                 'user_id' => $userId,
                 'webinar_id' => $item->id,
                 'price' => $item->price,
             ]);
+
+            if ($item->model->is_preorder == true) {
+                try {
+                    event(new SendEmailPreorder($order, $webinar));
+                } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                    Log::error("Ошибка отправки почты: " . $e->getMessage());
+                }
+
+            } else {
+                try {
+                    event(new SendOrderEmail($order));
+                } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                    Log::error("Ошибка отправки почты: " . $e->getMessage());
+                }
+            }
         }
 
-        \Gloudemans\Shoppingcart\Facades\Cart::destroy();
-
-        try {
-            event(new SendOrderEmail($order));
-        } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-            Log::error("Ошибка отправки почты: " . $e->getMessage());
-        }
-
-        event(new SendOrderTelegram($order));
-
-        Session::forget('payment_token');
-
-        $this->addToSheet($order->description, $order->amount, $order->created_at);
-
-        return redirect()->to('/account');
+//        \Gloudemans\Shoppingcart\Facades\Cart::destroy();
+//
+//        event(new SendOrderTelegram($order));
+//
+//        Session::forget('payment_token');
+//
+//        $this->addToSheet($order->description, $order->amount, $order->created_at);
+//
+//        return redirect()->to('/account');
     }
 
     public function addToSheet($order_description, $order_amount, $order_created_at)

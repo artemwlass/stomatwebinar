@@ -31,12 +31,12 @@ class FreeWebinarPreorderResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('seo.title')->label('Title')->required(),
                                 Forms\Components\TextInput::make('seo.og_title')->label('Og:Title')->required(),
-                                Forms\Components\RichEditor::make('seo.meta_description')->label(
+                                Forms\Components\Textarea::make('seo.meta_description')->label(
                                     'Description'
-                                )->required(),
-                                Forms\Components\RichEditor::make('seo.og_description')->label(
+                                )->rows(5)->required(),
+                                Forms\Components\Textarea::make('seo.og_description')->label(
                                     'Og:Description'
-                                )->required(),
+                                )->rows(5)->required(),
                                 Forms\Components\TextInput::make('seo.keywords')->label('Keywords')->required(),
                                 Forms\Components\TextInput::make('seo.og_type')->label('Og:Type')->required(),
                                 Forms\Components\TextInput::make('seo.og_url')->label('Og:Url')->required(

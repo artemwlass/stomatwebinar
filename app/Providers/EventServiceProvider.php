@@ -4,12 +4,14 @@ namespace App\Providers;
 
 use App\Events\SendEmail;
 use App\Events\SendEmailOpenWebinarFromAdmin;
+use App\Events\SendEmailPreorder;
 use App\Events\SendOrderEmail;
 use App\Events\SendOrderTelegram;
 use App\Events\SendRegisterEmailUser;
 use App\Events\SendTelegram;
 use App\Listeners\SendEmailListener;
 use App\Listeners\SendEmailOpenWebinarFromAdminListener;
+use App\Listeners\SendEmailPreorderListener;
 use App\Listeners\SendOrderEmailListener;
 use App\Listeners\SendOrderTelegramListener;
 use App\Listeners\SendregisterEmailUserListener;
@@ -50,6 +52,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         Login::class => [
             UpdateOnlineListener::class
+        ],
+        SendEmailPreorder::class => [
+            SendEmailPreorderListener::class
         ]
     ];
 
