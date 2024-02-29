@@ -161,7 +161,7 @@
                             </svg>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="{{ route('account') }}">Личный кабинет</a>
+                            <a class="dropdown-item" href="{{ route('account') }}">Особистий кабінет</a>
                             <livewire:auth.logout />
                         </div>
                     </div>

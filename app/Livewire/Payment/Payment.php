@@ -88,15 +88,15 @@ class Payment extends Component
             }
         }
 
-//        \Gloudemans\Shoppingcart\Facades\Cart::destroy();
-//
-//        event(new SendOrderTelegram($order));
-//
-//        Session::forget('payment_token');
-//
-//        $this->addToSheet($order->description, $order->amount, $order->created_at);
-//
-//        return redirect()->to('/account');
+        \Gloudemans\Shoppingcart\Facades\Cart::destroy();
+
+        event(new SendOrderTelegram($order));
+
+        Session::forget('payment_token');
+
+        $this->addToSheet($order->description, $order->amount, $order->created_at);
+
+        return redirect()->to('/account');
     }
 
     public function addToSheet($order_description, $order_amount, $order_created_at)
