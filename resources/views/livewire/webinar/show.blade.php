@@ -34,12 +34,12 @@
 
                     <div class="webinar__stream">
                         <video style="width: 100%;"  oncontextmenu="return false;"
-                                id="my-video"
-                                class="video-js"
-                                controls
-                                preload="auto"
-                                height="700"
-                                data-setup="{}"
+                               id="my-video"
+                               class="video-js"
+                               controls
+                               preload="auto"
+                               height="700"
+                               data-setup="{}"
                         >
                             <source src="{{asset('storage/' . $webinar->video_view_page)}}" type="video/mp4" />
 
@@ -78,10 +78,10 @@
                 <div class="row services__row">
                     @foreach($inaccessibleWebinars as $webinar)
                         <div class="col-md-4">
-                            <a class="card__img" href="{{route('webinar.show', $webinar->slug)}}">
+                            <a class="card__img" href="#">
                                 <div class="services__card services__card-blocked">
                                     <img class="img-fluid" src="{{asset('storage/' . $webinar->image)}}" alt="">
-                                    <a href="{{route('webinar.show', $webinar->slug)}}" class="card__info">
+                                    <a href="#" class="card__info">
                                         <div class="card__title">
                                             <h5>
                                                 {{$webinar->title}}
@@ -93,12 +93,12 @@
                                                     <path d="M16.7131 27.2868L27.2864 16.7135M27.2864 16.7135L27.2864 25.5246M27.2864 16.7135L18.4753 16.7135" stroke="#47C0F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                 </svg>
                                             </div>
-                                            <div class="card__more" href="{{route('webinar.show', $webinar->slug)}}">
+                                            <div class="card__more" href="#">
                                                 {{$webinar->date}}
                                             </div>
                                         </div>
                                     </a>
-                                    <a href="{{route('webinar.show', $webinar->slug)}}" class="services-opened__card-play">
+                                    <div class="services-opened__card-play">
                                         <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g filter="url(#filter0_b_0_1146)">
                                                 <rect width="89.3232" height="89.3232" rx="20" fill="#4C4A4A" fill-opacity="0.29"/>
@@ -119,7 +119,7 @@
                                                 </clipPath>
                                             </defs>
                                         </svg>
-                                    </a>
+                                    </div>
                                 </div>
                             </a>
                         </div>
@@ -132,59 +132,68 @@
             </div>
 
         </section>
-
     </main>
-    <script>
-
-    </script>
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <!-- Подключение скрипта плагина водяного знака -->
+    <script src="https://cdn.jsdelivr.net/npm/videojs-awesome-watermark@0.0.12/dist/videojs-awesome-watermark.min.js"></script>
     <script>
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
+
         var player = videojs('my-video');
 
-        player.awesomeWatermark({
-            type: 'text',
-            text: '{{\Illuminate\Support\Facades\Auth::user()->email}}', // Текст водяного знака
-            fontColor: 'white', // Цвет шрифта
-            fontFamily: 'Arial', // Шрифт
-            fontSize: '30', // Размер шрифта
-            fontSizeUnit: 'pixels', // Единица измерения размера шрифта
-            position: 'bottom-right', // Позиция водяного знака
-
-        });
-        let daysRemaining = '{{ $daysRemaining }}';
-        let timerElement = document.getElementById('timer');
-
-        if (daysRemaining === 'Бессрочно') {
-            timerElement.textContent = 'Бессрочно';
-        } else if (daysRemaining >= 1) {
-            daysRemaining = isNaN(parseInt(daysRemaining)) ? daysRemaining : parseInt(daysRemaining);
-            timerElement.textContent = daysRemaining + (daysRemaining === 1 ? ' день' : ' дні');
+        if (!player) {
+            console.error("Ошибка: не удалось найти видеоплеер.");
         } else {
-            function updateTimer() {
-                let now = new Date();
-                let webinarDate = new Date(); // текущая дата
-                webinarDate.setDate(webinarDate.getDate() + 1); // установка на следующий день
-                webinarDate.setHours(0, 0, 0, 0); // установка на начало дня
+            player.awesomeWatermark({
+                type: 'text',
+                text: '{{\Illuminate\Support\Facades\Auth::user()->email}}', // Текст водяного знака
+                fontColor: 'white', // Цвет шрифта
+                fontFamily: 'Arial', // Шрифт
+                fontSize: '30', // Размер шрифта
+                fontSizeUnit: 'pixels', // Единица измерения размера шрифта
+                position: 'bottom-right', // Позиция водяного знака
+            });
+        }
 
-                let remainingTime = Math.floor((webinarDate - now) / 1000);
-                let hours = Math.floor(remainingTime / 3600);
-                let minutes = Math.floor((remainingTime % 3600) / 60);
-                let seconds = remainingTime % 60;
+        // JSON-кодирование переменной daysRemaining
+        var daysRemaining = {!! json_encode($daysRemaining) !!};
+        var timerElement = document.getElementById('timer');
+        if (!timerElement) {
+            console.error("Ошибка: не удалось найти элемент таймера.");
+        } else {
+            if (daysRemaining === 'Бессрочно') {
+                timerElement.textContent = 'Бессрочно';
+            } else if (daysRemaining >= 1) {
+                daysRemaining = isNaN(parseInt(daysRemaining)) ? daysRemaining : parseInt(daysRemaining);
+                timerElement.textContent = daysRemaining + (daysRemaining === 1 ? ' день' : ' дні');
+            } else {
+                function updateTimer() {
+                    let now = new Date();
+                    let webinarDate = new Date(); // текущая дата
+                    webinarDate.setDate(webinarDate.getDate() + 1); // установка на следующий день
+                    webinarDate.setHours(0, 0, 0, 0); // установка на начало дня
 
-                let formattedTime = `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
+                    let remainingTime = Math.floor((webinarDate - now) / 1000);
+                    let hours = Math.floor(remainingTime / 3600);
+                    let minutes = Math.floor((remainingTime % 3600) / 60);
+                    let seconds = remainingTime % 60;
 
-                timerElement.textContent = formattedTime;
+                    let formattedTime = `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
 
-                if (remainingTime <= 0) {
-                    clearInterval(intervalId);
-                    timerElement.textContent = 'ВЕБИНАР В ЭФИРЕ';
+                    timerElement.textContent = formattedTime;
+
+                    if (remainingTime <= 0) {
+                        clearInterval(intervalId);
+                        timerElement.textContent = 'ВЕБИНАР В ЭФИРЕ';
+                    }
                 }
-            }
 
-            let intervalId = setInterval(updateTimer, 1000);
+                let intervalId = setInterval(updateTimer, 1000);
+            }
         }
     </script>
+
 
 </div>

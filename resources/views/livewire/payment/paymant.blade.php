@@ -13,15 +13,7 @@
             language: "ru",
             mode: "embed" // embed || popup
         }).on("liqpay.callback", function (data) {
-            console.log(data.status);
-            console.log(data);
-            Livewire.dispatch('payment', {formData: data})
-            // Обработка ответа от LiqPay
-        }).on("liqpay.ready", function (data) {
-            // ready
-        }).on("liqpay.close", function (data) {
-            // close
+            window.location.href = '/account';
         });
     };
 </script>
-
