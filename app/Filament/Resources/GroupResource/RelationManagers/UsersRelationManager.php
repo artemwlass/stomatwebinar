@@ -95,7 +95,14 @@ class UsersRelationManager extends RelationManager
                     ->label('Добавить пользователя')
                     ->preloadRecordSelect()
                     ->form(fn(AttachAction $action): array => [
-                        $action->getRecordSelect(),
+                        $action->getRecordSelect()
+                            ->searchable()
+                            ->getSearchResultsUsing(function (string $search) {
+                                return User::query()
+                                    ->where('name', 'like', '%' . $search . '%')
+                                    ->orWhere('email', 'like', '%' . $search . '%')
+                                    ->pluck('name', 'id');
+                            }),
                         Forms\Components\Select::make('closed_webinar_date')
                             ->label('Период')
                             ->required()
