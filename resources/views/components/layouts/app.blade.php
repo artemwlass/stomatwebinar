@@ -206,11 +206,11 @@
                     <a href="{{$item['link']}}" @if($item['blanc']) target="_blank" @endif>{{$item['text']}}</a>
                 </li>
             @endforeach
-            @auth()
+            @guest()
                 <a class="btn" href="{{route('login')}}">
-                    Вийти
+                    Увійти
                 </a>
-            @endauth
+            @endguest
             <!-- ... Добавьте свои пункты меню здесь ... -->
         </ul>
     </div>

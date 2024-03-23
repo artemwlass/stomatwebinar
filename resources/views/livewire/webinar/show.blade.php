@@ -134,8 +134,9 @@
         </section>
     </main>
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <script src="{{asset('js/videojs-dynamic-watermark/dist/videojs-dynamic-watermark.min.js')}}"></script>
     <!-- Подключение скрипта плагина водяного знака -->
-    <script src="https://cdn.jsdelivr.net/npm/videojs-awesome-watermark@0.0.12/dist/videojs-awesome-watermark.min.js"></script>
+{{--    <script src="https://cdn.jsdelivr.net/npm/videojs-awesome-watermark@0.0.12/dist/videojs-awesome-watermark.min.js"></script>--}}
     <script>
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
@@ -146,16 +147,24 @@
         if (!player) {
             console.error("Ошибка: не удалось найти видеоплеер.");
         } else {
-            player.awesomeWatermark({
-                type: 'text',
-                text: '{{\Illuminate\Support\Facades\Auth::user()->email}}', // Текст водяного знака
-                fontColor: 'white', // Цвет шрифта
-                fontFamily: 'Arial', // Шрифт
-                fontSize: '30', // Размер шрифта
-                fontSizeUnit: 'pixels', // Единица измерения размера шрифта
-                position: 'bottom-right', // Позиция водяного знака
+            player.dynamicWatermark({
+                elementId: "unique_id",
+                watermarkText: "{{\Illuminate\Support\Facades\Auth::user()->email}}",
+                changeDuration: 1000000,
+                cssText: "display: inline-block; color: grey; background-color: transparent; font-size: 1rem; z-index: 9999; position: absolute; @media only screen and (max-width: 992px){font-size: 0.8rem;}"
             });
         }
+
+        {{--player.awesomeWatermark({--}}
+        {{--        type: 'text',--}}
+        {{--        text: '{{\Illuminate\Support\Facades\Auth::user()->email}}', // Текст водяного знака--}}
+        {{--        fontColor: 'white', // Цвет шрифта--}}
+        {{--        fontFamily: 'Arial', // Шрифт--}}
+        {{--        fontSize: '1rem', // Размер шрифта--}}
+        {{--        fontSizeUnit: 'pixels', // Единица измерения размера шрифта--}}
+        {{--        position: 'center', // Позиция водяного знака--}}
+        {{--    });--}}
+        {{--}--}}
 
         // JSON-кодирование переменной daysRemaining
         var daysRemaining = {!! json_encode($daysRemaining) !!};
