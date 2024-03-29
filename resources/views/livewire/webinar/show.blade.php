@@ -78,10 +78,10 @@
                 <div class="row services__row">
                     @foreach($inaccessibleWebinars as $webinar)
                         <div class="col-md-4">
-                            <a class="card__img" href="#">
+                            <a class="card__img" href="{{route('webinar.show', $webinar->slug)}}">
                                 <div class="services__card services__card-blocked">
                                     <img class="img-fluid" src="{{asset('storage/' . $webinar->image)}}" alt="">
-                                    <a href="#" class="card__info">
+                                    <a href="{{route('webinar.show', $webinar->slug)}}" class="card__info">
                                         <div class="card__title">
                                             <h5>
                                                 {{$webinar->title}}
@@ -93,12 +93,12 @@
                                                     <path d="M16.7131 27.2868L27.2864 16.7135M27.2864 16.7135L27.2864 25.5246M27.2864 16.7135L18.4753 16.7135" stroke="#47C0F4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                 </svg>
                                             </div>
-                                            <div class="card__more" href="#">
+                                            <div class="card__more" href="{{route('webinar.show', $webinar->slug)}}">
                                                 {{$webinar->date}}
                                             </div>
                                         </div>
                                     </a>
-                                    <div class="services-opened__card-play">
+                                    <a href="{{route('webinar.show', $webinar->slug)}}" class="services-opened__card-play">
                                         <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g filter="url(#filter0_b_0_1146)">
                                                 <rect width="89.3232" height="89.3232" rx="20" fill="#4C4A4A" fill-opacity="0.29"/>
@@ -119,7 +119,7 @@
                                                 </clipPath>
                                             </defs>
                                         </svg>
-                                    </div>
+                                    </a>
                                 </div>
                             </a>
                         </div>
