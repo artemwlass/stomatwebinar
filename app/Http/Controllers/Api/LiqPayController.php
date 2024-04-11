@@ -70,7 +70,7 @@ class LiqPayController extends Controller
                         OrderWebinars::create([
                             'order_id' => $order->id,
                             'user_id' => $value['user_id'],
-                            'webinar_id' => $value->id,
+                            'webinar_id' => $value['id'],
                             'price' => $value['price'],
                         ]);
 
