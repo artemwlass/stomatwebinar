@@ -49,6 +49,7 @@ class Payment extends Component
                 'quantity' => $item->qty,
                 'group_id' => $item->model->group->id,
                 'is_preorder' => $item->model->is_preorder,
+                'is_series' => $item->options->is_series,
                 'user_id' => auth()->id(),
             ];
         }

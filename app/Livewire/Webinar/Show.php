@@ -54,8 +54,7 @@ class Show extends Component
             ->first()
             ->closed_webinar_date;
 
-        
-        if ($closedWebinarDate == 'Бессрочно') {
+        if ($closedWebinarDate == 'free') {
             $daysRemaining = 'Бессрочно';
 
         } else {

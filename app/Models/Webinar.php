@@ -19,4 +19,17 @@ class Webinar extends Model
         return $this->hasOne(Group::class);
     }
 
+    // Вебинары в серии
+    public function seriesWebinars()
+    {
+        return $this->belongsToMany(Webinar::class, 'series_webinars', 'series_webinar_id', 'webinar_id');
+    }
+
+    // Серии, к которым принадлежит вебинар
+    public function belongsToSeries()
+    {
+        return $this->belongsToMany(Webinar::class, 'series_webinars', 'webinar_id', 'series_webinar_id');
+    }
+
+
 }

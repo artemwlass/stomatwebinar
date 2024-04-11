@@ -25,16 +25,13 @@ class ButtonAddCart extends Component
                 $webinar->title,
                 1,
                 $webinar->price,
-                ['date' => $webinar->date, 'time' => $webinar->time]
+                ['date' => $webinar->date, 'time' => $webinar->time, 'is_series' => (bool)$webinar->is_series_webinars]
             )->associate('\App\Models\Webinar');
             $this->dispatch('cartUpdated');
             $this->dispatch('openCart');
         }
 
     }
-
-
-
 
     public function render()
     {

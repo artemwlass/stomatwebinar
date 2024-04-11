@@ -13,12 +13,8 @@ return new class extends Migration
     {
         Schema::create('series_webinars', function (Blueprint $table) {
             $table->id();
-            $table->json('seo');
-            $table->string('title');
-            $table->string('slug');
-            $table->string('image');
-            $table->boolean('is_active')->default(true);
-            $table->json('content');
+            $table->foreignId('series_webinar_id')->constrained('webinars');
+            $table->foreignId('webinar_id')->constrained('webinars');
             $table->timestamps();
         });
     }

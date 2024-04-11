@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Webinar;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,4 @@ Route::get('/webinar/{slug}', App\Livewire\FreeWebinarPreorder\Index::class)->na
 Route::get('/free-webinars', \App\Livewire\FreeWebinar\Index::class)->name('free-webinar');
 Route::get('/{slug}/show', \App\Livewire\Webinar\Show::class)->middleware('auth')->name('webinar.video.show');
 Route::get('/{slug}', \App\Livewire\Webinar\Webinar::class)->name('webinar.show');
-
-
 

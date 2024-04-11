@@ -10,6 +10,7 @@ use App\Models\GroupUser;
 use App\Models\Order;
 use App\Models\OrderWebinars;
 use App\Models\User;
+use App\Models\Webinar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,9 @@ class LiqPayController extends Controller
 
         if ($request->has('data') && $request->has('signature')) {
             $data = base64_decode($request->get('data'));
-            $signature = base64_encode(sha1(env('LIQPAY_PRIVATE_KEY') . $request->get('data') . env('LIQPAY_PRIVATE_KEY'), 1));
+            $signature = base64_encode(
+                sha1(env('LIQPAY_PRIVATE_KEY') . $request->get('data') . env('LIQPAY_PRIVATE_KEY'), 1)
+            );
 
             if ($signature === $request->get('signature')) {
                 Log::debug('LiqPay signature is valid');
@@ -54,46 +57,78 @@ class LiqPayController extends Controller
                 $order->transaction_id = $data['transaction_id'] ?? null;
                 $order->status = $data['status'] ?? null;
                 $order->paytype = $data['paytype'] ?? null;
-                $order->payment_created_at = Carbon::createFromTimestamp($timestampSeconds); // Текущее время как время создания платежа
+                $order->payment_created_at = Carbon::createFromTimestamp(
+                    $timestampSeconds
+                ); // Текущее время как время создания платежа
                 $order->description = $data['description'] ?? null;
                 $order->save();
 
                 foreach ($cart as $value) {
-                    $groupId = $value['group_id'];
-                    $userId = $value['user_id'];
+                    if ($value['is_series'] == true) {
+                        $series = Webinar::with('seriesWebinars.group')->find($value['id']);
 
-                    $existingGroupUser = GroupUser::where('group_id', $groupId)
-                        ->where('user_id', $userId)
-                        ->first();
-
-                    if (!$existingGroupUser) {
-                        // Создание новой записи в group_users
-                        GroupUser::create([
-                            'group_id' => $groupId,
-                            'user_id' => $userId,
-                            'closed_webinar_date' => Carbon::now()->addDays(31)->format('Y-m-d')
+                        OrderWebinars::create([
+                            'order_id' => $order->id,
+                            'user_id' => $value['user_id'],
+                            'webinar_id' => $value->id,
+                            'price' => $value['price'],
                         ]);
-                    }
 
-                    $webinar = OrderWebinars::create([
-                        'order_id' => $order->id,
-                        'user_id' => $userId,
-                        'webinar_id' => $value['id'],
-                        'price' => $value['price'],
-                    ]);
+                        if ($series) {
+                            foreach ($series->seriesWebinars as $webinar) {
+                                if ($webinar->group) {
+                                    $groupId = $webinar->group->id;
 
-                    if ($value['is_preorder']) {
-                        try {
-                            event(new SendEmailPreorder($order, $webinar));
-                        } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-                            Log::error("Ошибка отправки почты: " . $e->getMessage());
+                                    $existingGroupUser = GroupUser::where('group_id', $groupId)
+                                        ->where('user_id', $value['user_id'])
+                                        ->first();
+
+                                    if (!$existingGroupUser) {
+                                        GroupUser::create([
+                                            'group_id' => $groupId,
+                                            'user_id' => $value['user_id'],
+                                            'closed_webinar_date' => now()->addDays(31)->format('Y-m-d')
+                                        ]);
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        $groupId = $value['group_id'];
+                        $userId = $value['user_id'];
+
+                        $existingGroupUser = GroupUser::where('group_id', $groupId)
+                            ->where('user_id', $userId)
+                            ->first();
+
+                        if (!$existingGroupUser) {
+                            // Создание новой записи в group_users
+                            GroupUser::create([
+                                'group_id' => $groupId,
+                                'user_id' => $userId,
+                                'closed_webinar_date' => Carbon::now()->addDays(31)->format('Y-m-d')
+                            ]);
                         }
 
-                    } else {
-                        try {
-                            event(new SendOrderEmail($order));
-                        } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-                            Log::error("Ошибка отправки почты: " . $e->getMessage());
+                        $webinar = OrderWebinars::create([
+                            'order_id' => $order->id,
+                            'user_id' => $userId,
+                            'webinar_id' => $value['id'],
+                            'price' => $value['price'],
+                        ]);
+
+                        if ($value['is_preorder']) {
+                            try {
+                                event(new SendEmailPreorder($order, $webinar));
+                            } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                                Log::error("Ошибка отправки почты: " . $e->getMessage());
+                            }
+                        } else {
+                            try {
+                                event(new SendOrderEmail($order));
+                            } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                                Log::error("Ошибка отправки почты: " . $e->getMessage());
+                            }
                         }
                     }
                 }
@@ -108,7 +143,7 @@ class LiqPayController extends Controller
                     'status' => true,
                     'message' => 'success'
                 ];
-            }else {
+            } else {
                 Log::debug('LiqPay signature is invalid');
             }
         }
@@ -118,6 +153,7 @@ class LiqPayController extends Controller
             'message' => 'Problem with payment',
         ];
     }
+
     public function addToSheet($userId, $description, $amount, $createdAd)
     {
         $user = User::find($userId);

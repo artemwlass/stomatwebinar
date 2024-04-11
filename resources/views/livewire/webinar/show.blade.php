@@ -36,6 +36,7 @@
                         <video style="width: 100%;"  oncontextmenu="return false;"
                                id="my-video"
                                class="video-js"
+                               muted="muted"
                                controls
                                preload="auto"
                                height="700"
@@ -167,6 +168,18 @@
         {{--}--}}
 
         // JSON-кодирование переменной daysRemaining
+        function getDayWord(days) {
+            if (days >= 5 && days <= 20) {
+                return 'днів';
+            } else if (days % 10 === 1) {
+                return 'день';
+            } else if (days % 10 >= 2 && days % 10 <= 4) {
+                return 'дні';
+            } else {
+                return 'днів';
+            }
+        }
+
         var daysRemaining = {!! json_encode($daysRemaining) !!};
         var timerElement = document.getElementById('timer');
         if (!timerElement) {
@@ -176,7 +189,8 @@
                 timerElement.textContent = 'Бессрочно';
             } else if (daysRemaining >= 1) {
                 daysRemaining = isNaN(parseInt(daysRemaining)) ? daysRemaining : parseInt(daysRemaining);
-                timerElement.textContent = daysRemaining + (daysRemaining === 1 ? ' день' : ' дні');
+                var dayWord = getDayWord(daysRemaining); // Определение правильного склонения
+                timerElement.textContent = daysRemaining + ' ' + dayWord; // Использование функции для определения склонения
             } else {
                 function updateTimer() {
                     let now = new Date();
@@ -202,6 +216,7 @@
                 let intervalId = setInterval(updateTimer, 1000);
             }
         }
+
     </script>
 
 

@@ -50,6 +50,20 @@ class WebinarResource extends Resource
                                 Forms\Components\FileUpload::make('seo.og_image')->label('Og:Image')->required(
                                 )->columnSpanFull()->directory('seo')
                             ])->columns(2),
+
+                        Forms\Components\Section::make('Серия вебинаров')
+                            ->schema([
+                                Forms\Components\Toggle::make('is_series_webinars')
+                                    ->label('Серия вебинаров')
+                                    ->helperText('Является ли это серией вибанов?')
+                                    ->default(false),
+                                Forms\Components\Select::make('seriesWebinars')
+                                    ->label('Выберите вебинары для серии')
+                                    ->multiple()
+                                    ->preload()
+                                    ->options(\App\Models\Webinar::where('is_active', true)->pluck('title', 'id'))
+                                    ->relationship('seriesWebinars', 'title'),
+                            ]),
                     ])
                     ->columnSpan(['lg' => 2]),
 
@@ -61,7 +75,8 @@ class WebinarResource extends Resource
                                     ->label('Активность')
                                     ->helperText('Выберите, если хотите отображать на сайте')
                                     ->default(false),
-                                Forms\Components\TextInput::make('order')->label('Порядок сортировки')->integer()->required()
+                                Forms\Components\TextInput::make('order')->label('Порядок сортировки')->integer()->required(),
+
 
                             ]),
 
