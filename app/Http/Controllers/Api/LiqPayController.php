@@ -93,6 +93,12 @@ class LiqPayController extends Controller
                                 }
                             }
                         }
+
+                        try {
+                            event(new SendOrderEmail($order));
+                        } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                            Log::error("Ошибка отправки почты: " . $e->getMessage());
+                        }
                     } else {
                         $groupId = $value['group_id'];
                         $userId = $value['user_id'];
