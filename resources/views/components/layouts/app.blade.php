@@ -143,7 +143,7 @@
 
                 @auth
                     <div class="dropdown">
-                        <a class="header__account" href="#" id="dropdownMenuLink">
+                        <a class="header__account" href="{{route('account')}}" id="dropdownMenuLink">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="29" viewBox="0 0 28 29"
                                  fill="none">
                                 <g clip-path="url(#clip0_11_7077)">
