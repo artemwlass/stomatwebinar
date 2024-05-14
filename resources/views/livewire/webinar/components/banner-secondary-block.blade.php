@@ -10,7 +10,7 @@
                         {{$webinar['lead']}}
                     </h6>
                     <h4>
-                        {{$webinar['title']}}
+                        {!! $webinar['title'] !!}
                     </h4>
 
                     <ul>

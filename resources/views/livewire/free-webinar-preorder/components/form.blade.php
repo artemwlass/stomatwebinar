@@ -2,6 +2,9 @@
     @if($webinar['form'] == true)
     <div class="container" style="padding-bottom: 40px">
         <form class="form">
+            <div style="text-align: center; color: black">
+                <h1>Реєстрація на вебінар</h1>
+            </div>
             <div class="mb-3">
                 <input type="text"  placeholder="Ваше імя" id="name" name="name" class="form-control control">
             </div>
@@ -28,7 +31,7 @@
                 </label>
             </div>
 
-            <button type="submit" class="btn btn-success">Увiйти</button>
+            <button type="submit" class="btn btn-success">Зареєструватися</button>
         </form>
     </div>
     @endif
@@ -91,7 +94,7 @@
                 name: form.querySelector('#name').value,
                 phone: form.querySelector('#phone').value,
                 email: form.querySelector('#email').value,
-                text: form.querySelector('#city').value,
+                city: form.querySelector('#city').value,
                 endodontics: form.querySelector('input[name="flexRadioDefault"]:checked').value
             };
 

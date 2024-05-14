@@ -32,7 +32,7 @@
 
                     <div class="webinar-banner__bottom desktop">
                         <p>
-                            {{$webinar['price']}}₴
+                            {{$webinar['price']}}
                         </p>
 
                     </div>

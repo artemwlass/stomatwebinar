@@ -36,9 +36,9 @@
                         <video style="width: 100%;"  oncontextmenu="return false;"
                                id="my-video"
                                class="video-js"
-                               muted="muted"
+                               playsinline
                                controls
-                               preload="auto"
+                               muted
                                height="700"
                                data-setup="{}"
                         >
@@ -143,7 +143,11 @@
             e.preventDefault();
         });
 
+
         var player = videojs('my-video');
+        player.ready(function() {
+            console.log('Player is definitely ready');
+        });
 
         if (!player) {
             console.error("Ошибка: не удалось найти видеоплеер.");
