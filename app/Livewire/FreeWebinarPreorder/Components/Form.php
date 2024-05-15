@@ -2,7 +2,9 @@
 
 namespace App\Livewire\FreeWebinarPreorder\Components;
 
+use App\Mail\MessagePreorderWebinarFree;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Revolution\Google\Sheets\Facades\Sheets;
@@ -39,7 +41,11 @@ class Form extends Component
             'city' => 'required|string',
         ]);
 
-        $this->addToSheet();
+//        $this->addToSheet();
+
+        $this->dispatch('notify', title: 'Дякуємо за реєстрацію! Лист на трансляцію надійде за 1 день початку вебінару.');
+
+        Mail::to($this->email)->send(new MessagePreorderWebinarFree());
     }
 
     public function addToSheet()

@@ -453,7 +453,24 @@
 <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 <!-- Подключение скрипта плагина водяного знака -->
 <script src="https://cdn.jsdelivr.net/npm/videojs-awesome-watermark@0.0.12/dist/videojs-awesome-watermark.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    window.addEventListener('notify', event => {
+        Swal.fire({
+            // toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000,
+            icon: 'success',
+            text: event.detail.title,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+    });
+</script>
 
 
 </body>
