@@ -41,7 +41,7 @@ class Form extends Component
             'city' => 'required|string',
         ]);
 
-//        $this->addToSheet();
+        $this->addToSheet();
 
         $this->dispatch('notify', title: 'Дякуємо за реєстрацію! Лист на трансляцію надійде за 1 день початку вебінару.');
 
