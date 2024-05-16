@@ -43,19 +43,19 @@
 
                 </div>
 
-                <div class="webinar-banner__bottom mobile">
-                    <p>
-                        {{$webinar['price']}}₴
-                    </p>
-                    <livewire:components.button-add-cart
-                            :webinar_id="$webinar_id"
-                            :webinar_price="$webinar['price']"
-                            :webinar_title="$webinar['title']"
-                            :webinar_date="$webinar['date']"
-                            :webinar_time="$webinar['time']"
+{{--                <div class="webinar-banner__bottom mobile">--}}
+{{--                    <p>--}}
+{{--                        {{$webinar['price']}}₴--}}
+{{--                    </p>--}}
+{{--                    <livewire:components.button-add-cart--}}
+{{--                            :webinar_id="$webinar_id"--}}
+{{--                            :webinar_price="$webinar['price']"--}}
+{{--                            :webinar_title="$webinar['title']"--}}
+{{--                            :webinar_date="$webinar['date']"--}}
+{{--                            :webinar_time="$webinar['time']"--}}
 
-                    />
-                </div>
+{{--                    />--}}
+{{--                </div>--}}
 
             </div>
 
