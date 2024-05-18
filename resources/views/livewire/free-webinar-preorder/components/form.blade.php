@@ -9,7 +9,7 @@
                 <input type="text"  placeholder="Ваше імя" id="name" name="name" class="form-control control">
             </div>
             <div class="mb-3">
-                <input type="text" placeholder="Ваше імя" id="phone" name="phone" class="form-control control">
+                <input placeholder="Ваш телефон" type="tel" class="form-control control" id="phone" name="phone" required>
             </div>
             <div class="mb-3">
                 <input type="email" placeholder="Ваша пошта" id="email" name="email" class="form-control control">
