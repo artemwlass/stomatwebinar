@@ -71,7 +71,7 @@ window.initPhoneMasks = function initPhoneMasks() {
 
         // Устанавливаем значение и маску при загрузке страницы
         if (iti.getSelectedCountryData().iso2 === "ua") {
-            $(input).inputmask({ mask: "+38(0##)###-##-##", showMaskOnHover: false });
+            $(input).inputmask({ mask: "+38(099)999-99-99", showMaskOnHover: false });
         } else {
             input.value = '+' + iti.getSelectedCountryData().dialCode;
             $(input).inputmask({ mask: "+999999999999", showMaskOnHover: false });
