@@ -40,7 +40,6 @@
                                controls
                                muted
                                height="700"
-                               data-setup="{}"
                         >
                             <source src="{{asset('storage/' . $webinar->video_view_page)}}" type="video/mp4" />
 
