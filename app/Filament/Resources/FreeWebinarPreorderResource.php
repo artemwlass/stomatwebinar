@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\FreeWebinarPreorderResource\Pages;
 use App\Filament\Resources\FreeWebinarPreorderResource\RelationManagers;
 use App\Models\FreeWebinarPreorder;
+use App\Models\Webinar;
 use Filament\Forms;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;

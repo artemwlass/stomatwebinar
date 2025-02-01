@@ -155,20 +155,10 @@
                 elementId: "unique_id",
                 watermarkText: "{{\Illuminate\Support\Facades\Auth::user()->email}}",
                 changeDuration: 1000000,
-                cssText: "display: inline-block; color: grey; background-color: transparent; font-size: 1rem; z-index: 9999; position: absolute; @media only screen and (max-width: 992px){font-size: 0.8rem;}"
+                cssText: "position: absolute; top: 500px; left: 10px; color: grey; background-color: transparent; font-size: 1rem; z-index: 9999;"
             });
         }
 
-        {{--player.awesomeWatermark({--}}
-        {{--        type: 'text',--}}
-        {{--        text: '{{\Illuminate\Support\Facades\Auth::user()->email}}', // Текст водяного знака--}}
-        {{--        fontColor: 'white', // Цвет шрифта--}}
-        {{--        fontFamily: 'Arial', // Шрифт--}}
-        {{--        fontSize: '1rem', // Размер шрифта--}}
-        {{--        fontSizeUnit: 'pixels', // Единица измерения размера шрифта--}}
-        {{--        position: 'center', // Позиция водяного знака--}}
-        {{--    });--}}
-        {{--}--}}
 
         // JSON-кодирование переменной daysRemaining
         function getDayWord(days) {

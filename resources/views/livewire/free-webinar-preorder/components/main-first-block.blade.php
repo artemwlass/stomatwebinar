@@ -19,7 +19,7 @@
                     </div>
 
                     <h1>
-                        {{$webinar['title']}}
+                        {!! $webinar['title'] !!}
                     </h1>
 
                     <ul>
