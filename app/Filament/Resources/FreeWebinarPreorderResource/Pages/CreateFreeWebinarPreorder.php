@@ -98,6 +98,7 @@ class CreateFreeWebinarPreorder extends CreateRecord
             if ($value['type'] == 11) {
                 $filteredItem['type'] = $value['type'];
                 $filteredItem['form'] = $value['form'];
+                $filteredItem['form_question'] = $value['form_question'];
                 $filteredItem['form_id'] = $value['form_id'];
             }
         }

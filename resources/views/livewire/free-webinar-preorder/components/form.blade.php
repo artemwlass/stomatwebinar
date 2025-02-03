@@ -17,7 +17,7 @@
             <div class="mb-3">
                 <input type="text" placeholder="Ваше місто" id="city" name="city" class="form-control control">
             </div>
-            <p style="color: black">Чи займаєтеся ендодонтією?</p>
+            <p style="color: black">{{$webinar['form_question']}}</p>
             <div class="form-check">
                 <input class="form-check-input" value="yes" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
                 <label class="form-check-label"  style="color: black" for="flexRadioDefault1">

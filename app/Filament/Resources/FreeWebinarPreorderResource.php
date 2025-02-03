@@ -181,6 +181,7 @@ class FreeWebinarPreorderResource extends Resource
                                                 Forms\Components\Section::make('Форма')
                                                     ->schema([
                                                         Forms\Components\TextInput::make('form_id')->required()->label('ID таблицы эксель (Не забудьте пригласить робота в таблицу)'),
+                                                        Forms\Components\TextInput::make('form_question')->label('Вопрос')->required(),
                                                         Forms\Components\Toggle::make('form')->default(true)->label('Форма')
                                                     ])->visible(fn(Forms\Get $get) => ($get('type') == '11')),
 
