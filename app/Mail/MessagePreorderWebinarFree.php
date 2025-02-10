@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\FreeWebinarPreorder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -19,17 +20,38 @@ class MessagePreorderWebinarFree extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($webinar)
+    public function __construct($webinar_id)
     {
-        $this->webinar = $webinar;
+        $this->webinar = FreeWebinarPreorder::find($webinar_id);
+
+        if (!$this->webinar) {
+            throw new \Exception('Вебинар не найден');
+        }
+
         $rawText = \App\Models\MessagePreorderWebinarFree::first()->text;
+
+
+        // Переменные по умолчанию
+        $date = "не указано";
+        $time = "не указано";
+
+        // Ищем блок с type == 0
+        foreach ($this->webinar->content as $item) {
+            if (isset($item['type']) && $item['type'] == "0") {
+                $date = $item['date'] ?? "не указано";
+                $time = $item['time'] ?? "не указано";
+                break; // Выходим из цикла после нахождения нужного элемента
+            }
+        }
 
         // Заменяем плейсхолдеры на реальные значения
         $this->text = strtr($rawText, [
-            '[NAME]' => $webinar->name,
-            '[DATE]' => $webinar->content['date'] . ' о ' . $webinar->content['time']
+            '[NAME]' => $this->webinar->name,
+            '[DATE]' => "$date о $time"
         ]);
+
     }
+
 
     /**
      * Get the message envelope.
