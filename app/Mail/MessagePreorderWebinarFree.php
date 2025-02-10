@@ -46,7 +46,7 @@ class MessagePreorderWebinarFree extends Mailable
 
         // Заменяем плейсхолдеры на реальные значения
         $this->text = strtr($rawText, [
-            '[NAME]' => $this->webinar->name,
+            '[NAME]' => $this->webinar->title,
             '[DATE]' => "$date о $time"
         ]);
 
