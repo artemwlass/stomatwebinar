@@ -14,13 +14,21 @@ class MessagePreorderWebinarFree extends Mailable
     use Queueable, SerializesModels;
 
     public $text;
+    public $webinar;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($webinar)
     {
-        $this->text = \App\Models\MessagePreorderWebinarFree::first()->text;
+        $this->webinar = $webinar;
+        $rawText = \App\Models\MessagePreorderWebinarFree::first()->text;
+
+        // Заменяем плейсхолдеры на реальные значения
+        $this->text = strtr($rawText, [
+            '[NAME]' => $webinar->name,
+            '[DATE]' => $webinar->content['date'] . ' о ' . $webinar->content['time']
+        ]);
     }
 
     /**
