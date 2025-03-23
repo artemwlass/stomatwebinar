@@ -45,10 +45,8 @@ class HomePageResource extends Resource
                                         )->rows(5)->required(),
                                         Forms\Components\TextInput::make('seo.keywords')->label('Keywords')->required(),
                                         Forms\Components\TextInput::make('seo.og_type')->label('Og:Type')->required(),
-                                        Forms\Components\TextInput::make('seo.og_url')->label('Og:Url')->required(
-                                        )->columnSpanFull(),
-                                        Forms\Components\FileUpload::make('seo.og_image')->label('Og:Image')->required(
-                                        )->columnSpanFull()->directory('seo')
+                                        Forms\Components\TextInput::make('seo.og_url')->label('Og:Url')->required()->columnSpanFull(),
+                                        Forms\Components\FileUpload::make('seo.og_image')->label('Og:Image')->required()->columnSpanFull()->directory('seo')
                                     ])->columns(2),
                             ]),
                         Tabs\Tab::make('Главный блок')
@@ -62,20 +60,16 @@ class HomePageResource extends Resource
                                         Forms\Components\TextInput::make('block_hero.button_title')->label(
                                             'Текст на кнопке'
                                         )->required(),
-                                        Forms\Components\TextInput::make('block_hero.button_link')->label('Ссылка')->required(
-                                        ),
-                                        Forms\Components\TextInput::make('block_hero.card_title')->label('Заголовок на 1 карточке')->required(
-                                        ),
+                                        Forms\Components\TextInput::make('block_hero.button_link')->label('Ссылка')->required(),
+                                        Forms\Components\TextInput::make('block_hero.card_title')->label('Заголовок на 1 карточке')->required(),
                                         Forms\Components\RichEditor::make('block_hero.card_description')->label(
                                             'Описание на 1 карточке'
                                         )->required(),
-                                        Forms\Components\TextInput::make('block_hero.card_title2')->label('Заголовок на 2 карточке')->required(
-                                        ),
+                                        Forms\Components\TextInput::make('block_hero.card_title2')->label('Заголовок на 2 карточке')->required(),
                                         Forms\Components\RichEditor::make('block_hero.card_description2')->label(
                                             'Описание на 2 карточке'
                                         )->required(),
-                                        Forms\Components\RichEditor::make('block_hero.right_text')->label('Текст справа')->required(
-                                        ),
+                                        Forms\Components\RichEditor::make('block_hero.right_text')->label('Текст справа')->required(),
                                         Forms\Components\FileUpload::make('block_hero.image')->required()->label('Изображение')
                                     ])->columns(2)
                             ]),
@@ -96,12 +90,12 @@ class HomePageResource extends Resource
                             ])->columns(2),
 
                         Tabs\Tab::make('О нас')
-                        ->schema([
-                            Forms\Components\Toggle::make('block_about.is_active')->default(true)->label('Активность')->columnSpanFull(),
-                            Forms\Components\RichEditor::make('block_about.text')->label('')->required()->columnSpanFull(),
-                            Forms\Components\FileUpload::make('block_about.image_left')->label('Большое изображение')->required(),
-                            Forms\Components\FileUpload::make('block_about.image_small')->label('Маленькое изображение')->required(),
-                        ])->columns(2),
+                            ->schema([
+                                Forms\Components\Toggle::make('block_about.is_active')->default(true)->label('Активность')->columnSpanFull(),
+                                Forms\Components\RichEditor::make('block_about.text')->label('')->required()->columnSpanFull(),
+                                Forms\Components\FileUpload::make('block_about.image_left')->label('Большое изображение')->required(),
+                                Forms\Components\FileUpload::make('block_about.image_small')->label('Маленькое изображение')->required(),
+                            ])->columns(2),
 
                         Tabs\Tab::make('Расписание вебинаров')
                             ->schema([
@@ -118,13 +112,21 @@ class HomePageResource extends Resource
                         Tabs\Tab::make('Расписание лекций')
                             ->schema([
                                 Forms\Components\Toggle::make('schedule_lesson.is_active')->default(true)->label('Активность')->columnSpanFull(),
-                                Repeater::make('schedule_lesson.data')
-                                    ->disableLabel()
-                                    ->schema([
-                                        Forms\Components\TextInput::make('city')->label('Город')->required(),
-                                        Forms\Components\TextInput::make('text')->label('Название')->required(),
-                                        Forms\Components\TextInput::make('data')->label('Дата')->required(),
-                                    ])->columns(2)->collapsible()
+
+                                Forms\Components\FileUpload::make('schedule_lesson.mob')
+                                    ->label('Моб версия')
+                                    ->required(),
+                                Forms\Components\FileUpload::make('schedule_lesson.desktop')
+                                    ->label('Десктоп версия')
+                                    ->required(),
+
+//                                Repeater::make('schedule_lesson.data')
+//                                    ->disableLabel()
+//                                    ->schema([
+//                                        Forms\Components\TextInput::make('city')->label('Город')->required(),
+//                                        Forms\Components\TextInput::make('text')->label('Название')->required(),
+//                                        Forms\Components\TextInput::make('data')->label('Дата')->required(),
+//                                    ])->columns(2)->collapsible()
                             ]),
 
                         Tabs\Tab::make('Баннер с коллекцией вебинаров')
