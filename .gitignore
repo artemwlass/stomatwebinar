@@ -18,3 +18,4 @@ yarn-error.log
 /.idea
 /.vscode
 /storage/stomatwebinar-287a648f2396.json
+composer.lock

@@ -9,7 +9,6 @@
         <livewire:home.components.cta-banner-block :home="$home->second_banner"/>
         <livewire:home.components.service-free-block />
         <livewire:home.components.faq-block />
-
         <livewire:components.support />
 
     </main>
