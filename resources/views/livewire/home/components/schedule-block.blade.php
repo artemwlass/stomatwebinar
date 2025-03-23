@@ -1,7 +1,14 @@
 <div>
     @if($home['is_active'] == true)
-        {{$home['mob']}}
-        {{$home['desktop']}}
+        <section class="schedule">
+            <div class="container schedule__container desktop">
+                <img src="{{asset('storage/' . $home['desktop'])}}">
+            </div>
+
+            <div class="container schedule__container mobile">
+                <img src="{{asset('storage/' . $home['mob'])}}">
+            </div>
+        </section>
 {{--        <section class="schedule">--}}
 {{--            <div class="container schedule__container">--}}
 {{--                <p class="section__link">--}}
