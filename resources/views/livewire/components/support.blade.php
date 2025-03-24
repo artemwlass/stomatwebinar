@@ -9,9 +9,11 @@
                 </div>
 
                 <div class="contacts">
-                    <a href="tel:{{$support->phone}}">
+                    {{-- <a href="tel:{{$support->phone}}">
                         {{$support->phone}}
-                    </a>
+                    </a> --}}
+
+                    <a>&#x200b;</a>
 
                     <a href="mailto:{{$support->email}}">
                         {{$support->email}}
@@ -60,9 +62,11 @@
                             </div>
 
                             <div class="contacts">
-                                <a href="tel:{{$support->phone}}">
+                                {{-- <a href="tel:{{$support->phone}}">
                                     {{$support->phone}}
-                                </a>
+                                </a> --}}
+
+                                <a>&#x200b;</a>
 
                                 <a href="mailto:{{$support->email}}">
                                     {{$support->email}}

@@ -230,9 +230,12 @@
             <div class="footer__top">
 
                 <div class="footer__text">
-                    <a href="call:{{$site->footer_phone}}">
+                    {{-- <a href="call:{{$site->footer_phone}}">
                         {{$site->footer_phone}}
-                    </a>
+                    </a> --}}
+
+                    <a>&#x200b;</a>
+
                     <p data-bs-target="#callBackModal" data-bs-toggle="modal">
                         Зворотний дзвінок
                     </p>
