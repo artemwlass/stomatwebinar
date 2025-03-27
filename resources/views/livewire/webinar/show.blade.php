@@ -155,7 +155,7 @@
                 elementId: "unique_id",
                 watermarkText: "{{\Illuminate\Support\Facades\Auth::user()->email}}",
                 changeDuration: 1000000,
-                cssText: "position: absolute; top: 20%; left: 40%; color: grey; background-color: transparent; font-size: 1rem; z-index: 9999;"
+                cssText: "display: inline-block; color: grey; background-color: transparent; font-size: 1rem; z-index: 9999; position: absolute; top: 20%; @media only screen and (max-width: 992px){font-size: 0.8rem;}"
             });
         }
 

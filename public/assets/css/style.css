@@ -2326,6 +2326,7 @@ section.animated {
   flex-direction: column;
   justify-content: space-around;
   gap: 120px;
+  z-index: 10;
 }
 
 @media (max-width: 1800px) {
@@ -2619,56 +2620,50 @@ section.animated {
 
 .hero__img {
   position: absolute;
-  right: 50px;
+  right: 0;
+  width: 100%;
   bottom: 0;
   transition: 0.6s ease;
 }
 
-@media (max-width: 1439px) {
-  .hero__img {
-    right: -175px;
-  }
+.hero__img .img-fluid {
+    display: block;
+    margin-left: auto;
+    width: 65%;
+    z-index: 5;
 }
 
-@media (max-width: 1380px) {
-  .hero__img {
-    right: -125px;
-  }
+@media (max-width: 1800px) {
+    .hero__img .img-fluid {
+        width: 62%;
+    }
 }
+
+@media (max-width: 1439px) {
+    .hero__img .img-fluid {
+        width: 60%;
+    }
+  }
 
 @media (max-width: 767px) {
-  .hero__img {
-    right: -300px;
-  }
-}
-
-@media (max-width: 676px) {
-  .hero__img {
-    right: -370px;
-  }
-}
-
-@media (max-width: 600px) {
-  .hero__img {
-    right: -410px;
-  }
+    .hero__img .img-fluid {
+        width: 56%;
+    }
 }
 
 @media (max-width: 567px) {
   .hero__img {
     position: relative;
-    right: -50px;
+  }
+
+  .hero__img .img-fluid {
+    width: 100%;
+    margin-left: unset;
   }
 }
 
 .hero__img>img {
   transition: 0.6s ease;
-}
-
-@media (max-width: 1800px) {
-  .hero__img>img {
-    width: 80%;
-  }
 }
 
 @media (max-width: 1380px) {
@@ -2718,30 +2713,17 @@ section.animated {
   display: flex;
   gap: 13px;
   bottom: 48px;
-  right: 0;
-}
-
-@media (max-width: 1439px) {
-  .hero__img-badge {
-    right: 200px;
-  }
+  right: 50px;
 }
 
 @media (max-width: 1380px) {
   .hero__img-badge {
-    right: 160px;
     max-width: 250px;
     width: max-content;
   }
 
   .hero__img-badge .badge__text>p {
     margin-bottom: 0;
-  }
-}
-
-@media (max-width: 991px) {
-  .hero__img-badge {
-    right: 425px;
   }
 }
 
@@ -3247,12 +3229,11 @@ section.animated {
 
 .highlight__blocks>.hero__card>picture>p {
   color: #000;
-  font-family: Montserrat;
+  font-family: Geologica;
   font-size: 32px;
   font-style: normal;
-  font-weight: 275;
-  line-height: 115%;
-  letter-spacing: 0%;
+  font-weight: 200;
+  line-height: 115.5%;
   max-width: 340px;
   /* 36.96px */
 }
@@ -4322,6 +4303,27 @@ section.animated {
 
 .schedule__container {
   margin-bottom: 150px;
+}
+
+.schedule__container img {
+    width: 100%;
+    border-radius: 50px;
+}
+
+@media (max-width: 991px) {
+    .schedule__container.desktop {
+      display: none;
+    }
+}
+
+.schedule__container.mobile {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .schedule__container.mobile {
+        display: flex;
+    }
 }
 
 @media (max-width: 991px) {
