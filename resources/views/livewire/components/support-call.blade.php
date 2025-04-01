@@ -12,7 +12,7 @@
                     <form class="callback-form">
                         <div class="mb-4">
                             <!-- <label for="name" class="form-label">Ваше имя</label> -->
-                            <input placeholder="Ваше імя" type="text" class="form-control" id="name" name="name" required>
+                            <input placeholder="Ваше ім'я" type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-4">
                             <!-- <label for="phone" class="form-label">Номер телефона</label> -->

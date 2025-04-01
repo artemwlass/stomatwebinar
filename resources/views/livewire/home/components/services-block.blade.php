@@ -5,7 +5,7 @@
         <div class="container services__container">
 
             <p class="section__link">
-                Вебінари в записі
+                Вебінари, доступні в записі
             </p>
 
             <div class="row services__row">

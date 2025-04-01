@@ -9,7 +9,7 @@
 
             <div class="accordion">
 
-
+@dd($webinar)
                 @foreach($webinar['question_answer'] as $item)
                 <div class="accordion__item">
                     <button class="accordion__btn">

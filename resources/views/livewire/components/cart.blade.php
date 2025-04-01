@@ -52,7 +52,7 @@
                     <form class="order-form">
                         <div class="mb-4">
                             <!-- Input for customer name -->
-                            <input placeholder="Ваше імя" type="text" class="form-control" id="name" name="name" required>
+                            <input placeholder="Ваше ім'я" type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-4">
                             <!-- Input for customer name -->
@@ -100,7 +100,7 @@
                         <form class="order-form">
                             <div class="mb-4">
                                 <!-- Input for customer name -->
-                                <input placeholder="Ваше імя" type="text" class="form-control" id="name" name="name" required>
+                                <input placeholder="Ваше ім'я" type="text" class="form-control" id="name" name="name" required>
                             </div>
                             <div class="mb-4">
                                 <!-- Input for customer name -->
