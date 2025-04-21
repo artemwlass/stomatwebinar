@@ -17,9 +17,9 @@
                             <img class="img-fluid" src="{{asset('storage/' . $webinar->image)}}" alt="">
                             <a href="{{route('webinar.show', $webinar->slug)}}" class="card__info">
                                 <div class="card__title">
-{{--                                    <h5>--}}
-{{--                                        {{$webinar->title}}--}}
-{{--                                    </h5>--}}
+                                    <h5>
+                                        {{$webinar->title}}
+                                    </h5>
                                 </div>
                                 <div class="card__footer">
                                     <div class="card__arrow">
