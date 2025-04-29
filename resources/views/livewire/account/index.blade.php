@@ -50,11 +50,11 @@
                                     <img class="img-fluid" src="{{asset('storage/' . $webinar->image)}}" alt="">
 
                                     <a href="{{route('webinar.video.show', $webinar->slug)}}" class="card__info">
-{{--                                        <div class="card__title" href="#">--}}
-{{--                                            <h5>--}}
-{{--                                                {{$webinar->title}}--}}
-{{--                                            </h5>--}}
-{{--                                        </div>--}}
+                                        <div class="card__title" href="#">
+                                            <h5>
+                                                {{$webinar->title}}
+                                            </h5>
+                                        </div>
                                         <div class="card__footer">
                                             <div class="card__arrow" href="#">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44"
@@ -93,11 +93,11 @@
                                 <div class="services__card services__card-blocked">
                                     <img class="img-fluid" src="{{asset('storage/' . $webinar->image)}}" alt="">
                                     <a href="{{route('webinar.show', $webinar->slug)}}" class="card__info">
-{{--                                        <div class="card__title">--}}
-{{--                                            <h5>--}}
-{{--                                                {{$webinar->title}}--}}
-{{--                                            </h5>--}}
-{{--                                        </div>--}}
+                                        <div class="card__title">
+                                            <h5>
+                                                {{$webinar->title}}
+                                            </h5>
+                                        </div>
                                         <div class="card__footer">
                                             <div class="card__arrow">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">

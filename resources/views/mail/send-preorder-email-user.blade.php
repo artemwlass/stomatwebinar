@@ -1,4 +1,6 @@
 Шановний(а) {{$user->name}},<br><br>
+Для отримання балів потрібно пройти тестування <strong>27 квітня</strong>, детальна інформація в <a href="https://t.me/+3PUxcCqrBiQyOThi" target="_blank" rel="noopener noreferrer">телеграм каналі</a>,
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSfpMn732gqOYB1OxWlwZojCU_SYEJ59slA150ns4TgD7Ll_cQ/viewform?usp=preview" target="_blank" rel="noopener noreferrer">посилання на тестування</a>.<br>
 
 Дякуємо за реєстрацію на вебінар "{{$webinar->title}}".<br>
 {{$webinar->date_preorder}} о {{$webinar->time_preorder}}.<br><br>
