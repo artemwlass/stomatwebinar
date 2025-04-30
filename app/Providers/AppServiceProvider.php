@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\HeaderAndFooter;
+use App\Models\Webinar;
+use App\Observers\WebinarObserver;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,5 +28,8 @@ class AppServiceProvider extends ServiceProvider
                 'site' => HeaderAndFooter::first(),
             ]);
         });
+
+        Webinar::observe(WebinarObserver::class);
+
     }
 }
