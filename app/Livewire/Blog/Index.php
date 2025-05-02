@@ -29,7 +29,7 @@ class Index extends Component
         $this->title = $blog->title;
         $this->description = $blog->description;
 
-        $posts = \App\Models\Post::select('title', 'slug', 'image')->get();
+        $posts = \App\Models\Post::select('title', 'slug', 'image')->where('is_active', true)->get();
 
         return view('livewire.blog.index', compact('posts'));
     }

@@ -57,6 +57,8 @@ class PostResource extends Resource
                         ->label('URL')
                         ->required()
                         ->unique(Post::class, 'slug', ignoreRecord: true),
+                    Forms\Components\Toggle::make('is_active')
+                    ->label('Активность')
                 ])->columns(2),
 
                 Forms\Components\Section::make('Текст')

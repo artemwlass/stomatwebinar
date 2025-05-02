@@ -63,7 +63,7 @@
                             </a>
 
                             <a href="{{route('post', $post->slug)}}" class="section__link-secondary">
-                                Подробнее
+                                Детальніше
                             </a>
 
                         </div>
