@@ -247,6 +247,13 @@ class WebinarResource extends Resource
                                 Forms\Components\RichEditor::make('description_view_page'),
                                 Forms\Components\FileUpload::make('video_view_page'),
                             ]),
+                        Tabs\Tab::make('Сообщения')
+                            ->schema([
+                                Forms\Components\RichEditor::make('message_order')
+                                ->label('Сообщение покупки'),
+                                Forms\Components\RichEditor::make('message_preorder')
+                                    ->label('Сообщение предзаписи'),
+                            ]),
                     ])->columnSpanFull(),
 
             ])

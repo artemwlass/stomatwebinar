@@ -1,13 +1,5 @@
-Шановний(а) {{$user->name}},<br><br>
-
-Дякуємо за замовлення на сайті stomatwebinar.com! Ваше замовлення було успішно оформлено. Важливо: запис вебінару доступний 30 днів з моменту оплати.<br><br>
-
-Ім'я: {{$user->name}}<br>
-Замовлення: {{$event->order->description}}<br><br>
-
-Дякуємо за вибір нашого сервісу! Сподіваємось, що наші вебінари принесуть Вам користь.<br><br>
-
-З повагою,<br>
-Команда stomatwebinar.com<br>
-stomatwebinar30@gmail.com<br>
-+380 99 092 64 45
+@if (!$webinar->is_preorder && !empty($webinar->message_order))
+{!! $webinar->message_order !!}
+@else
+{!! $defaultMessage !!}
+@endif

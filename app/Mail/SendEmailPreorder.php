@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\DefaultMessageWebinar;
 use App\Models\User;
 use App\Models\Webinar;
 use Illuminate\Bus\Queueable;
@@ -18,6 +19,7 @@ class SendEmailPreorder extends Mailable
     public $event;
     public $user;
     public $webinar;
+    public $defaultMessage;
     /**
      * Create a new message instance.
      */
@@ -26,7 +28,20 @@ class SendEmailPreorder extends Mailable
         $this->event = $event;
         $this->user = User::find($this->event->order->user_id);
         $this->webinar = Webinar::find($event->webinar->webinar_id);
+
+        $rawMessage = optional(DefaultMessageWebinar::first())->message ?? '';
+        $this->defaultMessage = $this->parseDefaultMessage($rawMessage);
     }
+
+    private function parseDefaultMessage($message)
+    {
+        return str_replace(
+            ['[NAME]', '[NAMEWEBINAR]', '[DATE]', '[TIME]'],
+            [$this->user->name, $this->webinar->title, $this->webinar->date_preorder, $this->webinar->time_preorder],
+            $message
+        );
+    }
+
 
     /**
      * Get the message envelope.
@@ -57,4 +72,5 @@ class SendEmailPreorder extends Mailable
     {
         return [];
     }
+
 }
