@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Models\DefaultMessageWebinarOrder;
 use App\Models\User;
+use App\Models\Webinar;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -17,15 +18,17 @@ class SendOrderEmailUser extends Mailable
 
     public $event;
     public $user;
+    public $webinar;
     public $defaultMessage;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($event)
+    public function __construct($event, $webinar)
     {
         $this->event = $event;
         $this->user = User::find($this->event->order->user_id);
+        $this->webinar = Webinar::find($webinar->webinar_id);
 
         $rawMessage = optional(DefaultMessageWebinarOrder::first())->message ?? '';
         $this->defaultMessage = $this->parseDefaultMessage($rawMessage);

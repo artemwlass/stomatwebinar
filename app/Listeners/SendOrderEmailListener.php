@@ -35,6 +35,7 @@ class SendOrderEmailListener
             }
         }
         $user = User::find($event->order->user_id);
-        Mail::to($user->email)->send(new SendOrderEmailUser($event));
+        Mail::to($user->email)->send(new SendOrderEmailUser($event, $event->webinar));
+
     }
 }

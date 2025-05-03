@@ -131,7 +131,7 @@ class LiqPayController extends Controller
                             }
                         } else {
                             try {
-                                event(new SendOrderEmail($order));
+                                event(new SendOrderEmail($order, $webinar));
                             } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
                                 Log::error("Ошибка отправки почты: " . $e->getMessage());
                             }

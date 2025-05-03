@@ -15,12 +15,14 @@ class SendOrderEmail
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $order;
+    public $webinar;
     /**
      * Create a new event instance.
      */
-    public function __construct($order)
+    public function __construct($order, $webinar)
     {
         $this->order = $order;
+        $this->webinar = $webinar;
     }
 
     /**
