@@ -288,7 +288,7 @@
                             <img src="{{ asset('assets/img/Телеграм.svg') }}" style="height: 57px; width: 58px;">
                         </a>
                         <a href="{{ $site->footer_instagram }}" target="_blank">
-                            <img src="{{ asset('assets/img/Вайбер.svg') }}" style="height: 57px; width: 58px;">
+                            <img src="{{ asset('assets/img/viber.svg') }}" style="height: 57px; width: 58px;">
                         </a>
 
                     </div>
