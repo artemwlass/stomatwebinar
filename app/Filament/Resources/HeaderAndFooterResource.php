@@ -40,10 +40,10 @@ class HeaderAndFooterResource extends Resource
 
                 Forms\Components\Section::make('Социальные сети')
                     ->schema([
-                        Forms\Components\TextInput::make('footer_facebook')->label('Facebook')->required(),
+                        Forms\Components\TextInput::make('footer_facebook')->label('WhatsApp')->required(),
                         Forms\Components\TextInput::make('footer_telegram')->label('Telegram')->required(),
-                        Forms\Components\TextInput::make('footer_instagram')->label('Instagram')->required(),
-                        Forms\Components\TextInput::make('footer_youtube')->label('Youtube')->required(),
+                        Forms\Components\TextInput::make('footer_instagram')->label('Viber')->required(),
+//                        Forms\Components\TextInput::make('footer_youtube')->label('Youtube')->required(),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Меню Footer')
