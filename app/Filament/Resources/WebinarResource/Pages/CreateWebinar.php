@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\WebinarResource\Pages;
 
 use App\Filament\Resources\WebinarResource;
+use App\Models\Group;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
@@ -109,5 +110,13 @@ class CreateWebinar extends CreateRecord
         $data['content'] = $filteredData;
 
         return $data;
+    }
+
+    public function afterCreate()
+    {
+        Group::create([
+            'webinar_id' => $this->record->id,
+            'name' => $this->record->title,
+        ]);
     }
 }

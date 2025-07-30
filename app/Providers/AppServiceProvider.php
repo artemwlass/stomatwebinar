@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
-        Webinar::observe(WebinarObserver::class);
+//        Webinar::observe(WebinarObserver::class);
 
     }
 }

@@ -63,7 +63,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Webinar::observe(WebinarObserver::class);
+//        Webinar::observe(WebinarObserver::class);
     }
 
     /**
