@@ -177,14 +177,37 @@ class FreeWebinarPreorderResource extends Resource
                                                     ->schema([
                                                         Forms\Components\TextInput::make('video')->required()->label('Ссылка на видео')
                                                     ])->visible(fn(Forms\Get $get) => ($get('type') == '10')),
-
                                                 Forms\Components\Section::make('Форма')
                                                     ->schema([
-                                                        Forms\Components\TextInput::make('form_id')->required()->label('ID таблицы эксель (Не забудьте пригласить робота в таблицу)'),
-                                                        Forms\Components\TextInput::make('form_question')->label('Вопрос')->required(),
-                                                        Forms\Components\Toggle::make('form')->default(true)->label('Форма')
-                                                    ])->visible(fn(Forms\Get $get) => ($get('type') == '11')),
+                                                        Forms\Components\TextInput::make('form_id')
+                                                            ->required()
+                                                            ->label('ID таблицы эксель (Не забудьте пригласить робота в таблицу)'),
 
+                                                        Forms\Components\Repeater::make('form')
+                                                            ->label('Вопросы')
+                                                            ->default([])
+                                                            ->schema([
+                                                                Forms\Components\TextInput::make('form_question')
+                                                                    ->label('Вопрос')
+                                                                    ->required()
+                                                                    ->columnSpanFull(),
+
+                                                                Forms\Components\Select::make('field_type')
+                                                                    ->label('Тип ответа')
+                                                                    ->options([
+                                                                        'text'   => 'Текстовое поле',
+                                                                        'select' => 'Список',
+                                                                    ])
+                                                                    ->default('text'),
+                                                            ])
+                                                            ->columns(2),
+
+
+                                                        Forms\Components\Toggle::make('form_enabled')
+                                                            ->default(true)
+                                                            ->label('Показывать форму'),
+                                                    ])
+                                                    ->visible(fn(Forms\Get $get) => ($get('type') == '11')),
                                             ])
                                     ])
                             ]),
