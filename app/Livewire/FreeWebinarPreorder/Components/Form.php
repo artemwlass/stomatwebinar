@@ -2,6 +2,7 @@
 
 namespace App\Livewire\FreeWebinarPreorder\Components;
 
+use App\Mail\MessagePreorderWebinarFree;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\On;
@@ -10,126 +11,113 @@ use Revolution\Google\Sheets\Facades\Sheets;
 
 class Form extends Component
 {
-    public $webinar;     // массив данных вебинара (содержит form_id и т.п.)
+    public $webinar;
     public $webinar_id;
 
     public $name;
     public $phone;
     public $email;
     public $city;
-    public $endo;        // для совместимости со старым одноточечным вопросом (Эндодонтия)
+    public $endo;
 
-    /**
-     * Слушаем отправку с фронта.
-     * Приходит payload вида: { formData: { name, phone, email, city, answers: [...], endodontics? } }
-     */
     #[On('formSubmittedPreorder')]
-    public function send($payload)
+    public function send($formData = []): void
     {
-        // поддержка двух форматов: {formData:{...}} и просто {...}
-        $formData = $payload['formData'] ?? $payload;
+        // Поддержка вызова как send({formData:{...}}) и как send({...})
+        $data = is_array($formData) && array_key_exists('formData', $formData)
+            ? (array) $formData['formData']
+            : (array) $formData;
 
-        $this->name  = (string)($formData['name']  ?? '');
-        $this->phone = (string)($formData['phone'] ?? '');
-        $this->email = (string)($formData['email'] ?? '');
-        $this->city  = (string)($formData['city']  ?? '');
+        // Базовые поля
+        $this->name  = (string)($data['name']  ?? '');
+        $this->phone = (string)($data['phone'] ?? '');
+        $this->email = (string)($data['email'] ?? '');
+        $this->city  = (string)($data['city']  ?? '');
 
-        // базовая валидация
+        // Совместимость со старым одиночным полем
+        if (array_key_exists('endodontics', $data)) {
+            $this->endo = $data['endodontics'] === 'yes'
+                ? 'Да'
+                : ($data['endodontics'] === 'no' ? 'Нет' : null);
+        } else {
+            $this->endo = null;
+        }
+
+        // Валидация (оставляем только то, что реально требуется)
         $this->validate([
             'name'  => 'required|string',
             'phone' => 'required|string',
-            'email' => 'nullable|string', // был required, но часто email опционален
+            'email' => 'nullable|string',
             'city'  => 'nullable|string',
         ]);
 
-        // --- Динамические ответы ---
-        $answers = is_array($formData['answers'] ?? null) ? $formData['answers'] : [];
-
-        // Сформируем ассоциативный массив: 'Текст вопроса' => 'Ответ'
+        // Преобразуем новые "рандомные" вопросы (если есть)
         $answersAssoc = [];
-        foreach ($answers as $idx => $row) {
-            if (!is_array($row)) {
-                continue;
+        if (!empty($data['answers']) && is_array($data['answers'])) {
+            foreach ($data['answers'] as $i => $row) {
+                if (!is_array($row)) continue;
+
+                $qText = trim((string)($row['question'] ?? 'Вопрос ' . ($i + 1)));
+                $type  = (string)($row['type'] ?? 'select');
+                $val   = $row['value'] ?? null;
+
+                // для select маппим yes/no → Да/Нет
+                if ($type === 'select') {
+                    $answersAssoc[$qText] = $val === 'yes' ? 'Да' : ($val === 'no' ? 'Нет' : (string)$val);
+                } else {
+                    $answersAssoc[$qText] = trim((string)$val);
+                }
             }
-            $question = trim((string)($row['question'] ?? ''));
-            $type     = (string)($row['type'] ?? 'select');
-            $raw      = $row['value'] ?? null;
 
-            // Значение в человекочитаемом виде
-            if ($type === 'select') {
-                // фронт шлёт yes/no → кладём Да/Нет
-                $value = $raw === 'yes' ? 'Да' : ($raw === 'no' ? 'Нет' : (string)$raw);
-            } else {
-                $value = trim((string)$raw);
-            }
-
-            // Ключ-колонка: текст вопроса или fallback
-            $key = $question !== '' ? $question : ('Вопрос ' . ($idx + 1));
-            $answersAssoc[$key] = $value;
-        }
-
-        // --- Совместимость со старым endodontics (если был один radio-вопрос)
-        $this->endo = null;
-        if (array_key_exists('endodontics', $formData)) {
-            $this->endo = $formData['endodontics'] === 'yes' ? 'Да' : 'Нет';
-        } else {
-            // Или если среди вопросов есть что-то про эндо — вынесем отдельно в колонку "Эндодонтия"
-            foreach ($answersAssoc as $q => $v) {
-                $qLower = mb_strtolower($q, 'UTF-8');
-                if (str_contains($qLower, 'эндодонт') || str_contains($qLower, 'ендодонт')) {
-                    $this->endo = (string)$v;
-                    break;
+            // Если старое поле не передали, но есть ровно один select — продублируем в $this->endo
+            if ($this->endo === null) {
+                $selects = array_filter($data['answers'], fn ($r) => is_array($r) && (($r['type'] ?? 'select') === 'select'));
+                if (count($selects) === 1) {
+                    $only = array_values($selects)[0] ?? null;
+                    if ($only) {
+                        $this->endo = ($only['value'] ?? null) === 'yes' ? 'Да'
+                            : ((($only['value'] ?? null) === 'no') ? 'Нет' : null);
+                    }
                 }
             }
         }
 
-        // Запись в Google Sheets (базовые + динамические)
+        // Запись в Google Sheets
         $this->addToSheet($answersAssoc);
 
-        // уведомление во фронт
-        $this->dispatch('notify', title: 'Дякуємо за реєстрацію! Лист на трансляцію надійде за 1 день до початку вебінару.');
+        // Нотификация
+        $this->dispatch('notify', title: 'Дякуємо за реєстрацію! Лист на трансляцію надійде за 1 день початку вебінару.');
 
-        // при необходимости — отправка письма
+        // Если понадобится — раскомментируй отправку письма
         // Mail::to($this->email)->send(new MessagePreorderWebinarFree($this->webinar_id));
     }
 
-    /**
-     * Добавляем строку в Google Sheet.
-     * $answersAssoc: ['Текст вопроса' => 'Ответ', ...]
-     */
-    public function addToSheet(array $answersAssoc = [])
+    public function addToSheet(array $extraAnswers = []): void
     {
-        // Базовые поля
+        // Базовые поля — оставляю как у тебя было (в т.ч. порядок/ключи)
         $data = [
-            'Имя'          => $this->name,
-            'Телефон'      => $this->phone,
-            'Email'        => $this->email,
-            'Город'        => $this->city,
-            'Дата и время' => Carbon::now()->format('Y-m-d H:i:s'),
+            "Имя"          => $this->name,
+            "Телефон"      => $this->email, // как в исходнике
+            "Email"        => $this->phone, // как в исходнике
+            "Город"        => $this->city,
+            "Эндодонтия"   => $this->endo,
+            "Дата и время" => Carbon::now()->format('Y-m-d H:i:s'),
         ];
 
-        // Если удалось выделить "Эндодонтия" — добавим отдельной колонкой (совместимость)
-        if ($this->endo !== null) {
-            $data['Эндодонтия'] = $this->endo;
+        // Добавляем ответы на динамические вопросы (ключ — текст вопроса)
+        foreach ($extraAnswers as $q => $answer) {
+            if ($q === '' || $answer === null) continue;
+            $data[$q] = $answer;
         }
 
-        // Динамические вопросы → отдельные колонки с именем по тексту вопроса
-        foreach ($answersAssoc as $question => $value) {
-            // если вдруг значение не строка — сериализуем
-            $data[$question] = is_scalar($value)
-                ? (string)$value
-                : json_encode($value, JSON_UNESCAPED_UNICODE);
-        }
+        // ID таблицы
+        $spreadsheetId = $this->webinar['form_id'] ?? null;
+        if (!$spreadsheetId) return;
 
-        // Важно: ваш Google Sheet должен иметь заголовки (первую строку) с такими названиями колонок.
-        // Если каких-то колонок нет — добавьте их в шапке таблицы.
-        $spreadsheetId = $this->webinar['form_id'];
-        $sheetName     = 'Лист1';
+        $sheetName = 'Лист1';
 
+        // Запись
         $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetName);
-
-        // Библиотека обычно ждёт массив массива значений; однако многие используют ассоциативные
-        // массивы с маппингом по заголовкам. Оставляю как у вас было:
         $sheet->append([$data]);
     }
 
