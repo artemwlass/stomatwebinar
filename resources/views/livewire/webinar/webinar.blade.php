@@ -65,4 +65,16 @@
         @endforeach
         <livewire:components.support />
     </main>
+
+    <script>
+        if (typeof fbq === 'function' && !window.__fbViewContentTracked) {
+            fbq('track', 'ViewContent', {
+                content_name: @json(strip_tags($webinar->title ?? '')),
+                content_category: 'Webinar',
+                content_ids: [@json($webinar->slug ?? '')]
+            });
+
+            window.__fbViewContentTracked = true;
+        }
+    </script>
 </div>

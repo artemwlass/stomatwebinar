@@ -97,8 +97,8 @@ class Form extends Component
         // Базовые поля — оставляю как у тебя было (в т.ч. порядок/ключи)
         $data = [
             "Имя"          => $this->name,
-            "Телефон"      => $this->email, // как в исходнике
-            "Email"        => $this->phone, // как в исходнике
+            "Телефон"      => $this->phone,
+            "Email"        => $this->email,
             "Город"        => $this->city,
             "Эндодонтия"   => $this->endo,
             "Дата и время" => Carbon::now()->format('Y-m-d H:i:s'),

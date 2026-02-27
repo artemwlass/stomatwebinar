@@ -36,6 +36,25 @@ class Payment extends Component
         $webinarNames = [];
         $items = [];
         $cart = [];
+        $subtotalRaw = (string)\Gloudemans\Shoppingcart\Facades\Cart::subtotal();
+
+        $subtotalSanitized = preg_replace('/[^\d.,]/', '', $subtotalRaw);
+        $lastCommaPosition = strrpos($subtotalSanitized, ',');
+        $lastDotPosition = strrpos($subtotalSanitized, '.');
+
+        if ($lastCommaPosition !== false && $lastDotPosition !== false) {
+            if ($lastCommaPosition > $lastDotPosition) {
+                $subtotalSanitized = str_replace('.', '', $subtotalSanitized);
+                $subtotalSanitized = str_replace(',', '.', $subtotalSanitized);
+            } else {
+                $subtotalSanitized = str_replace(',', '', $subtotalSanitized);
+            }
+        } elseif ($lastCommaPosition !== false) {
+            $subtotalSanitized = str_replace(',', '.', $subtotalSanitized);
+        }
+
+        $purchaseAmount = round((float)$subtotalSanitized, 2);
+        $formattedPurchaseAmount = number_format($purchaseAmount, 2, '.', '');
 
         foreach (\Gloudemans\Shoppingcart\Facades\Cart::content() as $item) {
             $webinarNames[] = $item->name;
@@ -60,7 +79,7 @@ class Payment extends Component
             'version'       => 3,
             'public_key'    => env('LIQPAY_PUBLIC_KEY'),
             'action'        => 'pay',
-            'amount'        => \Gloudemans\Shoppingcart\Facades\Cart::subtotal(),
+            'amount'        => $formattedPurchaseAmount,
             'currency'      => 'UAH',
             'description'   => $webinarsString,
             'order_id'      => 'order_' . date('YmdHis'),
@@ -72,6 +91,7 @@ class Payment extends Component
 
         \Gloudemans\Shoppingcart\Facades\Cart::destroy();
 
-        return view('livewire.payment.paymant', compact('dataEncoded', 'signature'))->layout('components.layouts.payment');
+        return view('livewire.payment.paymant', compact('dataEncoded', 'signature', 'formattedPurchaseAmount'))
+            ->layout('components.layouts.payment');
     }
 }
