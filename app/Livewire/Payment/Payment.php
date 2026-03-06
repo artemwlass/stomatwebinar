@@ -2,78 +2,96 @@
 
 namespace App\Livewire\Payment;
 
-use App\Events\SendEmail;
-use App\Events\SendEmailPreorder;
-use App\Events\SendOrderEmail;
-use App\Events\SendOrderTelegram;
-use App\Listeners\SendOrderEmailListener;
-use App\Livewire\Components\Cart;
-use App\Models\GroupUser;
-use App\Models\Order;
-use App\Models\OrderWebinars;
-use App\Models\User;
-use App\Services\Liqpay;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use App\Models\PaymentAttempt;
 use Illuminate\Support\Facades\Session;
-use Livewire\Attributes\On;
 use Livewire\Component;
-use Revolution\Google\Sheets\Facades\Sheets;
 
 class Payment extends Component
 {
+    public string $paymentToken = '';
+
     public function mount($token)
     {
         if (session('payment_token') !== $token) {
             // Если токен не соответствует или отсутствует, редирект или ошибка
             return redirect()->to('/');
         }
+
+        $this->paymentToken = $token;
     }
 
     public function render()
     {
-        $webinarNames = [];
-        $items = [];
+        $attempt = PaymentAttempt::where('payment_token', $this->paymentToken)->first();
         $cart = [];
-        $subtotalRaw = (string)\Gloudemans\Shoppingcart\Facades\Cart::subtotal();
 
-        $subtotalSanitized = preg_replace('/[^\d.,]/', '', $subtotalRaw);
-        $lastCommaPosition = strrpos($subtotalSanitized, ',');
-        $lastDotPosition = strrpos($subtotalSanitized, '.');
+        if (!$attempt) {
+            $webinarNames = [];
 
-        if ($lastCommaPosition !== false && $lastDotPosition !== false) {
-            if ($lastCommaPosition > $lastDotPosition) {
-                $subtotalSanitized = str_replace('.', '', $subtotalSanitized);
-                $subtotalSanitized = str_replace(',', '.', $subtotalSanitized);
-            } else {
-                $subtotalSanitized = str_replace(',', '', $subtotalSanitized);
+            foreach (\Gloudemans\Shoppingcart\Facades\Cart::content() as $item) {
+                $webinarNames[] = $item->name;
             }
-        } elseif ($lastCommaPosition !== false) {
-            $subtotalSanitized = str_replace(',', '.', $subtotalSanitized);
-        }
 
-        $purchaseAmount = round((float)$subtotalSanitized, 2);
-        $formattedPurchaseAmount = number_format($purchaseAmount, 2, '.', '');
+            foreach (\Gloudemans\Shoppingcart\Facades\Cart::content() as $item) {
+                $cart[] = [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'price' => $item->price,
+                    'quantity' => $item->qty,
+                    'group_id' => $item->model->group->id,
+                    'is_preorder' => $item->model->is_preorder,
+                    'is_series' => $item->options->is_series,
+                    'user_id' => auth()->id(),
+                ];
+            }
 
-        foreach (\Gloudemans\Shoppingcart\Facades\Cart::content() as $item) {
-            $webinarNames[] = $item->name;
-        }
+            if (count($cart) === 0) {
+                return redirect()->to('/');
+            }
 
-        foreach (\Gloudemans\Shoppingcart\Facades\Cart::content() as $item) {
-            $cart[] = [
-                'id' => $item->id,
-                'name' => $item->name,
-                'price' => $item->price,
-                'quantity' => $item->qty,
-                'group_id' => $item->model->group->id,
-                'is_preorder' => $item->model->is_preorder,
-                'is_series' => $item->options->is_series,
+            $subtotalRaw = (string)\Gloudemans\Shoppingcart\Facades\Cart::subtotal();
+            $subtotalSanitized = preg_replace('/[^\d.,]/', '', $subtotalRaw);
+            $lastCommaPosition = strrpos($subtotalSanitized, ',');
+            $lastDotPosition = strrpos($subtotalSanitized, '.');
+
+            if ($lastCommaPosition !== false && $lastDotPosition !== false) {
+                if ($lastCommaPosition > $lastDotPosition) {
+                    $subtotalSanitized = str_replace('.', '', $subtotalSanitized);
+                    $subtotalSanitized = str_replace(',', '.', $subtotalSanitized);
+                } else {
+                    $subtotalSanitized = str_replace(',', '', $subtotalSanitized);
+                }
+            } elseif ($lastCommaPosition !== false) {
+                $subtotalSanitized = str_replace(',', '.', $subtotalSanitized);
+            }
+
+            $purchaseAmount = round((float)$subtotalSanitized, 2);
+            $formattedPurchaseAmount = number_format($purchaseAmount, 2, '.', '');
+            $webinarsString = "Оплата вебинара - " . implode(', ', $webinarNames) . '.';
+            $liqpayOrderId = 'order_' . $this->paymentToken;
+            $authUser = auth()->user();
+
+            $attempt = PaymentAttempt::create([
                 'user_id' => auth()->id(),
-            ];
+                'payment_token' => $this->paymentToken,
+                'liqpay_order_id' => $liqpayOrderId,
+                'amount' => $formattedPurchaseAmount,
+                'currency' => 'UAH',
+                'status' => 'pending',
+                'description' => $webinarsString,
+                'user_email' => $authUser?->email,
+                'user_phone' => $authUser?->phone,
+                'user_name' => $authUser?->name,
+                'user_surname' => $authUser?->surname,
+                'cart_data' => $cart,
+            ]);
+
+            \Gloudemans\Shoppingcart\Facades\Cart::destroy();
+        } else {
+            $cart = $attempt->cart_data ?? [];
         }
 
-        $webinarsString = "Оплата вебинара - " . implode(', ', $webinarNames) . '.';
+        $formattedPurchaseAmount = number_format((float)$attempt->amount, 2, '.', '');
 
         $data = [
             'version'       => 3,
@@ -81,8 +99,8 @@ class Payment extends Component
             'action'        => 'pay',
             'amount'        => $formattedPurchaseAmount,
             'currency'      => 'UAH',
-            'description'   => $webinarsString,
-            'order_id'      => 'order_' . date('YmdHis'),
+            'description'   => $attempt->description,
+            'order_id'      => $attempt->liqpay_order_id,
             'dae'           => base64_encode(json_encode($cart))
         ];
 

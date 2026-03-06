@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GroupUser;
 use App\Models\Order;
 use App\Models\OrderWebinars;
+use App\Models\PaymentAttempt;
 use App\Models\User;
 use App\Models\Webinar;
 use Carbon\Carbon;
@@ -35,15 +36,36 @@ class LiqPayController extends Controller
                 Log::debug('LiqPay signature is valid');
 
                 $data = json_decode($data, true);
+                $paymentAttempt = null;
+
+                if (!empty($data['order_id'])) {
+                    $paymentAttempt = PaymentAttempt::where('liqpay_order_id', $data['order_id'])->first();
+                }
 
                 $cart = json_decode(base64_decode($data['dae']), true);
 
                 if ($data['status'] != 'success') {
                     Log::debug('LiqPay status is not success');
 
+                    if ($paymentAttempt && $paymentAttempt->status !== 'paid') {
+                        $paymentAttempt->update([
+                            'status' => 'failed',
+                            'failed_at' => now(),
+                            'failed_reason' => $data['status'] ?? 'unknown',
+                            'callback_payload' => $data,
+                        ]);
+                    }
+
                     return [
                         'status' => true,
                         'message' => 'failure'
+                    ];
+                }
+
+                if ($paymentAttempt && $paymentAttempt->status === 'paid') {
+                    return [
+                        'status' => true,
+                        'message' => 'success'
                     ];
                 }
 
@@ -144,6 +166,17 @@ class LiqPayController extends Controller
                 Session::forget('payment_token');
 
                 $this->addToSheet($cart[0]['user_id'], $order->description, $order->amount, $order->created_at);
+
+                if ($paymentAttempt) {
+                    $paymentAttempt->update([
+                        'status' => 'paid',
+                        'paid_at' => now(),
+                        'failed_at' => null,
+                        'failed_reason' => null,
+                        'callback_payload' => $data,
+                        'order_id' => $order->id,
+                    ]);
+                }
 
                 return [
                     'status' => true,
