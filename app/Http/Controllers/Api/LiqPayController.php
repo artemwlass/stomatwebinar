@@ -165,7 +165,13 @@ class LiqPayController extends Controller
 
                 Session::forget('payment_token');
 
-                $this->addToSheet($cart[0]['user_id'], $order->description, $order->amount, $order->created_at);
+                $this->addToSheet(
+                    $cart[0]['user_id'],
+                    $order->description,
+                    $order->amount,
+                    $order->created_at,
+                    $paymentAttempt?->attribution_data
+                );
 
                 if ($paymentAttempt) {
                     $paymentAttempt->update([
@@ -193,9 +199,11 @@ class LiqPayController extends Controller
         ];
     }
 
-    public function addToSheet($userId, $description, $amount, $createdAd)
+    public function addToSheet($userId, $description, $amount, $createdAd, ?array $attributionData = null)
     {
         $user = User::find($userId);
+        $attributionData = $attributionData ?? [];
+
         $data = [
             "Имя" => $user->name,
             "Фамилия" => $user->surname,
@@ -204,6 +212,12 @@ class LiqPayController extends Controller
             "Заказ" => $description,
             "Стоимость" => $amount,
             "Дата и время" => Carbon::parse($createdAd)->format('Y-m-d H:i:s'),
+            "Ссылка перехода" => $attributionData['landing_url'] ?? null,
+            "UTM Source" => $attributionData['utm_source'] ?? null,
+            "UTM Medium" => $attributionData['utm_medium'] ?? null,
+            "UTM Campaign" => $attributionData['utm_campaign'] ?? null,
+            "UTM Content" => $attributionData['utm_content'] ?? null,
+            "UTM Term" => $attributionData['utm_term'] ?? null,
         ];
 
         $spreadsheetId = '1-eU30QRhoPt-Y_A_5Gy5xaCkzkL5tU6Yxvr4VL9rLpw';
