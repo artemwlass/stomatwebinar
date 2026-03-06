@@ -13,6 +13,7 @@ class PaymentAttempt extends Model
     protected $guarded = false;
 
     protected $casts = [
+        'attribution_data' => 'array',
         'cart_data' => 'array',
         'callback_payload' => 'array',
         'paid_at' => 'datetime',

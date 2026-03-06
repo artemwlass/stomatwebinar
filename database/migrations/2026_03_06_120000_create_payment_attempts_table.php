@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('user_phone')->nullable();
             $table->string('user_name')->nullable();
             $table->string('user_surname')->nullable();
+            $table->json('attribution_data')->nullable();
             $table->json('cart_data')->nullable();
             $table->json('callback_payload')->nullable();
             $table->timestamp('paid_at')->nullable();

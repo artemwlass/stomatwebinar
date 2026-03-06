@@ -70,6 +70,13 @@ class Payment extends Component
             $webinarsString = "Оплата вебинара - " . implode(', ', $webinarNames) . '.';
             $liqpayOrderId = 'order_' . $this->paymentToken;
             $authUser = auth()->user();
+            $attributionData = session('attribution');
+
+            if (empty($attributionData)) {
+                $fromCookie = request()->cookie('attribution_data');
+                $decoded = is_string($fromCookie) ? json_decode($fromCookie, true) : null;
+                $attributionData = is_array($decoded) ? $decoded : null;
+            }
 
             $attempt = PaymentAttempt::create([
                 'user_id' => auth()->id(),
@@ -83,6 +90,7 @@ class Payment extends Component
                 'user_phone' => $authUser?->phone,
                 'user_name' => $authUser?->name,
                 'user_surname' => $authUser?->surname,
+                'attribution_data' => $attributionData,
                 'cart_data' => $cart,
             ]);
 

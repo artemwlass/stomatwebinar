@@ -76,6 +76,10 @@ class PaymentAttemptResource extends Resource
                     ->columns(2),
                 Section::make('Корзина')
                     ->schema([
+                        TextEntry::make('attribution_data_pretty')
+                            ->label('Attribution / UTM')
+                            ->state(fn (PaymentAttempt $record): string => json_encode($record->attribution_data ?? [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT))
+                            ->columnSpanFull(),
                         TextEntry::make('cart_data_pretty')
                             ->label('Данные корзины')
                             ->state(fn (PaymentAttempt $record): string => json_encode($record->cart_data ?? [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT))
