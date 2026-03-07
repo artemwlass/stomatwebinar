@@ -18,6 +18,8 @@ class PaymentAttempt extends Model
         'callback_payload' => 'array',
         'paid_at' => 'datetime',
         'failed_at' => 'datetime',
+        'unpaid_sheet_synced_at' => 'datetime',
+        'unpaid_telegram_sent_at' => 'datetime',
     ];
 
     public function user(): BelongsTo

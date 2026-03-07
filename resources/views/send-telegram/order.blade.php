@@ -9,9 +9,3 @@
 @endforeach
 
 Сумма покупки: {{$event->order->amount}}
-
-@php
-    $attr = $paymentAttempt->attribution_data ?? [];
-@endphp
-
-Ссылка перехода: {{ $attr['landing_url'] ?? '-' }}
