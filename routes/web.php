@@ -26,6 +26,10 @@ Route::get('/blog', \App\Livewire\Blog\Index::class)->name('blog');
 Route::get('/blog/{slug}', \App\Livewire\Blog\Post::class)->name('post');
 
 Route::get('/account', \App\Livewire\Account\Index::class)->middleware('auth')->name('account');
+Route::get('/account/certificate', \App\Livewire\Account\Certificate::class)->middleware('auth')->name('account.certificate');
+Route::get('/account/webinar', \App\Livewire\Account\Webinar::class)->middleware('auth')->name('account.webinar');
+Route::get('/account/tarif', \App\Livewire\Account\Tarif::class)->middleware('auth')->name('account.tarif');
+Route::get('/account/webinar-data', \App\Livewire\Account\WebinarData::class)->middleware('auth')->name('account.webinar-data');
 
 Route::get('/politika-konfidentsiynosti', \App\Livewire\Politic::class)->name('politic');
 Route::get('/dogovir-publichnoyi-ofereti', \App\Livewire\DogovorOferty::class)->name('dogovor');
@@ -37,4 +41,3 @@ Route::get('/webinar/{slug}', App\Livewire\FreeWebinarPreorder\Index::class)->na
 Route::get('/free-webinars', \App\Livewire\FreeWebinar\Index::class)->name('free-webinar');
 Route::get('/{slug}/show', \App\Livewire\Webinar\Show::class)->middleware('auth')->name('webinar.video.show');
 Route::get('/{slug}', \App\Livewire\Webinar\Webinar::class)->name('webinar.show');
-
