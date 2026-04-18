@@ -85,151 +85,59 @@
                 ])
                 <div class="dashboard-right">
                     <section class="webinar">
-                        <h2>Найближчі заходи</h2>
+                        <h2>Вебінари у записі</h2>
                         <div class="webinar-list">
-                        <div class="webinar-card">
-                            <div class="card-head">
-                                <div class="card-top">
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>Открыть</b>
+                            @foreach ($webinars as $webinar)
+                                <div class="webinar-card {{ $webinar->is_purchased ? '' : 'lock' }}">
+                                    <div class="card-head">
+                                        <div class="card-top">
+                                            <div class="card-top__text">
+                                                <span>{{ $webinar->webinar_status_label }}</span>
+                                                <b class="countdown-display"
+                                                    @if($webinar->webinar_status_target_ts)
+                                                        data-countdown-ts="{{ $webinar->webinar_status_target_ts }}"
+                                                        data-countdown-day-start-ts="{{ $webinar->webinar_status_day_start_ts }}"
+                                                        data-countdown-expired="{{ $webinar->webinar_status_expired }}"
+                                                    @endif
+                                                >{{ $webinar->webinar_status_text }}</b>
+                                            </div>
+                                            <div class="card-top__text">
+                                                <span>{{ $webinar->testing_status_label }}</span>
+                                                <b class="countdown-display"
+                                                    @if($webinar->testing_status_target_ts)
+                                                        data-countdown-ts="{{ $webinar->testing_status_target_ts }}"
+                                                        data-countdown-day-start-ts="{{ $webinar->testing_status_day_start_ts }}"
+                                                        data-countdown-expired="{{ $webinar->testing_status_expired }}"
+                                                    @endif
+                                                >{{ $webinar->testing_status_text }}</b>
+                                            </div>
+                                        </div>
+                                        <div class="card-content">
+                                            <img src="{{ asset('storage/' . $webinar->image) }}" alt="" class="main-img">
+                                            <ul>
+                                                @if ($webinar->bpr_points)
+                                                    <li>{{ $webinar->bpr_points }} балів БПР</li>
+                                                @endif
+                                                @foreach ($webinar->display_lecturers as $lecturer)
+                                                    <li>Лектор: {{ $lecturer }}</li>
+                                                @endforeach
+                                            </ul>
+                                            <a href="{{ $webinar->is_purchased ? $webinar->video_url : $webinar->landing_url }}">
+                                                <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
+                                            </a>
+                                            @unless ($webinar->is_purchased)
+                                                <button type="button">
+                                                    <img src="{{ asset('account_assets/images/lock.svg') }}" alt="">
+                                                </button>
+                                            @endunless
+                                        </div>
                                     </div>
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>Открыть</b>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <img src="{{ asset('account_assets/images/webinar-card.png') }}" alt="" class="main-img">
-                                    <ul>
-                                        <li>5 балів</li>
-                                        <li>Лектор: Андрей Андреевич</li>
-                                    </ul>
-                                    <a href="#">
-                                        <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-text">
-                                <h3>Заголовок</h3>
-                                <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
-                            </div>
-                        </div>
-                        <div class="webinar-card">
-                            <div class="card-head">
-                                <div class="card-top">
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>Открыть</b>
-                                    </div>
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>Открыть</b>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <img src="{{ asset('account_assets/images/webinar-card.png') }}" alt="" class="main-img">
-                                    <ul>
-                                        <li>5 балів</li>
-                                        <li>Лектор: Андрей Андреевич</li>
-                                    </ul>
-                                    <a href="#">
-                                        <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-text">
-                                <h3>Заголовок</h3>
-                                <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
-                            </div>
-                        </div>
-                        <div class="webinar-card lock">
-                            <div class="card-head">
-                                <div class="card-top">
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>11 : 24 : 00</b>
-                                    </div>
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>11 : 24 : 00</b>
+                                    <div class="card-text">
+                                        <h3>{{ $webinar->title }}</h3>
+                                        <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
                                     </div>
                                 </div>
-                                <div class="card-content">
-                                    <img src="{{ asset('account_assets/images/webinar-card.png') }}" alt="" class="main-img">
-                                    <ul>
-                                        <li>5 балів</li>
-                                        <li>Лектор: Андрей Андреевич</li>
-                                    </ul>
-                                    <a href="#">
-                                        <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
-                                    </a>
-                                    <button>
-                                        <img src="{{ asset('account_assets/images/lock.svg') }}" alt="">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-text">
-                                <h3>Заголовок</h3>
-                                <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
-                            </div>
-                        </div>
-                        <div class="webinar-card disabled">
-                            <div class="card-head">
-                                <div class="card-top">
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>Открыть</b>
-                                    </div>
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>Открыть</b>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <img src="{{ asset('account_assets/images/webinar-card.png') }}" alt="" class="main-img">
-                                    <ul>
-                                        <li>5 балів</li>
-                                        <li>Лектор: Андрей Андреевич</li>
-                                    </ul>
-                                    <a href="#">
-                                        <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-text">
-                                <h3>Заголовок</h3>
-                                <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
-                            </div>
-                        </div>
-                        <div class="webinar-card disabled">
-                            <div class="card-head">
-                                <div class="card-top">
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>Открыть</b>
-                                    </div>
-                                    <div class="card-top__text">
-                                        <span>Вебинар откроется</span>
-                                        <b>Открыть</b>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <img src="{{ asset('account_assets/images/webinar-card.png') }}" alt="" class="main-img">
-                                    <ul>
-                                        <li>5 балів</li>
-                                        <li>Лектор: Андрей Андреевич</li>
-                                    </ul>
-                                    <a href="#">
-                                        <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-text">
-                                <h3>Заголовок</h3>
-                                <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
-                            </div>
-                        </div>
+                            @endforeach
                         </div>
                     </section>
                 </div>

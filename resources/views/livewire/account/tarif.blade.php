@@ -87,118 +87,65 @@
                     <section class="tarif">
                         <h2>Серія вебінарів</h2>
                         <ul class="tarif-navs">
-                            <li>
-                                <a href="#">Стоматологія</a>
-                            </li>
-                            <li>
-                                <a href="#" class="active">Хірургічна стоматологія</a>
-                            </li>
-                            <li>
-                                <a href="#">Терапевтична стоматологія</a>
-                            </li>
-                            <li>
-                                <a href="#">Ортопедична стоматологія</a>
-                            </li>
-                            <li>
-                                <a href="#">Дитяча стоматологія</a>
-                            </li>
-                            <li>
-                                <a href="#">Пародонтологія</a>
-                            </li>
-                            <li>
-                                <a href="#">Ортодонтія</a>
-                            </li>
-                            <li>
-                                <a href="#">Щелепно-лицева хірургія</a>
-                            </li>
+                            @foreach ($categories as $category)
+                                <li wire:key="tarif-category-{{ md5($category) }}">
+                                    <a href="#" wire:click.prevent="selectCategory(@js($category))" class="{{ $selectedCategory === $category ? 'active' : '' }}">
+                                        {{ $category }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                         <div class="tarif-list">
-                            <div class="tarif-card">
-                                <div class="tarif-card__head">
-                                    <div class="tarif-card__alert">
-                                        <div class="tarif-card__alert-item">
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12.375 3.75V2.25M5.625 3.75V2.25M2.4375 6H15.5625M2.25 7.533C2.25 5.94675 2.25 5.15325 2.577 4.54725C2.87268 4.00673 3.3315 3.57338 3.888 3.309C4.53 3 5.37 3 7.05 3H10.95C12.63 3 13.47 3 14.112 3.309C14.6768 3.5805 15.135 4.014 15.423 4.5465C15.75 5.154 15.75 5.9475 15.75 7.53375V11.2177C15.75 12.804 15.75 13.5975 15.423 14.2035C15.1273 14.744 14.6685 15.1774 14.112 15.4418C13.47 15.75 12.63 15.75 10.95 15.75H7.05C5.37 15.75 4.53 15.75 3.888 15.441C3.33161 15.1768 2.87281 14.7437 2.577 14.2035C2.25 13.596 2.25 12.8025 2.25 11.2162V7.533Z" stroke="#3C3C3C" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                            <span>Вебинаров в серии</span>
+                            @forelse ($seriesWebinars as $webinar)
+                                <div class="tarif-card" wire:key="tarif-webinar-{{ $webinar->id }}">
+                                    <div class="tarif-card__head">
+                                        <div class="tarif-card__alert">
+                                            <div class="tarif-card__alert-item">
+                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12.375 3.75V2.25M5.625 3.75V2.25M2.4375 6H15.5625M2.25 7.533C2.25 5.94675 2.25 5.15325 2.577 4.54725C2.87268 4.00673 3.3315 3.57338 3.888 3.309C4.53 3 5.37 3 7.05 3H10.95C12.63 3 13.47 3 14.112 3.309C14.6768 3.5805 15.135 4.014 15.423 4.5465C15.75 5.154 15.75 5.9475 15.75 7.53375V11.2177C15.75 12.804 15.75 13.5975 15.423 14.2035C15.1273 14.744 14.6685 15.1774 14.112 15.4418C13.47 15.75 12.63 15.75 10.95 15.75H7.05C5.37 15.75 4.53 15.75 3.888 15.441C3.33161 15.1768 2.87281 14.7437 2.577 14.2035C2.25 13.596 2.25 12.8025 2.25 11.2162V7.533Z" stroke="#3C3C3C" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                                <span>{{ $webinar->series_count }} вебінарів в серії</span>
+                                            </div>
+                                            @if ($webinar->bpr_points)
+                                                <div class="tarif-card__alert-item bg-black">{{ $webinar->bpr_points }} балів БПР</div>
+                                            @endif
                                         </div>
-                                        <div class="tarif-card__alert-item bg-black">5 балів БПР</div>
+                                        @if ($webinar->image)
+                                            <img src="{{ asset('storage/' . $webinar->image) }}" alt="{{ $webinar->title }}" class="main-img">
+                                        @endif
                                     </div>
-                                    <img src="{{ asset('account_assets/images/tarif-card-1.png') }}" alt="" class="main-img">
-                                </div>
-                                <div class="tarif-card__body">
-                                    <h3>Місячний</h3>
-                                    <div class="text">
-                                        <ul>
-                                            <li>
-                                                <img src="{{ asset('account_assets/images/check-icon.svg') }}" alt="">
-                                                <span>Доступ до 109 курсів в запису за напрямом (окрім комплексніх курсів)</span>
-                                            </li>
-                                            <li>
-                                                <img src="{{ asset('account_assets/images/check-icon.svg') }}" alt="">
-                                                <span>5 сертіфікатив з ьалами БПР кожного місяца</span>
-                                            </li>
-                                            <li>
-                                                <img src="{{ asset('account_assets/images/check-icon.svg') }}" alt="">
-                                                <span>Доступ до всіх майбутніх заходів за напрямом (окрім комплексніх курсів)</span>
-                                            </li>
-                                        </ul>
-                                        <div class="alerts">
-                                            <span>Лектор: Андрей Андреевич</span>
-                                            <span>Лектор: Андрей Андреевич</span>
+                                    <div class="tarif-card__body">
+                                        <h3>{{ $webinar->title }}</h3>
+                                        @if (! empty($webinar->display_lecturers))
+                                            <div class="text">
+                                                <div class="alerts">
+                                                    @foreach ($webinar->display_lecturers as $lecturer)
+                                                        <span>Лектор: {{ $lecturer }}</span>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                        <div class="price">
+                                            @if ($webinar->discount_percent)
+                                                <p>Знижка {{ $webinar->discount_percent }}%</p>
+                                            @endif
+                                            @if ($webinar->formatted_old_price)
+                                                <del>{{ $webinar->formatted_old_price }}</del>
+                                            @endif
+                                            @if ($webinar->formatted_price)
+                                                <b>{{ $webinar->formatted_price }}</b>
+                                            @endif
                                         </div>
+                                        <a href="{{ route('webinar.show', $webinar->slug) }}" class="main-btn">Сплатити</a>
                                     </div>
-                                    <div class="price">
-                                        <p>Скидка 50%</p>
-                                        <del>1000 грн</del>
-                                        <b>680 грн</b>
-                                    </div>
-                                    <a href="#" class="main-btn">Сплатити</a>
                                 </div>
-                            </div>
-                            <div class="tarif-card">
-                                <div class="tarif-card__head">
-                                    <div class="tarif-card__alert">
-                                        <div class="tarif-card__alert-item">
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12.375 3.75V2.25M5.625 3.75V2.25M2.4375 6H15.5625M2.25 7.533C2.25 5.94675 2.25 5.15325 2.577 4.54725C2.87268 4.00673 3.3315 3.57338 3.888 3.309C4.53 3 5.37 3 7.05 3H10.95C12.63 3 13.47 3 14.112 3.309C14.6768 3.5805 15.135 4.014 15.423 4.5465C15.75 5.154 15.75 5.9475 15.75 7.53375V11.2177C15.75 12.804 15.75 13.5975 15.423 14.2035C15.1273 14.744 14.6685 15.1774 14.112 15.4418C13.47 15.75 12.63 15.75 10.95 15.75H7.05C5.37 15.75 4.53 15.75 3.888 15.441C3.33161 15.1768 2.87281 14.7437 2.577 14.2035C2.25 13.596 2.25 12.8025 2.25 11.2162V7.533Z" stroke="#3C3C3C" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                            <span>Вебинаров в серии</span>
-                                        </div>
-                                        <div class="tarif-card__alert-item bg-black">5 балів БПР</div>
+                            @empty
+                                <div class="tarif-card">
+                                    <div class="tarif-card__body">
+                                        <h3>Пакетні пропозиції відсутні</h3>
                                     </div>
-                                    <img src="{{ asset('account_assets/images/tarif-card-2.png') }}" alt="" class="main-img">
                                 </div>
-                                <div class="tarif-card__body">
-                                    <h3>Місячний</h3>
-                                    <div class="text">
-                                        <ul>
-                                            <li>
-                                                <img src="{{ asset('account_assets/images/check-icon.svg') }}" alt="">
-                                                <span>Доступ до 109 курсів в запису за напрямом (окрім комплексніх курсів)</span>
-                                            </li>
-                                            <li>
-                                                <img src="{{ asset('account_assets/images/check-icon.svg') }}" alt="">
-                                                <span>5 сертіфікатив з ьалами БПР кожного місяца</span>
-                                            </li>
-                                            <li>
-                                                <img src="{{ asset('account_assets/images/check-icon.svg') }}" alt="">
-                                                <span>Доступ до всіх майбутніх заходів за напрямом (окрім комплексніх курсів)</span>
-                                            </li>
-                                        </ul>
-                                        <div class="alerts">
-                                            <span>Лектор: Андрей Андреевич</span>
-                                            <span>Лектор: Андрей Андреевич</span>
-                                        </div>
-                                    </div>
-                                    <div class="price">
-                                        <p>Скидка 50%</p>
-                                        <del>1000 грн</del>
-                                        <b>680 грн</b>
-                                    </div>
-                                    <a href="#" class="main-btn">Сплатити</a>
-                                </div>
-                            </div>
+                            @endforelse
                         </div>
                     </section>
                 </div>

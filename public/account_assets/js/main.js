@@ -108,4 +108,58 @@ if (certificateTabBtns.length) {
             })
         }
     })
-} 
+}
+
+const initCountdowns = () => {
+    if (window.__accountCountdownInterval) {
+        clearInterval(window.__accountCountdownInterval);
+    }
+
+    const countdownElements = document.querySelectorAll('[data-countdown-ts]');
+
+    if (!countdownElements.length) {
+        return;
+    }
+
+    const formatTimer = (target, now) => {
+        const distance = Math.max(0, target - now.getTime());
+        const totalSeconds = Math.floor(distance / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        return `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
+    };
+
+    const tick = () => {
+        const now = new Date();
+
+        countdownElements.forEach((element) => {
+            const target = Number(element.dataset.countdownTs);
+            const expired = element.dataset.countdownExpired || 'Завершено';
+            const distance = target - now.getTime();
+
+            if (distance <= 0) {
+                element.textContent = expired;
+                return;
+            }
+
+            const startOfTargetDay = Number(element.dataset.countdownDayStartTs);
+
+            if (Number.isFinite(startOfTargetDay) && now.getTime() < startOfTargetDay) {
+                const days = Math.ceil((startOfTargetDay - now.getTime()) / 86400000);
+                element.textContent = `${days} дн.`;
+                return;
+            }
+
+            element.textContent = formatTimer(target, now);
+        });
+    };
+
+    tick();
+    window.__accountCountdownInterval = setInterval(tick, 1000);
+};
+
+initCountdowns();
+
+document.addEventListener('livewire:navigated', initCountdowns);

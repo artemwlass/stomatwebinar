@@ -13,6 +13,9 @@ class Webinar extends Model
         'seo' => 'array',
         'content' => 'array',
         'date_preorder' => 'date',
+        'date_testing_start' => 'date',
+        'date_testing_end' => 'date',
+        'lecturers' => 'array',
     ];
 
     public function group()

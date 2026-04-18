@@ -56,13 +56,52 @@ class WebinarResource extends Resource
                                 Forms\Components\Toggle::make('is_series_webinars')
                                     ->label('Серия вебинаров')
                                     ->helperText('Является ли это серией вибанов?')
+                                    ->live()
+                                    ->columnSpanFull()
                                     ->default(false),
+                                Forms\Components\Select::make('package_category')
+                                    ->label('Категорія')
+                                    ->options([
+                                        'Стоматологія' => 'Стоматологія',
+                                        'Хірургічна стоматологія' => 'Хірургічна стоматологія',
+                                        'Терапевтична стоматологія' => 'Терапевтична стоматологія',
+                                        'Ортопедична стоматологія' => 'Ортопедична стоматологія',
+                                        'Дитяча стоматологія' => 'Дитяча стоматологія',
+                                        'Пародонтологія' => 'Пародонтологія',
+                                        'Ортодонтія' => 'Ортодонтія',
+                                        'Щелепно-лицева хірургія' => 'Щелепно-лицева хірургія',
+                                    ])
+                                    ->native(false)
+                                    ->searchable()
+                                    ->preload()
+                                    ->visible(fn (Forms\Get $get) => (bool) $get('is_series_webinars')),
+                                Forms\Components\TextInput::make('old_price')
+                                    ->label('Стара ціна')
+                                    ->suffix('грн')
+                                    ->visible(fn (Forms\Get $get) => (bool) $get('is_series_webinars')),
                                 Forms\Components\Select::make('seriesWebinars')
                                     ->label('Выберите вебинары для серии')
                                     ->multiple()
+                                    ->native(false)
+                                    ->searchable()
                                     ->preload()
+                                    ->columnSpanFull()
                                     ->options(\App\Models\Webinar::where('is_active', true)->pluck('title', 'id'))
                                     ->relationship('seriesWebinars', 'title'),
+                            ])
+                            ->columns(2),
+
+                        Forms\Components\Section::make('Лектори')
+                            ->schema([
+                                Forms\Components\Repeater::make('lecturers')
+                                    ->label('Лектори')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name')
+                                            ->label('Лектор')
+                                            ->required(),
+                                    ])
+                                    ->collapsible()
+                                    ->defaultItems(1),
                             ]),
                     ])
                     ->columnSpan(['lg' => 2]),
@@ -82,7 +121,7 @@ class WebinarResource extends Resource
 
                         Forms\Components\Section::make('Цена и дата')
                             ->schema([
-                                Forms\Components\TextInput::make('price')->label('Цена в корзине')->required(),
+                                Forms\Components\TextInput::make('price')->label('Цена в корзине')->suffix('грн')->required(),
                                 Forms\Components\TextInput::make('date')->label('Дата в корзине')->required(),
                                 Forms\Components\TextInput::make('time')->label('Время в корзине')->required(),
                                 Forms\Components\TextInput::make('bpr_points')
@@ -101,6 +140,10 @@ class WebinarResource extends Resource
                                     ->default(false),
                                 Forms\Components\DatePicker::make('date_preorder')->label('Дата проведения'),
                                 Forms\Components\TimePicker::make('time_preorder')->label('Время'),
+                                Forms\Components\DatePicker::make('date_testing_start')->label('Дата старта тестування'),
+                                Forms\Components\TimePicker::make('time_testing_start')->label('Час старта тестування'),
+                                Forms\Components\DatePicker::make('date_testing_end')->label('Дата завершення тестування'),
+                                Forms\Components\TimePicker::make('time_testing_end')->label('Час завершення тестування'),
 
                             ]),
                     ])
