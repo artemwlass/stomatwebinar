@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Account;
 
+use App\Models\AccountPage;
 use App\Models\FreeWebinar;
 use App\Models\Webinar;
 use Artesaos\SEOTools\Facades\SEOMeta;
@@ -24,10 +25,12 @@ class Index extends Component
     public $specialty = '';
     public $account_profile_confirmation = false;
     public $showCertificateModal = false;
+    public $dashboardStats = [];
 
     public function mount()
     {
         $user = Auth::user();
+        $accountPage = AccountPage::query()->first();
 
         $this->full_name = trim(implode(' ', array_filter([
             $user->surname,
@@ -47,6 +50,12 @@ class Index extends Component
             $this->birth_month = $user->birthday->format('m');
             $this->birth_year = $user->birthday->format('y');
         }
+
+        $this->dashboardStats = $accountPage?->dashboard_stats ?: [
+            ['label' => 'Текст', 'value' => '2000'],
+            ['label' => 'Текст', 'value' => '350 +'],
+            ['label' => 'Текст', 'value' => '15 000'],
+        ];
     }
 
     public function saveAccountProfile()
@@ -149,7 +158,15 @@ class Index extends Component
             ->whereNotIn('id', $accessibleWebinarIds)
             ->get();
 
-        return view('livewire.account.index', compact('webinars', 'webinarsPay'))
+        $nearestWebinars = Webinar::query()
+            ->where('is_active', true)
+            ->whereNotNull('date_preorder')
+            ->whereDate('date_preorder', '>=', now()->toDateString())
+            ->orderBy('date_preorder')
+            ->limit(3)
+            ->get(['id', 'title', 'slug', 'image', 'date_preorder', 'bpr_points']);
+
+        return view('livewire.account.index', compact('webinars', 'webinarsPay', 'nearestWebinars'))
             ->layout('components.layouts.account');
     }
 }

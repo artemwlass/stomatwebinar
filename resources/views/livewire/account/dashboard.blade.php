@@ -112,87 +112,43 @@
                         <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
                     </div>
                     <ul>
-                        <li>
-                            <p>Текст</p>
-                            <h3>2000</h3>
-                        </li>
-                        <li>
-                            <p>Текст</p>
-                            <h3>350 +</h3>
-                        </li>
-                        <li>
-                            <p>Текст</p>
-                            <h3>15 000</h3>
-                        </li>
+                        @foreach(($dashboardStats ?? []) as $stat)
+                            <li>
+                                <p>{{ $stat['label'] ?? 'Текст' }}</p>
+                                <h3>{{ $stat['value'] ?? '' }}</h3>
+                            </li>
+                        @endforeach
                     </ul>
                 </section>
 
                 <section class="dashboard-block">
                     <h2>Найближчі заходи</h2>
                     <div class="card-list">
-                        <div class="card">
-                            <div class="card-head">
-                                <img src="{{ asset('account_assets/images/card-1.png') }}" alt="" class="main-img">
-                                <div class="card-alert">
-                                    <div class="card-alert__item">
-                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12.375 3.75V2.25M5.625 3.75V2.25M2.4375 6H15.5625M2.25 7.533C2.25 5.94675 2.25 5.15325 2.577 4.54725C2.87268 4.00673 3.3315 3.57338 3.888 3.309C4.53 3 5.37 3 7.05 3H10.95C12.63 3 13.47 3 14.112 3.309C14.6768 3.5805 15.135 4.014 15.423 4.5465C15.75 5.154 15.75 5.9475 15.75 7.53375V11.2177C15.75 12.804 15.75 13.5975 15.423 14.2035C15.1273 14.744 14.6685 15.1774 14.112 15.4418C13.47 15.75 12.63 15.75 10.95 15.75H7.05C5.37 15.75 4.53 15.75 3.888 15.441C3.33161 15.1768 2.87281 14.7437 2.577 14.2035C2.25 13.596 2.25 12.8025 2.25 11.2162V7.533Z" stroke="#3C3C3C" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span>01.01.2026</span>
+                        @foreach(($nearestWebinars ?? []) as $webinar)
+                            <a href="{{ route('webinar.show', $webinar->slug) }}" class="card">
+                                <div class="card-head">
+                                    <img src="{{ asset('storage/' . $webinar->image) }}" alt="" class="main-img">
+                                    <div class="card-alert">
+                                        <div class="card-alert__item">
+                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12.375 3.75V2.25M5.625 3.75V2.25M2.4375 6H15.5625M2.25 7.533C2.25 5.94675 2.25 5.15325 2.577 4.54725C2.87268 4.00673 3.3315 3.57338 3.888 3.309C4.53 3 5.37 3 7.05 3H10.95C12.63 3 13.47 3 14.112 3.309C14.6768 3.5805 15.135 4.014 15.423 4.5465C15.75 5.154 15.75 5.9475 15.75 7.53375V11.2177C15.75 12.804 15.75 13.5975 15.423 14.2035C15.1273 14.744 14.6685 15.1774 14.112 15.4418C13.47 15.75 12.63 15.75 10.95 15.75H7.05C5.37 15.75 4.53 15.75 3.888 15.441C3.33161 15.1768 2.87281 14.7437 2.577 14.2035C2.25 13.596 2.25 12.8025 2.25 11.2162V7.533Z" stroke="#3C3C3C" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                            <span>{{ optional($webinar->date_preorder)->format('d.m.Y') }}</span>
+                                        </div>
+                                        @if ($webinar->bpr_points)
+                                            <div class="card-alert__item">{{ $webinar->bpr_points }} балів БПР</div>
+                                        @endif
                                     </div>
-                                    <div class="card-alert__item">5 балів БПР</div>
-                                </div>
-                                <div class="icon">
-                                    <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h3>Заголовок</h3>
-                                <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-head">
-                                <img src="{{ asset('account_assets/images/card-1.png') }}" alt="" class="main-img">
-                                <div class="card-alert">
-                                    <div class="card-alert__item">
-                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12.375 3.75V2.25M5.625 3.75V2.25M2.4375 6H15.5625M2.25 7.533C2.25 5.94675 2.25 5.15325 2.577 4.54725C2.87268 4.00673 3.3315 3.57338 3.888 3.309C4.53 3 5.37 3 7.05 3H10.95C12.63 3 13.47 3 14.112 3.309C14.6768 3.5805 15.135 4.014 15.423 4.5465C15.75 5.154 15.75 5.9475 15.75 7.53375V11.2177C15.75 12.804 15.75 13.5975 15.423 14.2035C15.1273 14.744 14.6685 15.1774 14.112 15.4418C13.47 15.75 12.63 15.75 10.95 15.75H7.05C5.37 15.75 4.53 15.75 3.888 15.441C3.33161 15.1768 2.87281 14.7437 2.577 14.2035C2.25 13.596 2.25 12.8025 2.25 11.2162V7.533Z" stroke="#3C3C3C" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span>01.01.2026</span>
+                                    <div class="icon">
+                                        <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
                                     </div>
-                                    <div class="card-alert__item">5 балів БПР</div>
                                 </div>
-                                <div class="icon">
-                                    <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
+                                <div class="card-body">
+                                    <h3>{{ $webinar->title }}</h3>
+                                    <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <h3>Заголовок</h3>
-                                <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-head">
-                                <img src="{{ asset('account_assets/images/card-1.png') }}" alt="" class="main-img">
-                                <div class="card-alert">
-                                    <div class="card-alert__item">
-                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12.375 3.75V2.25M5.625 3.75V2.25M2.4375 6H15.5625M2.25 7.533C2.25 5.94675 2.25 5.15325 2.577 4.54725C2.87268 4.00673 3.3315 3.57338 3.888 3.309C4.53 3 5.37 3 7.05 3H10.95C12.63 3 13.47 3 14.112 3.309C14.6768 3.5805 15.135 4.014 15.423 4.5465C15.75 5.154 15.75 5.9475 15.75 7.53375V11.2177C15.75 12.804 15.75 13.5975 15.423 14.2035C15.1273 14.744 14.6685 15.1774 14.112 15.4418C13.47 15.75 12.63 15.75 10.95 15.75H7.05C5.37 15.75 4.53 15.75 3.888 15.441C3.33161 15.1768 2.87281 14.7437 2.577 14.2035C2.25 13.596 2.25 12.8025 2.25 11.2162V7.533Z" stroke="#3C3C3C" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <span>01.01.2026</span>
-                                    </div>
-                                    <div class="card-alert__item">5 балів БПР</div>
-                                </div>
-                                <div class="icon">
-                                    <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h3>Заголовок</h3>
-                                <p>Важливо: запис вебінару доступний 30 днів з моменту проведення вебінару</p>
-                            </div>
-                        </div>
+                            </a>
+                        @endforeach
                     </div>
                 </section>
 

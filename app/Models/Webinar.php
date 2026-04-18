@@ -12,6 +12,7 @@ class Webinar extends Model
     protected $casts = [
         'seo' => 'array',
         'content' => 'array',
+        'date_preorder' => 'date',
     ];
 
     public function group()

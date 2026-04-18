@@ -85,7 +85,12 @@ class WebinarResource extends Resource
                                 Forms\Components\TextInput::make('price')->label('Цена в корзине')->required(),
                                 Forms\Components\TextInput::make('date')->label('Дата в корзине')->required(),
                                 Forms\Components\TextInput::make('time')->label('Время в корзине')->required(),
-
+                                Forms\Components\TextInput::make('bpr_points')
+                                    ->label('Количество баллов')
+                                    ->numeric()
+                                    ->integer()
+                                    ->minValue(0)
+                                    ->suffix('балів БПР'),
                             ]),
 
                         Forms\Components\Section::make('Предзапись')
