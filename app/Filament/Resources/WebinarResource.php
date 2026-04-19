@@ -302,6 +302,55 @@ class WebinarResource extends Resource
                                 Forms\Components\RichEditor::make('message_preorder')
                                     ->label('Сообщение предзаписи'),
                             ]),
+                        Tabs\Tab::make('Тесты')
+                            ->schema([
+                                Forms\Components\Repeater::make('tests')
+                                    ->label('Вопросы')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('question')
+                                            ->label('Вопрос')
+                                            ->required(),
+                                        Forms\Components\Repeater::make('answers')
+                                            ->label('Ответы')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('text')
+                                                    ->label('Ответ')
+                                                    ->required(),
+                                            ])
+                                            ->defaultItems(2)
+                                            ->minItems(2)
+                                            ->collapsible()
+                                            ->reorderable(false)
+                                            ->required(),
+                                        Forms\Components\Radio::make('correct_answer')
+                                            ->label('Правильный ответ')
+                                            ->helperText('Отметьте один правильный ответ.')
+                                            ->options(function (Forms\Get $get): array {
+                                                $answers = $get('answers') ?? [];
+                                                $options = [];
+                                                $position = 0;
+
+                                                foreach ($answers as $answer) {
+                                                    $text = trim((string) ($answer['text'] ?? ''));
+
+                                                    if ($text === '') {
+                                                        continue;
+                                                    }
+
+                                                    $options[(string) $position] = ($position + 1) . '. ' . $text;
+                                                    $position++;
+                                                }
+
+                                                return $options;
+                                            })
+                                            ->required()
+                                            ->live(),
+                                    ])
+                                    ->defaultItems(1)
+                                    ->collapsible()
+                                    ->cloneable()
+                                    ->reorderable(false),
+                            ]),
                     ])->columnSpanFull(),
 
             ])

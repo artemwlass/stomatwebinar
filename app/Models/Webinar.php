@@ -12,6 +12,7 @@ class Webinar extends Model
     protected $casts = [
         'seo' => 'array',
         'content' => 'array',
+        'tests' => 'array',
         'date_preorder' => 'date',
         'date_testing_start' => 'date',
         'date_testing_end' => 'date',
