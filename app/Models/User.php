@@ -52,4 +52,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsToMany(Group::class, 'group_users')->withPivot('closed_webinar_date');
     }
+
+    public function webinarTestResults()
+    {
+        return $this->hasMany(WebinarTestResult::class);
+    }
 }

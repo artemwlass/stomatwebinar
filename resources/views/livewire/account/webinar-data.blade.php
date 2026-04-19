@@ -1,4 +1,27 @@
 <div>
+    <section class="modal data-modal {{ $showPassedModal ? 'active' : '' }}">
+        <div class="modal-bg" wire:click="closePassedModal"></div>
+        <div class="modal-dialog">
+            <div class="container">
+                <div class="modal-content">
+                    <div class="modal-content__head">
+                        <h2>Тест пройдено</h2>
+                        <button type="button" class="modal-close" wire:click="closePassedModal">
+                            <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.19 11.37L1.44667 20.1133C1.29111 20.2689 1.1 20.3522 0.873333 20.3633C0.646666 20.3744 0.444444 20.2911 0.266666 20.1133C0.0888886 19.9356 0 19.7389 0 19.5233C0 19.3078 0.0888886 19.1111 0.266666 18.9333L9.01 10.19L0.266666 1.44667C0.111111 1.29111 0.0277774 1.1 0.0166663 0.873333C0.00555514 0.646666 0.0888886 0.444444 0.266666 0.266666C0.444444 0.0888886 0.641111 0 0.856667 0C1.07222 0 1.26889 0.0888886 1.44667 0.266666L10.19 9.01L18.9333 0.266666C19.0889 0.111111 19.2806 0.0277774 19.5083 0.0166663C19.7339 0.00555514 19.9356 0.0888886 20.1133 0.266666C20.2911 0.444444 20.38 0.641111 20.38 0.856667C20.38 1.07222 20.2911 1.26889 20.1133 1.44667L11.37 10.19L20.1133 18.9333C20.2689 19.0889 20.3522 19.2806 20.3633 19.5083C20.3744 19.7339 20.2911 19.9356 20.1133 20.1133C19.9356 20.2911 19.7389 20.38 19.5233 20.38C19.3078 20.38 19.1111 20.2911 18.9333 20.1133L10.19 11.37Z" fill="black" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-value">Вітаємо! Ви успішно пройшли тестування.</div>
+                        <div class="text-label">Ваш результат: {{ $scorePercent }}%</div>
+                    </div>
+                    <button type="button" wire:click="closePassedModal" class="main-btn">ОК</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="modal data-modal {{ $showDataModal ? 'active' : '' }}">
         <div class="modal-bg" wire:click="closeDataModal"></div>
         <div class="modal-dialog">
@@ -79,26 +102,9 @@
             <img src="{{ asset('account_assets/images/bg-1.png') }}" alt="" class="bg-3">
             <div class="container webinar-data__container">
                 <div class="webinar-data__content">
-                    @if ($availableWebinars->isNotEmpty())
-                        <div class="webinar-data__programs">
-                            <h2>Доступні тестування</h2>
-                            <div class="webinar-data__program-list">
-                                @foreach ($availableWebinars as $webinar)
-                                    <button
-                                        type="button"
-                                        wire:click="selectWebinar({{ $webinar->id }})"
-                                        class="webinar-data__program-card {{ $selectedWebinar?->id === $webinar->id ? 'active' : '' }}"
-                                    >
-                                        <span>{{ $webinar->title }}</span>
-                                        <small>{{ count($webinar->tests ?? []) }} питань</small>
-                                    </button>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-
                     @if ($selectedWebinar)
                         <div class="webinar-data__head">
+                            <button type="button" wire:click="backToWebinars" class="webinar-data__back">Назад до вебінарів</button>
                             <h2>Оцінювання набутих знань учасників заходу "{{ $selectedWebinar->title }}"</h2>
                             <p>
                                 Шановні учасники!<br>
@@ -149,16 +155,6 @@
                             <button type="button" wire:click="openDataModal" class="main-btn">Редагувати дані</button>
                         </div>
 
-                        @if ($isSubmitted)
-                            <div class="webinar-data__result {{ $isPassed ? 'success' : 'error' }}">
-                                <h3>{{ $isPassed ? 'Тест пройдено' : 'Тест не пройдено' }}</h3>
-                                <p>Ваш результат: {{ $scorePercent }}%</p>
-                                @unless ($isPassed)
-                                    <button type="button" wire:click="resetTestState" class="main-btn">Перездати</button>
-                                @endunless
-                            </div>
-                        @endif
-
                         @unless ($isSubmitted && $isPassed)
                             <div class="question-list">
                                 @foreach (($selectedWebinar->tests ?? []) as $questionIndex => $test)
@@ -181,13 +177,79 @@
                                 @endforeach
                             </div>
 
-                            <button type="button" wire:click="submitTest" class="main-btn question-submit">Завершити тестування</button>
+                            @if ($isSubmitted && ! $isPassed)
+                                <div class="webinar-data__result error">
+                                    <h3>Тест не пройдено</h3>
+                                    <p>Ваш результат: {{ $scorePercent }}%</p>
+                                    <button type="button" wire:click="resetTestState" class="main-btn">Перездати</button>
+                                </div>
+                            @else
+                                <button type="button" wire:click="submitTest" class="main-btn question-submit">Завершити тестування</button>
+                            @endif
                         @endunless
                     @else
-                        <div class="webinar-data__head">
+                        <section class="webinar">
                             <h2>Тестування</h2>
-                            <p>Наразі у вас немає доступних тестів для проходження.</p>
-                        </div>
+                            <div class="webinar-list">
+                                @forelse ($testingWebinars as $webinar)
+                                    <div class="webinar-card {{ $webinar->testing_is_open ? '' : 'lock' }}">
+                                        <div class="card-head">
+                                            <div class="card-top">
+                                                <div class="card-top__text">
+                                                    <span>{{ $webinar->testing_status_label }}</span>
+                                                    <b class="countdown-display"
+                                                        @if($webinar->testing_status_target_ts)
+                                                            data-countdown-ts="{{ $webinar->testing_status_target_ts }}"
+                                                            data-countdown-day-start-ts="{{ $webinar->testing_status_day_start_ts }}"
+                                                            data-countdown-expired="{{ $webinar->testing_status_expired }}"
+                                                        @endif
+                                                    >{{ $webinar->testing_status_text }}</b>
+                                                </div>
+                                            </div>
+                                            <div class="card-content">
+                                                <img src="{{ asset('storage/' . $webinar->image) }}" alt="" class="main-img">
+                                                <ul>
+                                                    @if ($webinar->bpr_points)
+                                                        <li>{{ $webinar->bpr_points }} балів БПР</li>
+                                                    @endif
+                                                    <li>{{ count($webinar->tests ?? []) }} питань</li>
+                                                </ul>
+                                                @if ($webinar->testing_is_open)
+                                                    <a href="#" wire:click.prevent="selectWebinar({{ $webinar->id }})">
+                                                        <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
+                                                    </a>
+                                                @elseif ($webinar->test_is_passed)
+                                                    <a href="{{ route('account.certificate') }}">
+                                                        <img src="{{ asset('account_assets/images/arrow-up.svg') }}" alt="">
+                                                    </a>
+                                                @else
+                                                    <button type="button">
+                                                        <img src="{{ asset('account_assets/images/lock.svg') }}" alt="">
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="card-text">
+                                            <h3>{{ $webinar->title }}</h3>
+                                            <p>
+                                                @if ($webinar->test_is_passed)
+                                                    Тестування пройдено. Сертифікат доступний.
+                                                @elseif ($webinar->testing_is_open)
+                                                    Тестування доступне для проходження.
+                                                @else
+                                                    Тестування ще не відкрите або вже завершене.
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="webinar-data__head">
+                                        <h2>Тестування</h2>
+                                        <p>Наразі у вас немає доступних тестів для проходження.</p>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </section>
                     @endif
                 </div>
             </div>

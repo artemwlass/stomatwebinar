@@ -1556,6 +1556,18 @@ button, input, textarea, li, div {
     margin-bottom: 24px;
   }
 }
+.webinar-data__back {
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 140%;
+  color: #0e4e81;
+}
+@media screen and (max-width: 768px) {
+  .webinar-data__back {
+    margin-bottom: 16px;
+    font-size: 12px;
+  }
+}
 .webinar-data__head p {
   font-weight: 400;
   font-size: 16px;

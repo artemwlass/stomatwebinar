@@ -36,5 +36,9 @@ class Webinar extends Model
         return $this->belongsToMany(Webinar::class, 'series_webinars', 'webinar_id', 'series_webinar_id');
     }
 
+    public function testResults()
+    {
+        return $this->hasMany(WebinarTestResult::class);
+    }
 
 }
