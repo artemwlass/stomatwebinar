@@ -40,7 +40,7 @@
                                                     @endforeach
                                                 </ul>
                                             </div>
-                                            <a href="#" class="content-item__right disabled">
+                                            <a href="{{ $certificate->download_url }}" class="content-item__right">
                                                 <img src="{{ asset('account_assets/images/doc-icon.svg') }}" alt="">
                                                 <span>Завантажити (. PDF)</span>
                                             </a>

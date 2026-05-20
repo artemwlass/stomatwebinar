@@ -1,16 +1,26 @@
 @php
     $showTop = $showTop ?? true;
+    $accountPageHeaderTopContent = trim((string) (\App\Models\AccountPage::query()->value('header_top_content') ?? ''));
 @endphp
 
 <header class="header">
     @if ($showTop)
         <div class="header-top">
             <div class="container header-top__container">
-                <div class="header-top__text">
-                    <img src="{{ asset('account_assets/images/fire.png') }}" width="16" alt="">
-                    <p>Текст про ближайший вебинар 01.04.2026</p>
-                </div>
-                <a href="#">Ссылка на вебинар</a>
+                @if ($accountPageHeaderTopContent !== '')
+                    <div class="header-top__text">
+{{--                        <img src="{{ asset('account_assets/images/fire.png') }}" width="16" alt="">--}}
+                        <div class="header-top__content">
+                            {!! $accountPageHeaderTopContent !!}
+                        </div>
+                    </div>
+                @else
+                    <div class="header-top__text">
+                        <img src="{{ asset('account_assets/images/fire.png') }}" width="16" alt="">
+                        <p>Текст про ближайший вебинар 01.04.2026</p>
+                    </div>
+                    <a href="#">Ссылка на вебинар</a>
+                @endif
             </div>
         </div>
     @endif

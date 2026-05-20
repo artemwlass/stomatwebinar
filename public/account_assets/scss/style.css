@@ -156,8 +156,40 @@ button, input, textarea, li, div {
   line-height: 140%;
   color: #fff;
 }
+.header-top__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.header-top__content p,
+.header-top__content strong,
+.header-top__content span,
+.header-top__content li {
+  font-size: 16px;
+  line-height: 140%;
+  color: #fff;
+}
+.header-top__content a {
+  font-size: 16px;
+  line-height: 140%;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  color: #fff;
+}
 @media screen and (max-width: 768px) {
   .header-top__text p {
+    font-size: 10px;
+  }
+  .header-top__content {
+    gap: 4px;
+  }
+  .header-top__content p,
+  .header-top__content strong,
+  .header-top__content span,
+  .header-top__content li,
+  .header-top__content a {
     font-size: 10px;
   }
 }

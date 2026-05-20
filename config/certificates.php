@@ -2,4 +2,5 @@
 
 return [
     'provider_number' => env('CERTIFICATES_PROVIDER_NUMBER', '2169'),
+    'provider_name' => env('CERTIFICATES_PROVIDER_NAME', 'ТОВ "Дентал Центр Декоревіч"'),
 ];

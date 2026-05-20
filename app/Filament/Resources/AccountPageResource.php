@@ -43,6 +43,23 @@ class AccountPageResource extends Resource
                             ])
                             ->columns(2),
                     ]),
+                Forms\Components\Section::make('Верхній інформаційний блок')
+                    ->schema([
+                        Forms\Components\RichEditor::make('header_top_content')
+                            ->label('Текст у верхньому блоці')
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'strike',
+                                'link',
+                                'bulletList',
+                                'orderedList',
+                                'undo',
+                                'redo',
+                            ])
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 

@@ -27,6 +27,7 @@ Route::get('/blog/{slug}', \App\Livewire\Blog\Post::class)->name('post');
 
 Route::get('/account', \App\Livewire\Account\Index::class)->middleware('auth')->name('account');
 Route::get('/account/certificate', \App\Livewire\Account\Certificate::class)->middleware('auth')->name('account.certificate');
+Route::get('/account/certificate/{result}/download', \App\Http\Controllers\Account\CertificateDownloadController::class)->middleware('auth')->name('account.certificate.download');
 Route::get('/account/webinar', \App\Livewire\Account\Webinar::class)->middleware('auth')->name('account.webinar');
 Route::get('/account/tarif', \App\Livewire\Account\Tarif::class)->middleware('auth')->name('account.tarif');
 Route::get('/account/webinar-data', \App\Livewire\Account\WebinarData::class)->middleware('auth')->name('account.webinar-data');
