@@ -109,6 +109,7 @@ class Payment extends Component
             'currency'      => 'UAH',
             'description'   => $attempt->description,
             'order_id'      => $attempt->liqpay_order_id,
+            'server_url'    => route('api.callback.liqpay'),
             'dae'           => base64_encode(json_encode($cart))
         ];
 

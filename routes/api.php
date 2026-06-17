@@ -18,4 +18,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('callback/liqpay', [\App\Http\Controllers\Api\LiqPayController::class, 'process']);
+Route::post('callback/liqpay', [\App\Http\Controllers\Api\LiqPayController::class, 'process'])
+    ->name('api.callback.liqpay');

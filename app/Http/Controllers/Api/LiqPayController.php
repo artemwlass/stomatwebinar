@@ -42,7 +42,32 @@ class LiqPayController extends Controller
                     $paymentAttempt = PaymentAttempt::where('liqpay_order_id', $data['order_id'])->first();
                 }
 
-                $cart = json_decode(base64_decode($data['dae']), true);
+                $cart = $paymentAttempt?->cart_data;
+
+                if (empty($cart) && !empty($data['dae'])) {
+                    $cart = json_decode(base64_decode($data['dae']), true);
+                }
+
+                if (!is_array($cart) || empty($cart)) {
+                    Log::error('LiqPay callback has no cart data', [
+                        'order_id' => $data['order_id'] ?? null,
+                        'status' => $data['status'] ?? null,
+                    ]);
+
+                    if ($paymentAttempt && $paymentAttempt->status !== 'paid') {
+                        $paymentAttempt->update([
+                            'status' => 'failed',
+                            'failed_at' => now(),
+                            'failed_reason' => 'missing_cart_data',
+                            'callback_payload' => $data,
+                        ]);
+                    }
+
+                    return [
+                        'status' => false,
+                        'message' => 'missing cart data'
+                    ];
+                }
 
                 if ($data['status'] != 'success') {
                     Log::debug('LiqPay status is not success');
