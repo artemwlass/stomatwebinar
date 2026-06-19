@@ -3,6 +3,7 @@
 namespace App\Livewire\Payment;
 
 use App\Models\PaymentAttempt;
+use App\Support\PromoCodeCalculator;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
@@ -49,23 +50,9 @@ class Payment extends Component
                 return redirect()->to('/');
             }
 
-            $subtotalRaw = (string)\Gloudemans\Shoppingcart\Facades\Cart::subtotal();
-            $subtotalSanitized = preg_replace('/[^\d.,]/', '', $subtotalRaw);
-            $lastCommaPosition = strrpos($subtotalSanitized, ',');
-            $lastDotPosition = strrpos($subtotalSanitized, '.');
-
-            if ($lastCommaPosition !== false && $lastDotPosition !== false) {
-                if ($lastCommaPosition > $lastDotPosition) {
-                    $subtotalSanitized = str_replace('.', '', $subtotalSanitized);
-                    $subtotalSanitized = str_replace(',', '.', $subtotalSanitized);
-                } else {
-                    $subtotalSanitized = str_replace(',', '', $subtotalSanitized);
-                }
-            } elseif ($lastCommaPosition !== false) {
-                $subtotalSanitized = str_replace(',', '.', $subtotalSanitized);
-            }
-
-            $purchaseAmount = round((float)$subtotalSanitized, 2);
+            $originalAmount = PromoCodeCalculator::cartSubtotal();
+            $discountData = PromoCodeCalculator::discountData(session('cart_promo_code'), $originalAmount);
+            $purchaseAmount = $discountData['total_amount'];
             $formattedPurchaseAmount = number_format($purchaseAmount, 2, '.', '');
             $webinarsString = "Оплата вебинара - " . implode(', ', $webinarNames) . '.';
             $liqpayOrderId = 'order_' . $this->paymentToken;
@@ -84,6 +71,9 @@ class Payment extends Component
                 'liqpay_order_id' => $liqpayOrderId,
                 'amount' => $formattedPurchaseAmount,
                 'currency' => 'UAH',
+                'promo_code' => $discountData['promo_code'],
+                'discount_amount' => $discountData['discount_amount'],
+                'original_amount' => $originalAmount,
                 'status' => 'pending',
                 'description' => $webinarsString,
                 'user_email' => $authUser?->email,
@@ -95,6 +85,7 @@ class Payment extends Component
             ]);
 
             \Gloudemans\Shoppingcart\Facades\Cart::destroy();
+            session()->forget('cart_promo_code');
         } else {
             $cart = $attempt->cart_data ?? [];
         }

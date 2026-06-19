@@ -21,7 +21,7 @@
                             <div class="form-date__inp">
                                 <input type="number" placeholder="дд" maxlength="2">
                                 <input type="number" placeholder="мм" maxlength="2">
-                                <input type="number" placeholder="гг" maxlength="4">
+                                <input type="number" placeholder="гггг" maxlength="4">
                             </div>
                         </div>
                         <input type="text" placeholder="Ваше місто" class="form-inp">

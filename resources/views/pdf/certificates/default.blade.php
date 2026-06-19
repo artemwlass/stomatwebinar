@@ -1,214 +1,269 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>{{ $fileName }}</title>
     <style>
         @page {
+            size: 841.89pt 595.28pt;
             margin: 0;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
+        html,
         body {
+            width: 841.89pt;
+            height: 595.28pt;
             margin: 0;
+            padding: 0;
+            overflow: hidden;
+            color: #1c1c1c;
             font-family: DejaVu Sans, sans-serif;
-            color: #111111;
-            background: #f5f7fb;
+            background: #ffffff;
         }
 
         .page {
             position: relative;
-            width: 794px;
-            height: 1123px;
-            margin: 0 auto;
+            width: 841.89pt;
+            height: 595.28pt;
             overflow: hidden;
-            background: #ffffff;
+            page-break-after: avoid;
+            page-break-before: avoid;
+            page-break-inside: avoid;
+            background: #fff url("{{ public_path('cert_html/assets/bg.jpg') }}") center / 841.89pt 595.28pt no-repeat;
         }
 
-        .shape-top,
-        .shape-bottom {
+        .certificate {
             position: absolute;
+            inset: 0;
+            width: 841.89pt;
+            height: 595.28pt;
+            overflow: hidden;
+        }
+
+        .frame {
+            position: absolute;
+            top: 27.75pt;
+            right: 28.5pt;
+            bottom: 27.75pt;
+            left: 28.5pt;
+            border: 1.5pt solid #0b3fa4;
+        }
+
+        .issuer {
+            position: absolute;
+            top: 62.25pt;
             left: 0;
             width: 100%;
-            z-index: 1;
+            text-align: center;
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 15pt;
+            font-weight: normal;
+            letter-spacing: 0;
         }
 
-        .shape-top {
-            top: 0;
-            height: 250px;
+        h1 {
+            position: absolute;
+            top: 88.5pt;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            text-align: center;
+            color: #0b3fa4;
+            font-family: DejaVu Serif, serif;
+            font-size: 58.5pt;
+            line-height: 1;
+            font-weight: normal;
+            letter-spacing: 6pt;
         }
 
-        .shape-bottom {
-            bottom: 0;
-            height: 270px;
+        .title-line {
+            position: absolute;
+            top: 173.25pt;
+            left: 217.5pt;
+            width: 407.25pt;
+            height: 1.5pt;
+            background: #0b3fa4;
         }
 
-        .content {
-            position: relative;
-            z-index: 2;
-            padding: 132px 54px 140px;
+        .number {
+            position: absolute;
+            top: 193.5pt;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-style: italic;
+            font-size: 14.25pt;
+            letter-spacing: .75pt;
+        }
+
+        .person {
+            position: absolute;
+            top: 227.25pt;
+            left: 97.5pt;
+            right: 97.5pt;
+            text-align: center;
+            color: #0b3fa4;
+            font-size: 27.75pt;
+            line-height: 1.15;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .person-line {
+            position: absolute;
+            top: 264pt;
+            left: 217.5pt;
+            width: 407.25pt;
+            height: 1.5pt;
+            background: #0b3fa4;
+        }
+
+        .kind,
+        .event,
+        .format {
+            position: absolute;
+            left: 75pt;
+            right: 75pt;
             text-align: center;
         }
 
-        .brand {
-            margin-bottom: 42px;
+        .kind {
+            top: 280.5pt;
+            font-size: 15pt;
         }
 
-        .brand-mark {
-            width: 58px;
-            height: 58px;
-            border: 4px solid #2e86de;
-            border-top-color: transparent;
-            border-right-color: #7e57c2;
-            border-radius: 50%;
-            margin: 0 auto 14px;
+        .event {
+            top: 305.25pt;
+            color: #1c1c1c;
+            font-size: 17.25pt;
+            line-height: 1.2;
+            letter-spacing: .75pt;
+            text-transform: uppercase;
         }
 
-        .brand-name {
-            font-size: 18px;
-            color: #7c7c7c;
+        .format {
+            top: 343.5pt;
+            font-size: 14.25pt;
+            font-style: italic;
         }
 
-        .title {
-            margin: 0 0 14px;
-            font-size: 54px;
-            letter-spacing: 20px;
-            font-weight: 400;
-            color: #2e86de;
-        }
-
-        .file-number {
-            margin-bottom: 6px;
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            font-size: 26px;
-            color: #4f4f4f;
-            margin-bottom: 24px;
-        }
-
-        .name {
-            margin: 0 0 20px;
-            font-size: 46px;
-            line-height: 1.12;
-            font-weight: 700;
-        }
-
-        .lead {
-            font-size: 28px;
-            color: #4f4f4f;
-            margin-bottom: 10px;
-        }
-
-        .program {
-            font-size: 40px;
-            line-height: 1.18;
-            font-weight: 700;
-            margin-bottom: 24px;
-        }
-
-        .specialty {
-            font-size: 18px;
-            color: #6a6a6a;
-            line-height: 1.45;
-            margin: 0 auto 24px;
-            max-width: 650px;
-        }
-
-        .score {
-            font-size: 20px;
-            line-height: 1.55;
-            font-weight: 700;
-            margin: 0 auto;
-            max-width: 680px;
-        }
-
-        .footer {
+        .specialties {
             position: absolute;
-            left: 56px;
-            right: 56px;
-            bottom: 86px;
-            z-index: 2;
+            top: 381.75pt;
+            left: 63.75pt;
+            width: 487.5pt;
+            font-size: 11.25pt;
+            line-height: 1.35;
         }
 
-        .footer-line {
-            width: 210px;
-            border-top: 2px solid #3c3c3c;
-            margin-bottom: 12px;
+        .specialties strong {
+            color: #0b3fa4;
+            font-weight: bold;
         }
 
-        .footer-sign {
-            font-size: 18px;
-            color: #3c3c3c;
+        .specialties em {
+            font-style: italic;
         }
 
-        .footer-date {
+        .date-left {
             position: absolute;
-            right: 0;
-            bottom: 0;
-            font-size: 22px;
-            font-weight: 700;
-            color: #3c3c3c;
+            top: 454.5pt;
+            left: 64.5pt;
+            font-size: 12pt;
+        }
+
+        .date-left strong { color: #0b3fa4; }
+        .date-left span { margin-left: 4.5pt; }
+
+        .signature {
+            position: absolute;
+            left: 71.25pt;
+            top: 477.75pt;
+            width: 144pt;
+            height: auto;
+        }
+
+        .stamp {
+            position: absolute;
+            left: 147.75pt;
+            top: 473.25pt;
+            width: 100.5pt;
+            height: auto;
+        }
+
+        .director {
+            position: absolute;
+            left: 64.5pt;
+            top: 536.25pt;
+            font-size: 10.5pt;
+            color: #4c4c4c;
+        }
+
+        .points {
+            position: absolute;
+            top: 496.5pt;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #0b3fa4;
+            font-size: 24.75pt;
+            line-height: 1.1;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .points-line {
+            position: absolute;
+            top: 546pt;
+            left: 258pt;
+            width: 328.5pt;
+            height: 1.5pt;
+            background: #0b3fa4;
+        }
+
+        .issued {
+            position: absolute;
+            top: 524.25pt;
+            right: 64.5pt;
+            font-size: 14.25pt;
         }
     </style>
 </head>
 <body>
-    <div class="page">
-        <div class="shape-top">
-            <svg width="794" height="250" viewBox="0 0 794 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="0,0 794,0 794,78 0,160" fill="#285AB3"/>
-                <polygon points="0,46 278,0 530,0 0,188" fill="#7E7FA2" opacity="0.9"/>
-                <polygon points="794,0 794,168 480,0" fill="#8AC4F8" opacity="0.85"/>
-                <polygon points="0,160 397,250 794,160 794,220 397,250 0,220" fill="#FFFFFF"/>
-            </svg>
-        </div>
+    <main class="page">
+        <section class="certificate" aria-label="Сертифікат">
+            <div class="frame"></div>
 
-        <div class="content">
-            <div class="brand">
-                <div class="brand-mark"></div>
-                <div class="brand-name">{{ config('certificates.provider_name') }}</div>
+            <div class="issuer">{{ $providerName }}</div>
+            <h1>СЕРТИФІКАТ</h1>
+            <div class="title-line"></div>
+
+            <div class="number">№ {{ $certificateNumber }}</div>
+            <div class="person">{{ $fullName ?: 'Прізвище Ім’я По батькові' }}</div>
+            <div class="person-line"></div>
+
+            <div class="kind">майстер-клас</div>
+            <div class="event">«{{ $courseTitle }}»</div>
+            <div class="format">дистанційна участь</div>
+
+            <div class="specialties">
+                <strong>Спеціальність, за якою проводилось навчання:</strong><br>
+                <em>{{ $specialty }}</em>
             </div>
 
-            <div class="title">CERTIFICATE</div>
-            <div class="file-number">{{ pathinfo($fileName, PATHINFO_FILENAME) }}</div>
-            <div class="subtitle">засвідчує, що</div>
+            <div class="date-left"><strong>Дата:</strong> <span>{{ $issuedAt }}</span></div>
+            <img class="signature" src="{{ public_path('cert_html/assets/signature.png') }}" alt="Підпис">
+            <img class="stamp" src="{{ public_path('cert_html/assets/stamp.png') }}" alt="Печатка">
+            <div class="director">Директор Тищенко Марина Юріївна</div>
 
-            <h1 class="name">{{ $fullName }}</h1>
-            <div class="lead">був(-ла) учасником майстер-класу</div>
-            <div class="program">{{ $result->webinar->title }}</div>
-
-            <div class="specialty">
-                {{ $result->user->specialty ?: 'Спеціальність не вказана' }}
+            <div class="points">
+                2 години@if ($result->webinar->bpr_points), {{ $result->webinar->bpr_points }} балів БПР@endif
             </div>
-
-            <div class="score">
-                та набрав(-ла) {{ $result->score_percent }}% правильних відповідей за критеріями нарахування балів безперервного професійного розвитку
-                @if ($result->webinar->bpr_points)
-                    ({{ $result->webinar->bpr_points }} балів БПР)
-                @endif
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="footer-line"></div>
-            <div class="footer-sign">Підпис провайдера</div>
-            <div class="footer-date">{{ optional($result->passed_at)->format('d.m.Y') }}</div>
-        </div>
-
-        <div class="shape-bottom">
-            <svg width="794" height="270" viewBox="0 0 794 270" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="0,130 250,270 0,270" fill="#8AC4F8" opacity="0.9"/>
-                <polygon points="0,88 360,270 110,270" fill="#5C7FC5" opacity="0.92"/>
-                <polygon points="794,108 794,270 530,270" fill="#7E7FA2" opacity="0.9"/>
-                <polygon points="794,72 794,270 408,270" fill="#285AB3" opacity="0.9"/>
-                <polygon points="180,270 397,170 620,270" fill="#FFFFFF"/>
-            </svg>
-        </div>
-    </div>
+            <div class="points-line"></div>
+            <div class="issued">Видано: <span>{{ $issuedAt }}</span></div>
+        </section>
+    </main>
 </body>
 </html>

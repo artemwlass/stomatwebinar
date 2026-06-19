@@ -38,6 +38,26 @@ Route::get('/payments', \App\Livewire\Payments::class)->name('payment');
 
 Route::get('payment-form/{token}', \App\Livewire\Payment\Payment::class)->name('payment.form');
 
+Route::middleware('auth')
+    ->prefix('admin/certificates')
+    ->name('admin.certificates.')
+    ->group(function () {
+        Route::get('/webinars/{webinar}/export', \App\Http\Controllers\Admin\WebinarCertificatesExportController::class)
+            ->name('webinar-export');
+        Route::get('/{result}/view', [\App\Http\Controllers\Admin\CertificateController::class, 'view'])->name('view');
+        Route::get('/{result}/download', [\App\Http\Controllers\Admin\CertificateController::class, 'download'])->name('download');
+        Route::post('/{result}/send', [\App\Http\Controllers\Admin\CertificateController::class, 'send'])->name('send');
+        Route::delete('/{result}', [\App\Http\Controllers\Admin\CertificateController::class, 'destroy'])->name('destroy');
+    });
+
+Route::middleware('auth')
+    ->prefix('admin/test-results')
+    ->name('admin.webinar-test-results.')
+    ->group(function () {
+        Route::get('/{result}/answers-pdf', \App\Http\Controllers\Admin\WebinarTestResultPdfController::class)
+            ->name('answers-pdf');
+    });
+
 Route::get('/webinar/{slug}', App\Livewire\FreeWebinarPreorder\Index::class)->name('webinar.preorder');
 Route::get('/free-webinars', \App\Livewire\FreeWebinar\Index::class)->name('free-webinar');
 Route::get('/{slug}/show', \App\Livewire\Webinar\Show::class)->middleware('auth')->name('webinar.video.show');

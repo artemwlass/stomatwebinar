@@ -7,6 +7,7 @@ use App\Livewire\LiqPay\PaymentForm;
 use App\Livewire\Payment\Payment;
 use App\Models\User;
 use App\Services\Liqpay;
+use App\Support\PromoCodeCalculator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +23,15 @@ class Cart extends Component
     public $phone;
     public $surname;
     public $email;
+    public string $promoCode = '';
+    public ?string $appliedPromoCode = null;
+    public ?string $promoError = null;
+
+    public function mount()
+    {
+        $this->appliedPromoCode = session('cart_promo_code');
+        $this->promoCode = $this->appliedPromoCode ?? '';
+    }
 
     public function destroy($id)
     {
@@ -31,8 +41,61 @@ class Cart extends Component
 
         if ($cartItem) {
             \Gloudemans\Shoppingcart\Facades\Cart::remove($id);
+            if (\Gloudemans\Shoppingcart\Facades\Cart::count() === 0) {
+                session()->forget('cart_promo_code');
+                $this->appliedPromoCode = null;
+                $this->promoCode = '';
+            }
             $this->dispatch('cartUpdated');
         }
+    }
+
+    public function applyPromoCode()
+    {
+        $this->promoError = null;
+
+        if (\Gloudemans\Shoppingcart\Facades\Cart::count() === 0) {
+            $this->promoError = 'Кошик порожній';
+            return;
+        }
+
+        $promoCode = PromoCodeCalculator::findValid($this->promoCode);
+
+        if (!$promoCode) {
+            session()->forget('cart_promo_code');
+            $this->appliedPromoCode = null;
+            $this->promoError = 'Промокод не знайдено або він вже не діє';
+            return;
+        }
+
+        $this->appliedPromoCode = $promoCode->code;
+        $this->promoCode = $promoCode->code;
+        session(['cart_promo_code' => $promoCode->code]);
+        $this->dispatch('cartUpdated');
+    }
+
+    public function removePromoCode()
+    {
+        session()->forget('cart_promo_code');
+        $this->appliedPromoCode = null;
+        $this->promoCode = '';
+        $this->promoError = null;
+        $this->dispatch('cartUpdated');
+    }
+
+    public function getSubtotalAmountProperty(): float
+    {
+        return PromoCodeCalculator::cartSubtotal();
+    }
+
+    public function getDiscountAmountProperty(): float
+    {
+        return PromoCodeCalculator::discountData($this->appliedPromoCode, $this->subtotalAmount)['discount_amount'];
+    }
+
+    public function getTotalAmountProperty(): float
+    {
+        return PromoCodeCalculator::discountData($this->appliedPromoCode, $this->subtotalAmount)['total_amount'];
     }
 
 
@@ -85,6 +148,12 @@ class Cart extends Component
 
         // Авторизация пользователя
         Auth::login($user);
+
+        if ($this->appliedPromoCode && !PromoCodeCalculator::findValid($this->appliedPromoCode)) {
+            session()->forget('cart_promo_code');
+            $this->appliedPromoCode = null;
+        }
+
         $paymentToken = Str::random(32);
         session(['payment_token' => $paymentToken]);
         return redirect()->to('/payment-form/' . $paymentToken);

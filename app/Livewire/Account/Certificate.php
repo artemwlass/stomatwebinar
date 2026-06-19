@@ -45,6 +45,7 @@ class Certificate extends Component
             ->pluck('webinar')
             ->filter(function (?Webinar $webinar) use ($passedWebinarIds) {
                 return $webinar
+                    && $this->hasTests($webinar)
                     && ! $passedWebinarIds->contains($webinar->id);
             })
             ->unique('id')
@@ -58,6 +59,12 @@ class Certificate extends Component
                 return $webinar;
             })
             ->groupBy('group_label');
+    }
+
+    protected function hasTests(Webinar $webinar): bool
+    {
+        return collect($webinar->tests ?? [])
+            ->contains(fn ($test) => ! empty($test['question']) && ! empty($test['answers']) && is_array($test['answers']));
     }
 
     public function render()

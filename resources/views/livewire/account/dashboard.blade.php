@@ -27,7 +27,7 @@
                             <div class="form-date__inp">
                                 <input wire:model.defer="birth_day" type="text" placeholder="дд" maxlength="2">
                                 <input wire:model.defer="birth_month" type="text" placeholder="мм" maxlength="2">
-                                <input wire:model.defer="birth_year" type="text" placeholder="гг" maxlength="2">
+                                <input wire:model.defer="birth_year" type="text" placeholder="гггг" maxlength="4">
                             </div>
                         </div>
                         @error('birth_day') <div class="form-label text-center" style="color: #BD3333">{{ $message }}</div> @enderror

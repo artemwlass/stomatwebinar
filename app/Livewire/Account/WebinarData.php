@@ -59,7 +59,7 @@ class WebinarData extends Component
         if ($user->birthday) {
             $this->birth_day = $user->birthday->format('d');
             $this->birth_month = $user->birthday->format('m');
-            $this->birth_year = $user->birthday->format('y');
+            $this->birth_year = $user->birthday->format('Y');
         }
     }
 
@@ -145,7 +145,7 @@ class WebinarData extends Component
             'phone' => ['required', 'string', 'max:255'],
             'birth_day' => ['required', 'digits:2'],
             'birth_month' => ['required', 'digits:2'],
-            'birth_year' => ['required', 'digits:2'],
+            'birth_year' => ['required', 'digits:4'],
             'country' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'work_place' => ['required', 'string', 'max:255'],
@@ -162,7 +162,7 @@ class WebinarData extends Component
             'birth_month.required' => 'Вкажіть місяць народження.',
             'birth_month.digits' => 'Місяць народження має містити 2 цифри.',
             'birth_year.required' => 'Вкажіть рік народження.',
-            'birth_year.digits' => 'Рік народження має містити 2 цифри.',
+            'birth_year.digits' => 'Рік народження має містити 4 цифри.',
             'country.required' => 'Поле "Країна" обов\'язкове.',
             'city.required' => 'Поле "Місто" обов\'язкове.',
             'work_place.required' => 'Поле "Місце роботи" обов\'язкове.',
@@ -171,8 +171,6 @@ class WebinarData extends Component
         ]);
 
         $year = (int) $validated['birth_year'];
-        $currentTwoDigitYear = (int) now()->format('y');
-        $year += $year <= $currentTwoDigitYear ? 2000 : 1900;
 
         if (! checkdate((int) $validated['birth_month'], (int) $validated['birth_day'], $year)) {
             $this->addError('birth_day', 'Вкажіть коректну дату народження.');
@@ -370,7 +368,7 @@ class WebinarData extends Component
                 $statusLabel = 'Тестування відкриється';
                 $statusText = $testingStartAt
                     ? $this->formatCountdown($testingStartAt, $now)
-                    : 'Дату не вказано';
+                    : 'Тестування закрито';
                 $statusExpired = 'Недоступно';
                 $statusTargetTs = $testingStartAt?->getTimestampMs();
                 $statusDayStartTs = $testingStartAt?->copy()->startOfDay()->getTimestampMs();

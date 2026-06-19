@@ -10,6 +10,8 @@ use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,6 +28,7 @@ class WebinarResource extends Resource
     protected static ?string $breadcrumb = 'Вебинары';
     protected static ?string $navigationIcon = 'heroicon-m-academic-cap';
     protected static ?int $navigationSort = 2;
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     public static function form(Form $form): Form
     {
@@ -383,6 +386,15 @@ class WebinarResource extends Resource
             ]);
     }
 
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\EditWebinar::class,
+            Pages\WebinarCertificates::class,
+            Pages\WebinarTests::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -396,6 +408,8 @@ class WebinarResource extends Resource
             'index' => Pages\ListWebinars::route('/'),
             'create' => Pages\CreateWebinar::route('/create'),
             'edit' => Pages\EditWebinar::route('/{record}/edit'),
+            'certificates' => Pages\WebinarCertificates::route('/{record}/certificates'),
+            'tests' => Pages\WebinarTests::route('/{record}/tests'),
         ];
     }
 }

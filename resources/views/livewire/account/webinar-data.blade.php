@@ -50,7 +50,7 @@
                             <div class="form-date__inp">
                                 <input wire:model.defer="birth_day" type="text" placeholder="дд" maxlength="2">
                                 <input wire:model.defer="birth_month" type="text" placeholder="мм" maxlength="2">
-                                <input wire:model.defer="birth_year" type="text" placeholder="гг" maxlength="2">
+                                <input wire:model.defer="birth_year" type="text" placeholder="гггг" maxlength="4">
                             </div>
                         </div>
                         @error('birth_day') <div class="form-label text-center" style="color: #BD3333">{{ $message }}</div> @enderror
@@ -132,7 +132,7 @@
                             </div>
                             <div class="text">
                                 <div class="text-label">Дата народження</div>
-                                <div class="text-value">{{ $birth_day && $birth_month && $birth_year ? $birth_day . '.' . $birth_month . '.19' . $birth_year : 'Не вказано' }}</div>
+                                <div class="text-value">{{ $birth_day && $birth_month && $birth_year ? $birth_day . '.' . $birth_month . '.' . $birth_year : 'Не вказано' }}</div>
                             </div>
                             <div class="text">
                                 <div class="text-label">Країна / місто</div>

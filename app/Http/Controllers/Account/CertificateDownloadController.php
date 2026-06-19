@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\WebinarTestResult;
+use App\Support\CertificatePdf;
 use App\Support\CertificatePresenter;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 
 class CertificateDownloadController extends Controller
@@ -17,13 +17,8 @@ class CertificateDownloadController extends Controller
 
         $result->loadMissing(['webinar', 'user']);
 
-        $pdf = Pdf::loadView('pdf.certificates.default', [
-            'result' => $result,
-            'fileName' => CertificatePresenter::fileName($result),
-            'fullName' => CertificatePresenter::fullName($result),
-            'providerNumber' => config('certificates.provider_number', '2169'),
-        ])->setPaper('a4', 'portrait');
+        $fileName = CertificatePresenter::fileName($result);
 
-        return $pdf->download(CertificatePresenter::fileName($result));
+        return CertificatePdf::make($result)->download($fileName);
     }
 }

@@ -9,6 +9,8 @@ use Illuminate\Contracts\Support\Htmlable;
 
 class EditWebinar extends EditRecord
 {
+    protected static ?string $navigationLabel = 'Вебинар';
+
     protected static string $resource = WebinarResource::class;
 
     protected function getHeaderActions(): array
@@ -16,6 +18,11 @@ class EditWebinar extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Вебинар';
     }
 
     public function getTitle(): string | Htmlable

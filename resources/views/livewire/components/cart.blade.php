@@ -40,8 +40,46 @@
                     <div class="modal-cart__total">
                         <p>
                             Сумма:
-                            <span>{{\Gloudemans\Shoppingcart\Facades\Cart::subtotal()}}₴</span>
+                            <span>{{ number_format($this->subtotalAmount, 2, '.', ' ') }}₴</span>
                         </p>
+                        <div class="mt-3">
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Промокод"
+                                    wire:model="promoCode"
+                                    @if($appliedPromoCode) disabled @endif
+                                >
+                                @if($appliedPromoCode)
+                                    <button type="button" class="btn btn-outline-secondary" wire:click="removePromoCode">
+                                        Прибрати
+                                    </button>
+                                @else
+                                    <button type="button" class="btn btn-outline-dark" wire:click="applyPromoCode">
+                                        Застосувати
+                                    </button>
+                                @endif
+                            </div>
+
+                            @if($promoError)
+                                <p class="text-danger small mt-2 mb-0">{{ $promoError }}</p>
+                            @endif
+
+                            @if($appliedPromoCode)
+                                <p class="text-success small mt-2 mb-0">
+                                    Промокод {{ $appliedPromoCode }} застосовано:
+                                    -{{ number_format($this->discountAmount, 2, '.', ' ') }}₴
+                                </p>
+                            @endif
+                        </div>
+
+                        @if($this->discountAmount > 0)
+                            <p class="mt-3">
+                                До сплати:
+                                <span>{{ number_format($this->totalAmount, 2, '.', ' ') }}₴</span>
+                            </p>
+                        @endif
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
@@ -62,7 +100,7 @@
                             <!-- Input for customer email -->
                             <input placeholder="Ваша пошта" type="email" class="form-control" id="email" name="email" required>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-4" wire:ignore>
                             <!-- Input for customer phone -->
                             <input placeholder="Ваш телефон" type="tel" class="form-control" id="phone" name="phone" required>
                         </div>
@@ -110,7 +148,7 @@
                                 <!-- Input for customer email -->
                                 <input placeholder="Ваша пошта" type="email" class="form-control" id="email" name="email" required>
                             </div>
-                            <div class="mb-4">
+                            <div class="mb-4" wire:ignore>
                                 <!-- Input for customer phone -->
                                 <input placeholder="Ваш телефон" type="tel" class="form-control" id="phone" name="phone" required>
                             </div>
@@ -131,8 +169,16 @@
 </div>
 <script>
     document.addEventListener('livewire:init', () => {
+        const reinitPhoneMasks = () => {
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    window.initPhoneMasks();
+                }, 0);
+            });
+        };
+
         Livewire.on('cartUpdated', (event) => {
-            window.initPhoneMasks();
+            reinitPhoneMasks();
         });
         const form = document.querySelector('.order-form');
         form.addEventListener('submit', function (event) {

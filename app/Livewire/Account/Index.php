@@ -48,7 +48,7 @@ class Index extends Component
         if ($user->birthday) {
             $this->birth_day = $user->birthday->format('d');
             $this->birth_month = $user->birthday->format('m');
-            $this->birth_year = $user->birthday->format('y');
+            $this->birth_year = $user->birthday->format('Y');
         }
 
         $this->dashboardStats = $accountPage?->dashboard_stats ?: [
@@ -66,7 +66,7 @@ class Index extends Component
             'phone' => ['required', 'string', 'max:255'],
             'birth_day' => ['required', 'digits:2'],
             'birth_month' => ['required', 'digits:2'],
-            'birth_year' => ['required', 'digits:2'],
+            'birth_year' => ['required', 'digits:4'],
             'country' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'work_place' => ['required', 'string', 'max:255'],
@@ -84,7 +84,7 @@ class Index extends Component
             'birth_month.required' => 'Вкажіть місяць народження.',
             'birth_month.digits' => 'Місяць народження має містити 2 цифри.',
             'birth_year.required' => 'Вкажіть рік народження.',
-            'birth_year.digits' => 'Рік народження має містити 2 цифри.',
+            'birth_year.digits' => 'Рік народження має містити 4 цифри.',
             'country.required' => 'Поле "Країна" обов\'язкове.',
             'city.required' => 'Поле "Місто" обов\'язкове.',
             'work_place.required' => 'Поле "Місце роботи" обов\'язкове.',
@@ -95,8 +95,6 @@ class Index extends Component
 
         $year = (int) $validated['birth_year'];
 
-        $currentTwoDigitYear = (int) now()->format('y');
-        $year += $year <= $currentTwoDigitYear ? 2000 : 1900;
 
         $birthday = sprintf(
             '%04d-%02d-%02d',

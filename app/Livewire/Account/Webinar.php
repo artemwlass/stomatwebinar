@@ -88,7 +88,7 @@ class Webinar extends Component
                 $testingStatusExpired = 'Недоступно';
                 $testingStatusText = $testingStartAt
                     ? $this->formatCountdown($testingStartAt, $now)
-                    : 'Дату не вказано';
+                    : 'Тестування закрито';
 
                 if ($testingStartAt && $testingStartAt->lte($now) && $testingEndAt && $testingEndAt->gt($now)) {
                     $testingStatusLabel = 'Тестування завершиться';
