@@ -96,12 +96,21 @@
     </section>
 
     <main>
-        <section class="webinar-data">
-            <img src="{{ asset('account_assets/images/bg-1.png') }}" alt="" class="bg-1">
-            <img src="{{ asset('account_assets/images/bg-2.png') }}" alt="" class="bg-2">
-            <img src="{{ asset('account_assets/images/bg-1.png') }}" alt="" class="bg-3">
-            <div class="container webinar-data__container">
-                <div class="webinar-data__content">
+        <section class="dashboard">
+            <div class="dashboard-container">
+                @include('livewire.account.partials.sidebar', [
+                    'active' => 'testing',
+                    'mobileLabel' => 'Тестування',
+                    'mobileIcon' => 'account_assets/images/nav-link-icon-6-active.svg',
+                ])
+
+                <div class="dashboard-right">
+                    <section class="webinar-data">
+                        <img src="{{ asset('account_assets/images/bg-1.png') }}" alt="" class="bg-1">
+                        <img src="{{ asset('account_assets/images/bg-2.png') }}" alt="" class="bg-2">
+                        <img src="{{ asset('account_assets/images/bg-1.png') }}" alt="" class="bg-3">
+                        <div class="container webinar-data__container">
+                            <div class="webinar-data__content">
                     @if ($selectedWebinar)
                         <div class="webinar-data__head">
                             <button type="button" wire:click="backToWebinars" class="webinar-data__back">Назад до вебінарів</button>
@@ -251,6 +260,9 @@
                             </div>
                         </section>
                     @endif
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </section>
