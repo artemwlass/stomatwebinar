@@ -46,6 +46,23 @@ class HeaderAndFooterResource extends Resource
 //                        Forms\Components\TextInput::make('footer_youtube')->label('Youtube')->required(),
                     ])->columns(2),
 
+                Forms\Components\Section::make('Социальные сети личного кабинета')
+                    ->description('Ссылки выводятся в футере личного кабинета в указанном порядке.')
+                    ->schema([
+                        Forms\Components\TextInput::make('account_footer_facebook')
+                            ->label('Facebook')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('account_footer_telegram')
+                            ->label('Telegram')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('account_footer_instagram')
+                            ->label('Instagram')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('account_footer_youtube')
+                            ->label('YouTube')
+                            ->maxLength(255),
+                    ])->columns(2),
+
                 Forms\Components\Section::make('Меню Footer')
                     ->schema([
                         Forms\Components\Repeater::make('footer_menu1')->label('Меню footer 1')->schema([

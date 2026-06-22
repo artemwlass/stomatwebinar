@@ -1,80 +1,47 @@
-<div>
-    <main>
+<main>
+    <section class="dashboard account-blog-page">
+        <div class="dashboard-container">
+            @include('livewire.account.partials.sidebar', [
+                'active' => 'blog',
+                'mobileLabel' => 'Блог',
+                'mobileIcon' => 'account_assets/images/nav-link-icon-1-active.svg',
+            ])
 
-        <div class="container breadcrumb__container">
-
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumbs__item">
-                        <a class="breadcrumbs__link breadcrumbs__prev" href="/">Головна</a>
-                    </li>
-                    <span class="breadcrumbs__divider">
-                            /
-                        </span>
-                    <li class="breadcrumbs__item">
-                        <span class="breadcrumbs__current">Блог</span>
-                    </li>
-                </ol>
-            </nav>
-
-
-        </div>
-
-        <section class="inner-page__blog">
-
-            <div class="container inner-page__container">
-
-                <div class="inner-page__title">
-
-                    <h3>
-                        {{$title}}
-                    </h3>
-                    {!! $description !!}
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <section class="blog-list">
-
-            <div class="container blog-list__container">
-
-                <div class="row blog-list__row">
-                @foreach($posts as $post)
-                    <div class="col-md-6">
-
-                        <div class="blog-card">
-
-                            <a class="blog-img" href="{{route('post', $post->slug)}}">
-                                <img class="img-fluid" src="{{asset('storage/' . $post->image)}}" alt="">
-                            </a>
-
-                            <a href="{{route('post', $post->slug)}}">
-                                <h5>
-                                    {{$post->title}}
-                                </h5>
-                            </a>
-                            <a href="{{route('post', $post->slug)}}">
-                                <p>
-                                    Нажмите на кнопку подробнее и читайте нашу статью
-                                </p>
-                            </a>
-
-                            <a href="{{route('post', $post->slug)}}" class="section__link-secondary">
-                                Детальніше
-                            </a>
-
-                        </div>
-
+            <div class="dashboard-right">
+                <section class="account-blog">
+                    <div class="account-blog__head">
+                        <span class="account-blog__eyebrow">База знань</span>
+                        <h1>{{ $title }}</h1>
+                        <div class="account-blog__description">{!! $description !!}</div>
                     </div>
-                @endforeach
-                </div>
 
+                    <div class="account-blog__grid">
+                        @forelse ($posts as $post)
+                            <article class="account-blog-card" wire:key="blog-post-{{ $post->id }}">
+                                <a href="{{ route('post', $post->slug) }}" class="account-blog-card__media">
+                                    @if ($post->image)
+                                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}">
+                                    @else
+                                        <span>{{ mb_substr($post->title, 0, 1) }}</span>
+                                    @endif
+                                </a>
+                                <div class="account-blog-card__body">
+                                    <time datetime="{{ $post->created_at?->toDateString() }}">
+                                        {{ $post->created_at?->locale('uk')->translatedFormat('d F Y') }}
+                                    </time>
+                                    <h2><a href="{{ route('post', $post->slug) }}">{{ $post->title }}</a></h2>
+                                    <a href="{{ route('post', $post->slug) }}" class="account-blog-card__link">
+                                        <span>Читати статтю</span>
+                                        <span aria-hidden="true">↗</span>
+                                    </a>
+                                </div>
+                            </article>
+                        @empty
+                            <div class="account-blog__empty">Опублікованих статей поки немає.</div>
+                        @endforelse
+                    </div>
+                </section>
             </div>
-
-        </section>
-
-    </main>
-</div>
+        </div>
+    </section>
+</main>

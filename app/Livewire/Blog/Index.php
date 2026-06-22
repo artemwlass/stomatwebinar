@@ -16,21 +16,32 @@ class Index extends Component
     {
         $blog = BlogPage::first();
 
-        SEOMeta::setTitle($blog->seo['title']);
-        SEOMeta::setDescription($blog->seo['meta_description']);
-        SEOMeta::addKeyword($blog->seo['keywords']);
+        SEOMeta::setTitle(data_get($blog, 'seo.title', 'Блог'));
+        SEOMeta::setDescription(data_get($blog, 'seo.meta_description', 'Корисні матеріали для стоматологів.'));
 
-        OpenGraph::setTitle($blog->seo['og_title']);
-        OpenGraph::setDescription($blog->seo['og_description']);
-        OpenGraph::addImage(asset('storage/' . $blog->seo['og_image']));
-        OpenGraph::setType($blog->seo['og_type']);
-        OpenGraph::setUrl($blog->seo['og_url']);
+        $keywords = data_get($blog, 'seo.keywords');
+        if ($keywords) {
+            SEOMeta::addKeyword($keywords);
+        }
 
-        $this->title = $blog->title;
-        $this->description = $blog->description;
+        OpenGraph::setTitle(data_get($blog, 'seo.og_title', 'Блог'));
+        OpenGraph::setDescription(data_get($blog, 'seo.og_description', 'Корисні матеріали для стоматологів.'));
 
-        $posts = \App\Models\Post::select('title', 'slug', 'image')->where('is_active', true)->get();
+        $ogImage = data_get($blog, 'seo.og_image');
+        if ($ogImage) {
+            OpenGraph::addImage(asset('storage/' . $ogImage));
+        }
 
-        return view('livewire.blog.index', compact('posts'));
+        $this->title = $blog?->title ?: 'Блог';
+        $this->description = $blog?->description ?: 'Корисні матеріали, клінічні випадки та новини стоматології.';
+
+        $posts = \App\Models\Post::query()
+            ->select('id', 'title', 'slug', 'image', 'created_at')
+            ->where('is_active', true)
+            ->latest()
+            ->get();
+
+        return view('livewire.blog.index', compact('posts'))
+            ->layout('components.layouts.account');
     }
 }

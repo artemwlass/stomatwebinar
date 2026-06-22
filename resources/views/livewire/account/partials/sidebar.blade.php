@@ -49,7 +49,7 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{ route('account.cases') }}" class="{{ $active === 'cases' ? 'active' : '' }}">
                 <img src="{{ asset('account_assets/images/nav-link-icon-6-active.svg') }}" alt="">
                 <img src="{{ asset('account_assets/images/nav-link-icon-6.svg') }}" alt="">
                 <span>Кейси</span>
@@ -63,14 +63,14 @@
             </a>
         </li>
         <li>
-            <a href="./equipment.html">
+            <a href="{{ route('account.equipment') }}" class="{{ $active === 'equipment' ? 'active' : '' }}">
                 <img src="{{ asset('account_assets/images/nav-link-icon-7-active.svg') }}" alt="">
                 <img src="{{ asset('account_assets/images/nav-link-icon-7.svg') }}" alt="">
                 <span>Огляд обладнання</span>
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{ route('blog') }}" class="{{ $active === 'blog' ? 'active' : '' }}">
                 <img src="{{ asset('account_assets/images/nav-link-icon-1-active.svg') }}" alt="">
                 <img src="{{ asset('account_assets/images/nav-link-icon-1.svg') }}" alt="">
                 <span>Блог</span>

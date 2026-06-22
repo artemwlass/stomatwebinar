@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Blog;
 
-use App\Models\Webinar;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Component;
@@ -13,26 +12,34 @@ class Post extends Component
 
     public function mount($slug)
     {
-        $this->post = \App\Models\Post::where('slug', $slug)->first();
+        $this->post = \App\Models\Post::query()
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->first();
 
         if (!$this->post) {
             abort(404);
         }
 
-        SEOMeta::setTitle($this->post->seo['title']);
-        SEOMeta::setDescription($this->post->seo['meta_description']);
-        SEOMeta::addKeyword($this->post->seo['keywords']);
+        SEOMeta::setTitle(data_get($this->post, 'seo.title', $this->post->title));
+        SEOMeta::setDescription(data_get($this->post, 'seo.meta_description', ''));
 
-        OpenGraph::setTitle($this->post->seo['og_title']);
-        OpenGraph::setDescription($this->post->seo['og_description']);
-        OpenGraph::addImage(asset('storage/' . $this->post->seo['og_image']));
-        OpenGraph::setType($this->post->seo['og_type']);
-        OpenGraph::setUrl($this->post->seo['og_url']);
+        $keywords = data_get($this->post, 'seo.keywords');
+        if ($keywords) {
+            SEOMeta::addKeyword($keywords);
+        }
+
+        OpenGraph::setTitle(data_get($this->post, 'seo.og_title', $this->post->title));
+        OpenGraph::setDescription(data_get($this->post, 'seo.og_description', ''));
+
+        $ogImage = data_get($this->post, 'seo.og_image');
+        if ($ogImage) {
+            OpenGraph::addImage(asset('storage/' . $ogImage));
+        }
     }
     public function render()
     {
-        $webinars = Webinar::where('is_active', true)->inRandomOrder()->limit(3)->get();
-
-        return view('livewire.blog.post', compact('webinars'));
+        return view('livewire.blog.post')
+            ->layout('components.layouts.account');
     }
 }

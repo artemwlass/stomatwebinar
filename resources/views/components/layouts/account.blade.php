@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{{ asset('account_assets/scss/style.css') }}?v={{ filemtime(public_path('account_assets/scss/style.css')) }}">
+
 </head>
 <body>
 <div class="wrapper">

@@ -1,66 +1,99 @@
+@php
+    $footerMenu1 = $site?->footer_menu1 ?? [];
+    $footerMenu2 = $site?->footer_menu2 ?? [];
+    $footerPhone = (string) ($site?->footer_phone ?? '');
+    $footerPhoneHref = preg_replace('/[^\d+]/', '', $footerPhone);
+
+    $socials = array_filter([
+        ['url' => $site?->account_footer_facebook, 'icon' => 'account_assets/images/facebook.svg', 'label' => 'Facebook'],
+        ['url' => $site?->account_footer_telegram, 'icon' => 'account_assets/images/tg.svg', 'label' => 'Telegram'],
+        ['url' => $site?->account_footer_instagram, 'icon' => 'account_assets/images/insta.svg', 'label' => 'Instagram'],
+        ['url' => $site?->account_footer_youtube, 'icon' => 'account_assets/images/youtube.svg', 'label' => 'YouTube'],
+    ], fn (array $social) => filled($social['url']));
+@endphp
+
 <footer class="footer">
     <div class="footer-inner">
-        <!-- Contact + Socials -->
         <div class="footer-top">
             <div class="container footer-top__inner">
                 <div class="footer-contact">
-                    <a href="tel:+380966485280">+380 96 648 52 80</a>
+                    @if ($footerPhone)
+                        <a href="tel:{{ $footerPhoneHref }}">{{ $footerPhone }}</a>
+                    @endif
                     <span>Зворотний дзвінок</span>
                 </div>
+
                 <div class="footer-contact">
-                    <a href="mailto:stomatwebinar30@gmail.com">stomatwebinar30@gmail.com</a>
+                    @if ($site?->footer_email)
+                        <a href="mailto:{{ $site->footer_email }}">{{ $site->footer_email }}</a>
+                    @endif
                     <span>Запитання та пропозиції</span>
                 </div>
-                <div class="footer-socials">
-                    <a href="#"><img src="./assets/images/facebook.svg" alt="Facebook" /></a>
-                    <a href="#"><img src="./assets/images/tg.svg" alt="Telegram" /></a>
-                    <a href="#"><img src="./assets/images/insta.svg" alt="Instagram" /></a>
-                    <a href="#"><img src="./assets/images/youtube.svg" alt="YouTube" /></a>
-                </div>
+
+                @if ($socials)
+                    <div class="footer-socials">
+                        @foreach ($socials as $social)
+                            <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer">
+                                <img src="{{ asset($social['icon']) }}" alt="{{ $social['label'] }}">
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
+
         <div class="container">
             <div class="footer-hr"></div>
         </div>
-        <!-- Logo + Nav -->
+
         <div class="container footer-mid">
             <div class="footer-logo-block">
-                <img src="./assets/images/footer-logo.svg" alt="SOCO.COM.UA" />
-                <!-- mobile only payments -->
+                <a href="https://soco.com.ua" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ asset('account_assets/images/footer-logo.svg') }}" alt="SOCO.COM.UA">
+                </a>
+
                 <div class="footer-payments footer-payments--mob">
-                    <img src="./assets/images/mastercard.svg" alt="Mastercard" />
-                    <img src="./assets/images/visacard.svg" alt="VISA" />
+                    <img src="{{ asset('account_assets/images/mastercard.svg') }}" alt="Mastercard">
+                    <img src="{{ asset('account_assets/images/visacard.svg') }}" alt="VISA">
                 </div>
             </div>
-            <!-- mobile only copyright -->
-            <p class="footer-copy-mob">© 2023 stomatwebinar</p>
+
+            <p class="footer-copy-mob">© {{ date('Y') }} stomatwebinar</p>
+
             <nav class="footer-nav">
-                <ul>
-                    <li><a href="#">Найближчий вебінар</a></li>
-                    <li><a href="#">Купити все для ендо</a></li>
-                    <li><a href="#">Серія вебінарів</a></li>
-                </ul>
-                <ul>
-                    <li><a href="#">Безкоштовні вебінари</a></li>
-                    <li><a href="#">Контакти</a></li>
-                </ul>
+                @foreach ([$footerMenu1, $footerMenu2] as $menu)
+                    @if ($menu)
+                        <ul>
+                            @foreach ($menu as $item)
+                                <li>
+                                    <a href="{{ $item['link'] ?? '#' }}"
+                                       @if (! empty($item['blanc'])) target="_blank" rel="noopener noreferrer" @endif>
+                                        {{ $item['text'] ?? '' }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                @endforeach
             </nav>
-            <!-- mobile only policy -->
+
             <div class="footer-policy-mob">
-                <a href="#">Політика конфіденційності</a>
-                <a href="#">Договір публічної оферти</a>
+                <a href="{{ route('politic') }}">Політика конфіденційності</a>
+                <a href="{{ route('dogovor') }}">Договір публічної оферти</a>
             </div>
         </div>
-        <!-- Copyright + Policy + Payments (desktop) -->
+
         <div class="container footer-bottom">
-            <span class="footer-copy">© 2023 stomatwebinar</span>
+            <span class="footer-copy">© {{ date('Y') }} stomatwebinar</span>
+
             <div class="footer-policy">
-                <a href="#">Політика конфіденційності</a>
-                <a href="#">Договір публічної оферти</a>
+                <a href="{{ route('politic') }}">Політика конфіденційності</a>
+                <a href="{{ route('dogovor') }}">Договір публічної оферти</a>
             </div>
+
             <div class="footer-payments footer-payments--desk">
-                <img src="./assets/images/mastercard.svg" alt="Mastercard" />
-                <img src="./assets/images/visacard.svg" alt="VISA" />
+                <img src="{{ asset('account_assets/images/mastercard.svg') }}" alt="Mastercard">
+                <img src="{{ asset('account_assets/images/visacard.svg') }}" alt="VISA">
             </div>
         </div>
     </div>

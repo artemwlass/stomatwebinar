@@ -165,7 +165,7 @@
                     </div>
                     <div class="card">
                         <p>Кейси</p>
-                        <a href="#">Подробнее</a>
+                        <a href="{{ route('account.cases') }}">Подробнее</a>
                         <img src="{{ asset('account_assets/images/direction-icon-3.png') }}" alt="">
                     </div>
                     <div class="card">

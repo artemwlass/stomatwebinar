@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer(['components.layouts.app'], function ($view) {
+        View::composer(['components.layouts.app', 'components.layouts.account'], function ($view) {
             $view->with([
                 'site' => HeaderAndFooter::first(),
             ]);
