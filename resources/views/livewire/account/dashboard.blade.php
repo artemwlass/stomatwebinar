@@ -160,7 +160,7 @@
                     </div>
                     <div class="card">
                         <p>Тестування</p>
-                        <a href="#">Подробнее</a>
+                        <a href="{{ route('account.webinar-data') }}">Подробнее</a>
                         <img src="{{ asset('account_assets/images/direction-icon-2.png') }}" alt="">
                     </div>
                     <div class="card">
@@ -170,7 +170,7 @@
                     </div>
                     <div class="card">
                         <p>Пакетні пропозиції</p>
-                        <a href="#">Подробнее</a>
+                        <a href="{{ route('account.tarif') }}">Подробнее</a>
                         <img src="{{ asset('account_assets/images/direction-icon-4.png') }}" alt="">
                     </div>
                 </section>
