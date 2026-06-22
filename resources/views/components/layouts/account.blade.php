@@ -16,9 +16,7 @@
 
     {{ $slot }}
 
-    <footer class="footer">
-        <div class="container"></div>
-    </footer>
+    @include('livewire.account.partials.footer')
 </div>
 
 <script src="{{ asset('account_assets/js/iMask.js') }}?v={{ filemtime(public_path('account_assets/js/iMask.js')) }}"></script>

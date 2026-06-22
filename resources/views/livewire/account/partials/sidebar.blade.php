@@ -62,5 +62,19 @@
                 <span>Тестування</span>
             </a>
         </li>
+        <li>
+            <a href="./equipment.html">
+                <img src="{{ asset('account_assets/images/nav-link-icon-7-active.svg') }}" alt="">
+                <img src="{{ asset('account_assets/images/nav-link-icon-7.svg') }}" alt="">
+                <span>Огляд обладнання</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="{{ asset('account_assets/images/nav-link-icon-1-active.svg') }}" alt="">
+                <img src="{{ asset('account_assets/images/nav-link-icon-1.svg') }}" alt="">
+                <span>Блог</span>
+            </a>
+        </li>
     </ul>
 </div>
