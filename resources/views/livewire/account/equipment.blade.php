@@ -39,8 +39,8 @@
                         <div class="equipment-list">
                             @forelse ($reviews as $item)
                                 <article class="equipment-card" wire:key="equipment-review-{{ $item->id }}">
-                                    <div class="equipment-card__media">
-                                        <video controls preload="metadata" @if ($item->cover_url) poster="{{ $item->cover_url }}" @endif>
+                                    <div class="equipment-card__media" wire:ignore>
+                                        <video controls preload="metadata" wire:click="markViewed({{ $item->id }})" @if ($item->cover_url) poster="{{ $item->cover_url }}" @endif>
                                             <source src="{{ asset('storage/' . $item->video_file) }}">
                                         </video>
                                     </div>

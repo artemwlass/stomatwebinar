@@ -57,7 +57,9 @@ class WebinarCertificates extends Page implements HasTable
                     }),
                 Tables\Columns\TextColumn::make('passed_at')
                     ->label('Дата получения')
-                    ->dateTime('d.m.Y H:i')
+                    ->formatStateUsing(fn ($state): string => $state
+                        ? $state->copy()->timezone(config('app.display_timezone'))->format('d.m.Y H:i')
+                        : '—')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('certificate_full_number')
                     ->label('Номер сертификата')

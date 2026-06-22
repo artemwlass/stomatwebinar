@@ -3,6 +3,7 @@
 namespace App\Livewire\Account;
 
 use App\Models\ClinicalCase;
+use App\Support\AchievementPoints;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -17,6 +18,7 @@ class CaseShow extends Component
     {
         abort_if($case->published_at === null, 404);
         $this->case = $case;
+        AchievementPoints::awardOnce(Auth::id(), 'case_read', $case, 'Прочитано кейс: ' . $case->title);
     }
 
     public function addComment(): void

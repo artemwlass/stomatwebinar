@@ -75,6 +75,11 @@ class WebinarTests extends Page implements HasTable
                 Tables\Columns\TextColumn::make('user.position')
                     ->label('Должность')
                     ->placeholder('—'),
+                Tables\Columns\TextColumn::make('completed_at')
+                    ->label('Время прохождения')
+                    ->state(fn (WebinarTestResult $record): string => ($record->passed_at ?? $record->updated_at)
+                        ? ($record->passed_at ?? $record->updated_at)->copy()->timezone(config('app.display_timezone'))->format('d.m.Y H:i')
+                        : '—'),
             ])
             ->actions([
                 Tables\Actions\Action::make('download_answers')

@@ -3,6 +3,7 @@
 namespace App\Livewire\Account;
 
 use App\Models\EquipmentReview;
+use App\Support\AchievementPoints;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -72,6 +73,16 @@ class Equipment extends Component
         $this->showProposalModal = false;
         $this->submitted = true;
         $this->dispatch('equipment-modal-closed');
+    }
+
+    public function markViewed(int $reviewId): void
+    {
+        $review = EquipmentReview::query()
+            ->where('is_approved', true)
+            ->whereNotNull('video_file')
+            ->findOrFail($reviewId);
+
+        AchievementPoints::awardOnce(Auth::id(), 'equipment_view', $review, 'Переглянуто огляд: ' . $review->title);
     }
 
     public function render()

@@ -19,6 +19,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Support\AchievementPoints;
 
 class UserResource extends Resource
 {
@@ -55,6 +56,15 @@ class UserResource extends Resource
 
                     ])
                     ->columnSpan(['lg' => 1])
+                    ->hidden(fn (?User $record) => $record === null),
+
+                Forms\Components\Section::make('Баллы')
+                    ->schema([
+                        Forms\Components\Placeholder::make('achievement_balance')
+                            ->label('Текущий баланс')
+                            ->content(fn (?User $record): string => $record ? AchievementPoints::balance($record) . ' баллов' : '0 баллов'),
+                    ])
+                    ->columnSpanFull()
                     ->hidden(fn (?User $record) => $record === null),
             ])
             ->columns(3);
@@ -96,7 +106,8 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\GroupsRelationManager::class
+            RelationManagers\GroupsRelationManager::class,
+            RelationManagers\AchievementPointsRelationManager::class,
         ];
     }
 

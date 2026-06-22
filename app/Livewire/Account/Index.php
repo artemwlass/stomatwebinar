@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Account;
 
-use App\Models\AccountPage;
 use App\Models\FreeWebinar;
 use App\Models\Webinar;
+use App\Support\AchievementPoints;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +30,6 @@ class Index extends Component
     public function mount()
     {
         $user = Auth::user();
-        $accountPage = AccountPage::query()->first();
 
         $this->full_name = trim(implode(' ', array_filter([
             $user->surname,
@@ -51,10 +50,17 @@ class Index extends Component
             $this->birth_year = $user->birthday->format('Y');
         }
 
-        $this->dashboardStats = $accountPage?->dashboard_stats ?: [
-            ['label' => 'Текст', 'value' => '2000'],
-            ['label' => 'Текст', 'value' => '350 +'],
-            ['label' => 'Текст', 'value' => '15 000'],
+        $purchasedWebinars = $user->groups()
+            ->with('webinar:id,bpr_points')
+            ->get()
+            ->pluck('webinar')
+            ->filter()
+            ->unique('id');
+
+        $this->dashboardStats = [
+            ['label' => 'Переглянуто вебінарів', 'value' => $purchasedWebinars->count()],
+            ['label' => 'Загальна кількість балів', 'value' => (int) $purchasedWebinars->sum('bpr_points')],
+            ['label' => 'Досягнення', 'value' => AchievementPoints::balance($user->id)],
         ];
     }
 

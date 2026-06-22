@@ -19,7 +19,9 @@ class CertificatePdf
             'fullName' => CertificatePresenter::fullName($result),
             'courseTitle' => $result->webinar->title,
             'specialty' => $result->user->specialty ?: 'Спеціальність не вказана',
-            'issuedAt' => optional($result->passed_at)->format('d.m.Y'),
+            'issuedAt' => $result->passed_at
+                ? $result->passed_at->copy()->timezone(config('app.display_timezone'))->format('d.m.Y')
+                : '—',
             'providerNumber' => config('certificates.provider_number', '2169'),
             'providerName' => config('certificates.provider_name', 'ТОВ "АКАДЕМІЯ СУЧАСНОЇ СТОМАТОЛОГІЇ"'),
         ])->setPaper('a4', 'landscape');

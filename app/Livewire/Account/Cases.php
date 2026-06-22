@@ -3,6 +3,7 @@
 namespace App\Livewire\Account;
 
 use App\Models\ClinicalCase;
+use App\Support\AchievementPoints;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -80,7 +81,7 @@ class Cases extends Component
             ->values()
             ->all();
 
-        ClinicalCase::create([
+        $case = ClinicalCase::create([
             'user_id' => Auth::id(),
             'author_name' => trim($validated['authorName']),
             'title' => trim($validated['title']),
@@ -94,6 +95,8 @@ class Cases extends Component
             'media' => $paths,
             'published_at' => now(),
         ]);
+
+        AchievementPoints::awardOnce(Auth::id(), 'case_published', $case, 'Опубліковано власний кейс: ' . $case->title);
 
         $this->reset([
             'title',

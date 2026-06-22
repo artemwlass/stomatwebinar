@@ -59,7 +59,7 @@ class Cart extends Component
             return;
         }
 
-        $promoCode = PromoCodeCalculator::findValid($this->promoCode);
+        $promoCode = PromoCodeCalculator::findValidDiscount($this->promoCode);
 
         if (!$promoCode) {
             session()->forget('cart_promo_code');
@@ -149,7 +149,7 @@ class Cart extends Component
         // Авторизация пользователя
         Auth::login($user);
 
-        if ($this->appliedPromoCode && !PromoCodeCalculator::findValid($this->appliedPromoCode)) {
+        if ($this->appliedPromoCode && !PromoCodeCalculator::findValidDiscount($this->appliedPromoCode)) {
             session()->forget('cart_promo_code');
             $this->appliedPromoCode = null;
         }

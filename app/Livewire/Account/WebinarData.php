@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class WebinarData extends Component
@@ -36,6 +37,12 @@ class WebinarData extends Component
     public string $specialty = '';
 
     public function mount(): void
+    {
+        $this->fillAccountFields();
+    }
+
+    #[On('account-profile-updated')]
+    public function refreshAccountProfile(): void
     {
         $this->fillAccountFields();
     }

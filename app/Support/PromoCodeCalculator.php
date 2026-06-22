@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Models\AchievementGift;
+use App\Models\AchievementClaim;
 use App\Models\PromoCode;
 
 class PromoCodeCalculator
@@ -24,6 +26,31 @@ class PromoCodeCalculator
             ->first();
 
         return $promoCode?->isValid() ? $promoCode : null;
+    }
+
+    public static function findValidDiscount(?string $code): PromoCode|AchievementGift|null
+    {
+        if ($promoCode = self::findValid($code)) {
+            return $promoCode;
+        }
+
+        if (! auth()->check()) {
+            return null;
+        }
+
+        $normalizedCode = self::normalizeCode($code);
+
+        return AchievementClaim::query()
+            ->with('gift')
+            ->where('user_id', auth()->id())
+            ->where('code_snapshot', $normalizedCode)
+            ->where(function ($query) {
+                $query->whereNull('expires_at')->orWhere('expires_at', '>', now());
+            })
+            ->whereHas('gift', function ($query) {
+                $query->where('gift_type', 'webinar_discount')->where('is_active', true);
+            })
+            ->first()?->gift;
     }
 
     public static function cartSubtotal(): float
@@ -49,7 +76,7 @@ class PromoCodeCalculator
 
     public static function discountData(?string $code, float $amount): array
     {
-        $promoCode = self::findValid($code);
+        $promoCode = self::findValidDiscount($code);
 
         if (!$promoCode) {
             return [
@@ -62,7 +89,7 @@ class PromoCodeCalculator
         $discount = $promoCode->calculateDiscount($amount);
 
         return [
-            'promo_code' => $promoCode->code,
+            'promo_code' => self::normalizeCode($code),
             'discount_amount' => $discount,
             'total_amount' => round(max(0, $amount - $discount), 2),
         ];

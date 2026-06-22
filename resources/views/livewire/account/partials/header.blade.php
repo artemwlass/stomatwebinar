@@ -1,6 +1,13 @@
 @php
     $showTop = $showTop ?? true;
-    $accountPageHeaderTopContent = trim((string) (\App\Models\AccountPage::query()->value('header_top_content') ?? ''));
+    $accountPage = \App\Models\AccountPage::query()->first(['header_top_content', 'header_links']);
+    $accountPageHeaderTopContent = trim((string) ($accountPage?->header_top_content ?? ''));
+    $accountHeaderLinks = collect($accountPage?->header_links ?: [
+        ['label' => 'Найближчий вебінар', 'url' => '/'],
+        ['label' => 'Купити все для ендо', 'url' => '/'],
+        ['label' => 'Безкоштовні вебінари', 'url' => '/'],
+        ['label' => 'Контакти', 'url' => '/'],
+    ])->filter(fn ($link) => filled($link['label'] ?? null) && filled($link['url'] ?? null))->take(4);
 @endphp
 
 <header class="header">
@@ -30,23 +37,22 @@
             <img src="{{ asset('account_assets/images/logo-text.svg') }}" alt="">
         </a>
         <ul class="header-nav">
-            <li>
-                <a href="#">Найближчий вебінар</a>
-            </li>
-            <li>
-                <a href="#">Купити все для ендо</a>
-            </li>
-            <li>
-                <a href="#">Безкоштовні вебінари</a>
-            </li>
-            <li>
-                <a href="#">Контакти</a>
-            </li>
+            @foreach ($accountHeaderLinks as $link)
+                <li>
+                    <a href="{{ $link['url'] }}">{{ $link['label'] }}</a>
+                </li>
+            @endforeach
         </ul>
         <div class="header-right">
-            <a href="#">
-                <img src="{{ asset('account_assets/images/user-logo.svg') }}" alt="">
-            </a>
+            <div class="account-user-menu">
+                <button type="button" class="account-user-menu__trigger" aria-label="Меню користувача">
+                    <img src="{{ asset('account_assets/images/user-logo.svg') }}" alt="">
+                </button>
+                <div class="account-user-menu__dropdown">
+                    <button type="button" onclick="Livewire.dispatch('open-account-profile-modal')">Редагувати</button>
+                    <livewire:auth.logout />
+                </div>
+            </div>
             <button class="header-bars">
                 <img src="{{ asset('account_assets/images/bars.svg') }}" alt="">
             </button>

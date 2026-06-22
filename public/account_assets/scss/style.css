@@ -232,6 +232,69 @@ div {
     align-items: center;
     gap: 16px;
 }
+.account-user-menu {
+    position: relative;
+    display: flex;
+    padding: 10px 0;
+}
+.account-user-menu__trigger {
+    display: flex;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+.account-user-menu__trigger img {
+    display: block;
+}
+@media screen and (max-width: 768px) {
+    .account-user-menu__trigger img {
+        width: 24px;
+    }
+}
+.account-user-menu__dropdown {
+    position: absolute;
+    z-index: 50;
+    top: calc(100% - 2px);
+    right: 0;
+    min-width: 170px;
+    padding: 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 14px 35px rgba(15, 23, 42, .16);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+}
+.account-user-menu:hover .account-user-menu__dropdown,
+.account-user-menu:focus-within .account-user-menu__dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.account-user-menu__dropdown > button,
+.account-user-menu__dropdown .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 9px 11px;
+    border: 0;
+    border-radius: 8px;
+    color: #111827;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+.account-user-menu__dropdown > button:hover,
+.account-user-menu__dropdown .dropdown-item:hover {
+    color: #0b3fa4;
+    background: #f1f5f9;
+}
+.account-user-menu__dropdown > div {
+    width: 100%;
+}
 .header-right a {
     display: flex;
 }
@@ -3582,6 +3645,12 @@ div {
     }
 }
 
+.achievements-page .achievement-voucher .main-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
 /* Dynamic clinical cases */
 .casey-header--publish-only {
     justify-content: flex-end;

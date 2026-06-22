@@ -4,7 +4,7 @@
 <strong>{{ $result->webinar->title }}</strong><br><br>
 
 Номер сертифіката: <strong>{{ \App\Support\CertificatePresenter::number($result) }}</strong><br>
-Дата видачі: <strong>{{ optional($result->passed_at)->format('d.m.Y') }}</strong><br><br>
+Дата видачі: <strong>{{ $result->passed_at?->copy()->timezone(config('app.display_timezone'))->format('d.m.Y') ?? '—' }}</strong><br><br>
 
 Сертифікат прикріплено до цього листа у форматі PDF.<br><br>
 

@@ -14,11 +14,14 @@
 @script
 <script>
     Livewire.on('openCart', () => {
-        Livewire.hook('element.init', ({ component, el }) => {
+        setTimeout(() => {
+            const modalElement = document.getElementById('orderModal');
+
+            if (!modalElement || !window.bootstrap) return;
+
             window.initPhoneMasks();
-            new bootstrap.Modal(document.getElementById('orderModal')).show();
-        })
+            bootstrap.Modal.getOrCreateInstance(modalElement).show();
+        }, 50);
     });
 </script>
 @endscript
-

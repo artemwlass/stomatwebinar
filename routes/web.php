@@ -28,6 +28,7 @@ Route::get('/account/certificate/{result}/download', \App\Http\Controllers\Accou
 Route::get('/account/webinar', \App\Livewire\Account\Webinar::class)->middleware('auth')->name('account.webinar');
 Route::get('/account/tarif', \App\Livewire\Account\Tarif::class)->middleware('auth')->name('account.tarif');
 Route::get('/account/webinar-data', \App\Livewire\Account\WebinarData::class)->middleware('auth')->name('account.webinar-data');
+Route::get('/account/achievements', \App\Livewire\Account\Achievements::class)->middleware('auth')->name('account.achievements');
 Route::get('/account/cases', \App\Livewire\Account\Cases::class)->middleware('auth')->name('account.cases');
 Route::get('/account/cases/{case}', \App\Livewire\Account\CaseShow::class)->middleware('auth')->name('account.cases.show');
 Route::get('/account/equipment', \App\Livewire\Account\Equipment::class)->middleware('auth')->name('account.equipment');

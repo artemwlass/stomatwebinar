@@ -72,4 +72,14 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(EquipmentReview::class);
     }
+
+    public function achievementPointTransactions()
+    {
+        return $this->hasMany(AchievementPointTransaction::class);
+    }
+
+    public function achievementClaims()
+    {
+        return $this->hasMany(AchievementClaim::class);
+    }
 }

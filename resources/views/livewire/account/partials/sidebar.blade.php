@@ -35,7 +35,7 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{ route('account.achievements') }}" class="{{ $active === 'achievements' ? 'active' : '' }}">
                 <img src="{{ asset('account_assets/images/nav-link-icon-4-active.svg') }}" alt="">
                 <img src="{{ asset('account_assets/images/nav-link-icon-4.svg') }}" alt="">
                 <span>Мої досягнення</span>

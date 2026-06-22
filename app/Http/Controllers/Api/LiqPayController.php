@@ -12,6 +12,7 @@ use App\Models\OrderWebinars;
 use App\Models\PaymentAttempt;
 use App\Models\User;
 use App\Models\Webinar;
+use App\Support\AchievementPoints;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -141,6 +142,14 @@ class LiqPayController extends Controller
                             }
                         }
 
+                        AchievementPoints::awardWithKey(
+                            $value['user_id'],
+                            'package_purchase',
+                            'purchase:' . $order->id . ':package:' . $value['id'],
+                            'Купівля пакету вебінарів: ' . ($value['name'] ?? $value['id']),
+                            $series
+                        );
+
                         try {
                             event(new SendOrderEmail($order));
                         } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
@@ -169,6 +178,15 @@ class LiqPayController extends Controller
                             'webinar_id' => $value['id'],
                             'price' => $value['price'],
                         ]);
+
+                        $purchasedWebinar = Webinar::find($value['id']);
+                        AchievementPoints::awardWithKey(
+                            $userId,
+                            'webinar_purchase',
+                            'purchase:' . $order->id . ':webinar:' . $value['id'],
+                            'Купівля вебінару: ' . ($value['name'] ?? $value['id']),
+                            $purchasedWebinar
+                        );
 
                         if ($value['is_preorder']) {
                             try {

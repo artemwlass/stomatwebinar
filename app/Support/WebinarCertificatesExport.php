@@ -71,7 +71,7 @@ class WebinarCertificatesExport
                 ->all();
 
             $sheet->fromArray([
-                self::safeText(optional($result->updated_at)->format('d.m.Y H:i') ?: optional($result->passed_at)->format('d.m.Y H:i') ?: ''),
+                self::safeText(($result->passed_at ?? $result->updated_at)?->copy()->timezone(config('app.display_timezone'))->format('d.m.Y H:i') ?: ''),
                 self::safeText(WebinarTestResultPdf::score($result)),
                 self::safeText(CertificatePresenter::fullName($result)),
                 self::safeText($user?->email),

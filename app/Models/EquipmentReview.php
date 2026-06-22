@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\AchievementPoints;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,6 +40,17 @@ class EquipmentReview extends Model
                 $review->cover_image,
                 $review->video_file,
             ]));
+        });
+
+        static::saved(function (EquipmentReview $review): void {
+            if ($review->is_approved && $review->wasChanged('is_approved')) {
+                AchievementPoints::awardOnce(
+                    $review->user_id,
+                    'equipment_published',
+                    $review,
+                    'Опубліковано огляд обладнання: ' . $review->title
+                );
+            }
         });
     }
 

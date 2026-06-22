@@ -17,6 +17,8 @@
 
     {{ $slot }}
 
+    <livewire:account.profile-modal />
+
     @include('livewire.account.partials.footer')
 </div>
 

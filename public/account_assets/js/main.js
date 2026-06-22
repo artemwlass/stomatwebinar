@@ -6,6 +6,9 @@ const bodyVisible = () => {
     document.querySelector('body').style.overflow = 'visible';
 }
 
+window.addEventListener('account-profile-modal-opened', bodyHidden);
+window.addEventListener('account-profile-modal-closed', bodyVisible);
+
 const phoneInp = document.querySelectorAll('input[type="tel"]');
 
 if (phoneInp.length) {

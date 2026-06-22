@@ -155,7 +155,7 @@
                 <section class="dashboard-direction">
                     <div class="card">
                         <p>Мої досягнення</p>
-                        <a href="#">Подробнее</a>
+                        <a href="{{ route('account.achievements') }}">Подробнее</a>
                         <img src="{{ asset('account_assets/images/direction-icon-1.png') }}" alt="">
                     </div>
                     <div class="card">

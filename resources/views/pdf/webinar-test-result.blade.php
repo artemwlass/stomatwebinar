@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="utf-8">
-    <title>Результат теста</title>
+    <title>Результат тестування</title>
     <style>
         @page {
             margin: 28px 30px;
@@ -152,47 +152,47 @@
 <body>
     <div class="header">
         <div class="eyebrow">Stomat Webinar</div>
-        <h1>Результат теста</h1>
+        <h1>Результат тестування</h1>
     </div>
 
     <table class="meta">
         <tr>
             <td>
-                <span class="label">Вебинар</span>
+                <span class="label">Вебінар</span>
                 <span class="value">{{ $meta['webinar'] }}</span>
             </td>
             <td>
-                <span class="label">Баллы</span>
+                <span class="label">Бали</span>
                 <span class="value score">{{ $meta['score'] }}</span>
             </td>
         </tr>
         <tr>
             <td>
-                <span class="label">ФИО</span>
+                <span class="label">ПІБ</span>
                 <span class="value">{{ $meta['full_name'] }}</span>
             </td>
             <td>
-                <span class="label">Почта</span>
+                <span class="label">Електронна пошта</span>
                 <span class="value">{{ $meta['email'] }}</span>
             </td>
         </tr>
         <tr>
             <td>
-                <span class="label">Страна</span>
+                <span class="label">Країна</span>
                 <span class="value">{{ $meta['country'] }}</span>
             </td>
             <td>
-                <span class="label">Дата прохождения</span>
+                <span class="label">Дата проходження</span>
                 <span class="value">{{ $meta['submitted_at'] }}</span>
             </td>
         </tr>
         <tr>
             <td>
-                <span class="label">Место работы</span>
+                <span class="label">Місце роботи</span>
                 <span class="value">{{ $meta['work_place'] }}</span>
             </td>
             <td>
-                <span class="label">Должность</span>
+                <span class="label">Посада</span>
                 <span class="value">{{ $meta['position'] }}</span>
             </td>
         </tr>
@@ -202,10 +202,10 @@
         <thead>
             <tr>
                 <th class="col-number">№</th>
-                <th class="col-question">Вопрос</th>
-                <th class="col-answer">Ответ пользователя</th>
-                <th class="col-answer">Правильный ответ</th>
-                <th class="col-result">Итог</th>
+                <th class="col-question">Питання</th>
+                <th class="col-answer">Відповідь користувача</th>
+                <th class="col-answer">Правильна відповідь</th>
+                <th class="col-result">Результат</th>
             </tr>
         </thead>
         <tbody>
@@ -217,9 +217,9 @@
                     <td>{{ $row['correct_answer'] }}</td>
                     <td class="col-result">
                         @if ($row['is_correct'] === true)
-                            <span class="badge badge-ok">Верно</span>
+                            <span class="badge badge-ok">Правильно</span>
                         @elseif ($row['is_correct'] === false)
-                            <span class="badge badge-error">Неверно</span>
+                            <span class="badge badge-error">Неправильно</span>
                         @else
                             <span class="badge badge-empty">—</span>
                         @endif
@@ -230,7 +230,7 @@
     </table>
 
     <div class="footer">
-        Сформировано: {{ now()->format('d.m.Y H:i') }}
+        Сформовано: {{ now()->timezone(config('app.display_timezone'))->format('d.m.Y H:i') }}
     </div>
 </body>
 </html>

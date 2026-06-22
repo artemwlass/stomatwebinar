@@ -29,7 +29,11 @@ class WebinarTestResultPdf
             'work_place' => self::safeText($result->user?->work_place ?: '—'),
             'position' => self::safeText($result->user?->position ?: '—'),
             'score' => self::safeText(self::score($result)),
-            'submitted_at' => self::safeText(optional($result->updated_at)->format('d.m.Y H:i') ?: '—'),
+            'submitted_at' => self::safeText(
+                ($result->passed_at ?? $result->updated_at)
+                    ? ($result->passed_at ?? $result->updated_at)->copy()->timezone(config('app.display_timezone'))->format('d.m.Y H:i')
+                    : '—'
+            ),
         ];
     }
 
@@ -58,7 +62,7 @@ class WebinarTestResultPdf
         if ($tests->isEmpty()) {
             return [[
                 'number' => '—',
-                'question' => 'Вопросы не найдены',
+                'question' => 'Питання не знайдено',
                 'user_answer' => self::safeJson($answers),
                 'correct_answer' => '—',
                 'is_correct' => null,

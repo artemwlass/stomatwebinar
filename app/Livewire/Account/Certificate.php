@@ -24,7 +24,11 @@ class Certificate extends Component
             ->map(function (WebinarTestResult $result) {
                 $result->certificate_file_name = CertificatePresenter::fileName($result);
                 $result->download_url = route('account.certificate.download', $result);
-                $result->group_label = $result->passed_at->translatedFormat('F Y');
+                $result->group_label = $result->passed_at
+                    ->copy()
+                    ->timezone(config('app.display_timezone'))
+                    ->locale('uk')
+                    ->translatedFormat('F Y');
 
                 return $result;
             })
@@ -54,7 +58,9 @@ class Certificate extends Component
             })
             ->values()
             ->map(function (Webinar $webinar) {
-                $webinar->group_label = optional($webinar->date_preorder)->translatedFormat('F Y') ?: 'Майбутні події';
+                $webinar->group_label = $webinar->date_preorder
+                    ? $webinar->date_preorder->copy()->timezone(config('app.display_timezone'))->locale('uk')->translatedFormat('F Y')
+                    : 'Майбутні події';
 
                 return $webinar;
             })

@@ -23,25 +23,32 @@ class AccountPageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Статистичні блоки')
+                Forms\Components\Section::make('Меню шапки')
                     ->schema([
-                        Forms\Components\Repeater::make('dashboard_stats')
-                            ->label('Блоки')
-                            ->defaultItems(3)
-                            ->minItems(3)
-                            ->maxItems(3)
+                        Forms\Components\Repeater::make('header_links')
+                            ->label('Посилання')
+                            ->default([
+                                ['label' => 'Найближчий вебінар', 'url' => '/'],
+                                ['label' => 'Купити все для ендо', 'url' => '/'],
+                                ['label' => 'Безкоштовні вебінари', 'url' => '/'],
+                                ['label' => 'Контакти', 'url' => '/'],
+                            ])
+                            ->minItems(4)
+                            ->maxItems(4)
                             ->reorderable(false)
                             ->addable(false)
                             ->deletable(false)
                             ->schema([
                                 Forms\Components\TextInput::make('label')
-                                    ->label('Текст')
+                                    ->label('Назва')
                                     ->required(),
-                                Forms\Components\TextInput::make('value')
-                                    ->label('Значення')
+                                Forms\Components\TextInput::make('url')
+                                    ->label('Посилання')
+                                    ->placeholder('/account/webinar або https://...')
                                     ->required(),
                             ])
-                            ->columns(2),
+                            ->columns(2)
+                            ->columnSpanFull(),
                     ]),
                 Forms\Components\Section::make('Верхній інформаційний блок')
                     ->schema([

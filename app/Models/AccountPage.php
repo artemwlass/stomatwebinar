@@ -14,5 +14,6 @@ class AccountPage extends Model
     protected $casts = [
         'dashboard_stats' => 'array',
         'header_top_content' => 'string',
+        'header_links' => 'array',
     ];
 }
