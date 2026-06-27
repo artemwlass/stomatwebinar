@@ -11,10 +11,11 @@ class CreateAccountPage extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['dashboard_stats'] = $data['dashboard_stats'] ?: [
-            ['label' => 'Текст', 'value' => '2000'],
-            ['label' => 'Текст', 'value' => '350 +'],
-            ['label' => 'Текст', 'value' => '15 000'],
+        $data['header_links'] = $data['header_links'] ?: [
+            ['label' => 'Найближчий вебінар', 'url' => '/'],
+            ['label' => 'Купити все для ендо', 'url' => '/'],
+            ['label' => 'Безкоштовні вебінари', 'url' => '/'],
+            ['label' => 'Контакти', 'url' => '/'],
         ];
 
         return $data;
