@@ -22,6 +22,9 @@ class CertificatePdf
             'issuedAt' => $result->passed_at
                 ? $result->passed_at->copy()->timezone(config('app.display_timezone'))->format('d.m.Y')
                 : '—',
+            'issuedNextDayAt' => $result->passed_at
+                ? $result->passed_at->copy()->timezone(config('app.display_timezone'))->addDay()->format('d.m.Y')
+                : '—',
             'providerNumber' => config('certificates.provider_number', '2169'),
             'providerName' => config('certificates.provider_name', 'ТОВ "АКАДЕМІЯ СУЧАСНОЇ СТОМАТОЛОГІЇ"'),
         ])->setPaper('a4', 'landscape');

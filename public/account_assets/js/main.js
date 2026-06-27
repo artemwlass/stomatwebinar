@@ -6,18 +6,29 @@ const bodyVisible = () => {
     document.querySelector('body').style.overflow = 'visible';
 }
 
-window.addEventListener('account-profile-modal-opened', bodyHidden);
+window.addEventListener('account-profile-modal-opened', () => {
+    bodyHidden();
+    window.initAccountPhoneMasks();
+});
 window.addEventListener('account-profile-modal-closed', bodyVisible);
 
-const phoneInp = document.querySelectorAll('input[type="tel"]');
+window.initAccountPhoneMasks = () => {
+    if (typeof IMask === 'undefined') {
+        return;
+    }
 
-if (phoneInp.length) {
-    phoneInp.forEach(el => {
-        IMask(el, {
-            mask: '+{7}(000) 000-00-00',
-        })
+    document.querySelectorAll('input[type="tel"]').forEach(el => {
+        if (el._accountPhoneMask) {
+            return;
+        }
+
+        el._accountPhoneMask = IMask(el, {
+            mask: '+{380} (00) 000-00-00',
+        });
     });
-}
+};
+
+window.initAccountPhoneMasks();
 
 document.querySelectorAll('.form-date__inp').forEach(wrapper => {
     const inputs = wrapper.querySelectorAll('input');
@@ -166,3 +177,7 @@ const initCountdowns = () => {
 initCountdowns();
 
 document.addEventListener('livewire:navigated', initCountdowns);
+document.addEventListener('livewire:navigated', window.initAccountPhoneMasks);
+document.addEventListener('livewire:init', () => {
+    Livewire.hook('morph.updated', () => window.initAccountPhoneMasks());
+});

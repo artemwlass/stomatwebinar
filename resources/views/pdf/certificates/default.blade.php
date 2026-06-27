@@ -262,7 +262,7 @@
                 2 години@if ($result->webinar->bpr_points), {{ $result->webinar->bpr_points }} балів БПР@endif
             </div>
             <div class="points-line"></div>
-            <div class="issued">Видано: <span>{{ $issuedAt }}</span></div>
+            <div class="issued">Видано: <span>{{ $issuedNextDayAt }}</span></div>
         </section>
     </main>
 </body>

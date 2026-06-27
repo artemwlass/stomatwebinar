@@ -155,22 +155,22 @@
                 <section class="dashboard-direction">
                     <div class="card">
                         <p>Мої досягнення</p>
-                        <a href="{{ route('account.achievements') }}">Подробнее</a>
+                        <a href="{{ route('account.achievements') }}">Детальніше</a>
                         <img src="{{ asset('account_assets/images/direction-icon-1.png') }}" alt="">
                     </div>
                     <div class="card">
                         <p>Тестування</p>
-                        <a href="{{ route('account.webinar-data') }}">Подробнее</a>
+                        <a href="{{ route('account.webinar-data') }}">Детальніше</a>
                         <img src="{{ asset('account_assets/images/direction-icon-2.png') }}" alt="">
                     </div>
                     <div class="card">
                         <p>Кейси</p>
-                        <a href="{{ route('account.cases') }}">Подробнее</a>
+                        <a href="{{ route('account.cases') }}">Детальніше</a>
                         <img src="{{ asset('account_assets/images/direction-icon-3.png') }}" alt="">
                     </div>
                     <div class="card">
                         <p>Пакетні пропозиції</p>
-                        <a href="{{ route('account.tarif') }}">Подробнее</a>
+                        <a href="{{ route('account.tarif') }}">Детальніше</a>
                         <img src="{{ asset('account_assets/images/direction-icon-4.png') }}" alt="">
                     </div>
                 </section>
