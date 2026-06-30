@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=8001">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            min-height: 100svh;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .certificate-block {
+            position: relative;
+            z-index: 1;
+            width: 1600px;
+            height: 900px;
+            /* width: min(95vw, 8001px);
+            aspect-ratio: 8001 / 4501;
+            height: auto; */
+            padding: 93px 102px 71px 122px;
+        }
+
+        .certificate-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .certificate-head {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .certificate-head p {
+            font-weight: 300;
+            font-size: 26px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            color: #000;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .certificate-head h2 {
+            font-family: "Cormorant Garamond", sans-serif;
+            font-weight: 600;
+            font-size: 116px;
+            line-height: 100%;
+            letter-spacing: 0.04em;
+            color: #163a99;
+            margin-bottom: 4px;
+        }
+
+        .certificate-head .line-1 {
+            width: 775px;
+            height: 12px;
+            object-fit: contain;
+        }
+
+        .certificate-name {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .certificate-number {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 23px;
+        }
+
+        .certificate-number span {
+            font-family: "Raleway", sans-serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 26px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            color: #000;
+        }
+
+        .certificate-name h3 {
+            font-family: "Raleway", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 51px;
+            line-height: 100%;
+            letter-spacing: 0em;
+            color: #173ba3;
+            margin-bottom: 8px;
+        }
+
+        .certificate-name .line-2 {
+            width: 775px;
+            height: 5px;
+            object-fit: contain;
+        }
+
+        .certificate-type {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+            margin-bottom: 42px;
+        }
+
+        .certificate-type h4 {
+            font-weight: 400;
+            font-size: 23px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            color: #000;
+        }
+
+        .certificate-type h3 {
+            font-weight: 400;
+            font-size: 29px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            text-transform: uppercase;
+            color: #000;
+        }
+
+        .certificate-type p {
+            font-family: "Raleway", sans-serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 23px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            color: #000;
+        }
+
+        .certificate-data {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .certificate-data h4 {
+            font-weight: 700;
+            font-size: 21px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            color: #163a99;
+            margin-bottom: 5px;
+        }
+
+        .certificate-data p {
+            width: 831px;
+            height: 75px;
+            font-family: "Raleway", sans-serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            color: #000;
+        }
+
+        .certificate-date {
+            font-weight: 300;
+            font-size: 21px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            color: #000;
+            margin-bottom: 90px;
+        }
+
+        .certificate-date b {
+            font-weight: 700;
+            color: #163a99;
+        }
+
+        .certificate-foot {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .certificate-foot__left {
+            position: relative;
+        }
+
+        .signature {
+            position: absolute;
+            left: 15px;
+            top: -9px;
+            width: 136px;
+            height: 58px;
+            transform: translateY(-100%);
+        }
+
+        .seal {
+            position: absolute;
+            top: -5px;
+            left: 159px;
+            width: 95px;
+            height: 92px;
+            transform: translateY(-100%);
+        }
+
+        .certificate-foot__left p {
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            color: #000;
+        }
+
+        .certificate-foot__center {
+            position: absolute;
+            left: 50%;
+            bottom: 3px;
+            transform: translateX(-50%);
+        }
+
+        .certificate-foot__center h3 {
+            font-family: "Raleway", sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 46px;
+            line-height: 100%;
+            letter-spacing: 0em;
+            color: #173ba3;
+            text-align: center;
+        }
+
+        .certificate-foot__center .line {
+            width: 625px;
+            height: 6px;
+        }
+
+        .certificate-foot__right {
+            font-weight: 400;
+            font-size: 26px;
+            line-height: 100%;
+            letter-spacing: 0.01em;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-block">
+        <img src="./images/bg-img.svg" alt="" class="certificate-bg">
+        <div class="certificate-head">
+            <p>ТОВ "АКАДЕМІЯ СУЧАСНОЇ СТОМАТОЛОГІЇ"</p>
+            <h2>СЕРТИФІКАТ</h2>
+            <img src="./images/line-1.svg" alt="" class="line-1">
+        </div>
+        <div class="certificate-name">
+            <div class="certificate-number">
+                <span>№</span>
+                <span>2026-0000-0000000-0000</span>
+            </div>
+            <h3>Призвіще Ім’я По батькові</h3>
+            <img src="./images/line-2.svg" alt="" class="line-2">
+        </div>
+        <div class="certificate-type">
+            <h4>майстер-клас</h4>
+            <h3>«назва заходу»</h3>
+            <p>дистанційна участь</p>
+        </div>
+        <div class="certificate-data">
+            <h4>Спеціальності, за якими проводилось навчання:</h4>
+            <p>Стоматологія, Терапевтична стоматологія, Ортопедична стоматологія, Хірургічна стоматологія, Пародонтологія, Дитяча стоматологія, Ортодонтія.</p>
+        </div>
+        <div class="certificate-date">
+            <b>Дата:</b>
+            <span>00.00.2026</span>
+        </div>
+        <div class="certificate-foot">
+            <div class="certificate-foot__left">
+                <img src="./images/signature.png" alt="" class="signature">
+                <img src="./images/seal.png" alt="" class="seal">
+                <p>Директор Тищенко Марина Юріївна</p>
+            </div>
+            <div class="certificate-foot__center">
+                <h3>n годин, n балів БПР</h3>
+                <img src="./images/line-3.svg" alt="" class="line">
+            </div>
+            <div class="certificate-foot__right">
+                <span>Видано:</span>
+                <span>00.00.2026</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

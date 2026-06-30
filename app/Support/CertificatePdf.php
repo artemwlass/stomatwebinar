@@ -12,6 +12,10 @@ class CertificatePdf
     {
         $result->loadMissing(['webinar', 'user']);
 
+        if (! is_dir(storage_path('fonts'))) {
+            mkdir(storage_path('fonts'), 0775, true);
+        }
+
         return Pdf::loadView('pdf.certificates.default', [
             'result' => $result,
             'fileName' => CertificatePresenter::fileName($result),
@@ -27,6 +31,6 @@ class CertificatePdf
                 : '—',
             'providerNumber' => config('certificates.provider_number', '2169'),
             'providerName' => config('certificates.provider_name', 'ТОВ "АКАДЕМІЯ СУЧАСНОЇ СТОМАТОЛОГІЇ"'),
-        ])->setPaper('a4', 'landscape');
+        ])->setPaper([0, 0, 1200, 675]);
     }
 }
