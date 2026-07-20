@@ -94,20 +94,17 @@ class Form extends Component
 
     public function addToSheet(array $extraAnswers = []): void
     {
-        // Базовые поля — оставляю как у тебя было (в т.ч. порядок/ключи)
-        $data = [
-            "Имя"          => $this->name,
-            "Телефон"      => $this->phone,
-            "Email"        => $this->email,
-            "Город"        => $this->city,
-            "Эндодонтия"   => $this->endo,
-            "Дата и время" => Carbon::now()->format('Y-m-d H:i:s'),
+        $row = [
+            $this->name,
+            $this->phone,
+            $this->email,
+            $this->city,
+            Carbon::now()->format('Y-m-d H:i:s'),
         ];
 
-        // Добавляем ответы на динамические вопросы (ключ — текст вопроса)
         foreach ($extraAnswers as $q => $answer) {
             if ($q === '' || $answer === null) continue;
-            $data[$q] = $answer;
+            $row[] = $answer;
         }
 
         // ID таблицы
@@ -116,9 +113,8 @@ class Form extends Component
 
         $sheetName = 'Лист1';
 
-        // Запись
         $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetName);
-        $sheet->append([$data]);
+        $sheet->range('A1')->append([$row]);
     }
 
     public function render()
