@@ -88,8 +88,7 @@ class Form extends Component
         // Нотификация
         $this->dispatch('notify', title: 'Дякуємо за реєстрацію! Лист на трансляцію надійде за 1 день початку вебінару.');
 
-        // Если понадобится — раскомментируй отправку письма
-        // Mail::to($this->email)->send(new MessagePreorderWebinarFree($this->webinar_id));
+        Mail::to($this->email)->queue(new MessagePreorderWebinarFree($this->webinar_id));
     }
 
     public function addToSheet(array $extraAnswers = []): void

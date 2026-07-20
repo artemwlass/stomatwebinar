@@ -30,10 +30,10 @@ class SendEmailPreorderListener
         $emails = EmailAdmin::all();
         if ($emails) {
             foreach ($emails as $email) {
-                Mail::to($email->email)->send(new SendOrderEmailAdmin($event));
+                Mail::to($email->email)->queue(new SendOrderEmailAdmin($event));
             }
         }
         $user = User::find($event->order->user_id);
-        Mail::to($user->email)->send(new \App\Mail\SendEmailPreorder($event));
+        Mail::to($user->email)->queue(new \App\Mail\SendEmailPreorder($event));
     }
 }

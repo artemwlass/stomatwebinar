@@ -31,11 +31,11 @@ class SendOrderEmailListener
         $emails = EmailAdmin::all();
         if ($emails) {
             foreach ($emails as $email) {
-                Mail::to($email->email)->send(new SendOrderEmailAdmin($event));
+                Mail::to($email->email)->queue(new SendOrderEmailAdmin($event));
             }
         }
         $user = User::find($event->order->user_id);
-        Mail::to($user->email)->send(new SendOrderEmailUser($event, $event->webinar));
+        Mail::to($user->email)->queue(new SendOrderEmailUser($event, $event->webinar));
 
     }
 }

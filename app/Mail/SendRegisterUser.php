@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\DefaultMessagePurchaseRegistration;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,17 +10,21 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendRegisterUser extends Mailable
+class SendRegisterUser extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $event;
+    public string $message;
+
     /**
      * Create a new message instance.
      */
     public function __construct($event)
     {
         $this->event = $event;
+        $rawMessage = optional(DefaultMessagePurchaseRegistration::first())->message ?? $this->defaultMessage();
+        $this->message = $this->parseMessage($rawMessage);
     }
 
     /**
@@ -50,5 +55,23 @@ class SendRegisterUser extends Mailable
     public function attachments(): array
     {
         return [];
+    }
+
+    private function parseMessage(string $message): string
+    {
+        return str_replace(
+            ['[NAME]', '[EMAIL]', '[PASSWORD]'],
+            [
+                $this->event->user->name,
+                $this->event->user->email,
+                $this->event->password,
+            ],
+            $message
+        );
+    }
+
+    private function defaultMessage(): string
+    {
+        return 'Шановний(а) [NAME],<br><br>Дякуємо Вам за реєстрацію на сайті.<br><br>Ваш логін: [EMAIL]<br>Пароль: [PASSWORD]<br><br><br>З повагою,<br>Команда stomatwebinar.com<br>stomatwebinar30@gmail.com<br>+380 99 092 64 45<br>';
     }
 }

@@ -23,6 +23,6 @@ class SendEmailOpenWebinarFromAdminListener
      */
     public function handle(SendEmailOpenWebinarFromAdmin $event): void
     {
-        Mail::to($event->record->email)->send(new \App\Mail\SendEmailOpenWebinarFromAdmin($event));
+        Mail::to($event->record->email)->queue(new \App\Mail\SendEmailOpenWebinarFromAdmin($event));
     }
 }

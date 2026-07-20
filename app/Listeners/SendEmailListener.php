@@ -27,7 +27,7 @@ class SendEmailListener
         $emails = EmailAdmin::all();
         if ($emails) {
             foreach ($emails as $email) {
-                Mail::to($email->email)->send(new Support($event));
+                Mail::to($email->email)->queue(new Support($event));
             }
         }
     }

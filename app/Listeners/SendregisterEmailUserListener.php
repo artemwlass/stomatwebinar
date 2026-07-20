@@ -23,6 +23,6 @@ class SendregisterEmailUserListener
      */
     public function handle(SendRegisterEmailUser $event): void
     {
-        Mail::to($event->user->email)->send(new SendRegisterUser($event));
+        Mail::to($event->user->email)->queue(new SendRegisterUser($event));
     }
 }

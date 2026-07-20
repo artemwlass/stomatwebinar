@@ -42,18 +42,18 @@ class CertificateController extends Controller
             Notification::make()
                 ->title('У пользователя не указан email')
                 ->danger()
-                ->send();
+                ->queue();
 
             return back();
         }
 
-        Mail::to($result->user->email)->send(new CertificateMail($result));
+        Mail::to($result->user->email)->queue(new CertificateMail($result));
 
         Notification::make()
             ->title('Сертификат отправлен')
             ->body($result->user->email)
             ->success()
-            ->send();
+            ->queue();
 
         return back();
     }
@@ -72,7 +72,7 @@ class CertificateController extends Controller
         Notification::make()
             ->title('Сертификат удален')
             ->success()
-            ->send();
+            ->queue();
 
         return back();
     }

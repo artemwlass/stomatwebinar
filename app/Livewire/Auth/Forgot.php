@@ -23,7 +23,7 @@ class Forgot extends Component
             $user->remember_token = Str::random(40);
             $user->save();
             try {
-                Mail::to($user->email)->send(new ForgotPassword($user));
+                Mail::to($user->email)->queue(new ForgotPassword($user));
             } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
                 Log::error("Ошибка отправки почты: " . $e->getMessage());
             }

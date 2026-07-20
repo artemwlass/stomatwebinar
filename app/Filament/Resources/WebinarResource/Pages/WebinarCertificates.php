@@ -143,18 +143,18 @@ class WebinarCertificates extends Page implements HasTable
             Notification::make()
                 ->title('У пользователя не указан email')
                 ->danger()
-                ->send();
+                ->queue();
 
             return;
         }
 
-        Mail::to($record->user->email)->send(new CertificateMail($record));
+        Mail::to($record->user->email)->queue(new CertificateMail($record));
 
         Notification::make()
             ->title('Сертификат отправлен')
             ->body($record->user->email)
             ->success()
-            ->send();
+            ->queue();
     }
 
     private function deleteCertificate(WebinarTestResult $record): void
@@ -168,6 +168,6 @@ class WebinarCertificates extends Page implements HasTable
         Notification::make()
             ->title('Сертификат удален')
             ->success()
-            ->send();
+            ->queue();
     }
 }
