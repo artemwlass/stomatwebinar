@@ -15,7 +15,7 @@ class SendRegisterUser extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public $event;
-    public string $message;
+    public string $body;
 
     /**
      * Create a new message instance.
@@ -24,7 +24,7 @@ class SendRegisterUser extends Mailable implements ShouldQueue
     {
         $this->event = $event;
         $rawMessage = optional(DefaultMessagePurchaseRegistration::first())->message ?? $this->defaultMessage();
-        $this->message = $this->parseMessage($rawMessage);
+        $this->body = $this->parseMessage($rawMessage);
     }
 
     /**
